@@ -55,7 +55,7 @@ References
 
     @InProceedings{NAACL2019:CCG,
       author    = "Milo\v{s} Stanojevi\'{c} and Mark Steedman",
-      title     = "CCG parsing algorithm with online tree rotation",
+      title     = "CCG Parsing Algorithm with Online Tree Rotation",
       booktitle = "Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics, Volume 1 (Long Papers)",
       year      = "2019",
       publisher = "Association for Computational Linguistics",
