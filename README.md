@@ -1,7 +1,7 @@
 Rotating CCG Parser
 =========
 
-This is the implementation of incremental CCG parser described in "CCG parsing algorithm with online tree rotation" by Stanojević and Steedman NAACL 2019.
+This is the implementation of incremental CCG parser described in "CCG Parsing Algorithm with Incremental Tree Rotation" by Stanojević and Steedman NAACL 2019.
 
 If you have any problems using it shout at:
 
@@ -49,6 +49,12 @@ And finally, use it to parse file input.sentences and store trees in new file ou
                --output_file output.trees
 
 On the first run it may take longer to start because it will download be downloading ELMo models, but afterwards it should be relatively fast. If you want a really fast (but less accurate) CCG parser you should go for EasyCCG instead.
+
+Output
+------
+Since this is a transition based parser constrained by a grammar, it may enter into deadends during the greedy search for the correct parse. In that case it connects all the elements on the stack under right branching binary nodes labelled GLUE.
+C&C `generate` evaluation program will not be able to handle that kind of derivations. To do evaluation with `generate` first a small transformation is needed to replace GLUE nodes with some type-changing rules. Script located in `./scripts/parsing_tools/candc_evaluate.sh` does that.
+If you want to do evaluation with Hockenmaier style dependencies then GLUE nodes present no problem and you can run `./scripts/run.sh edin.ccg.MainEvaluate` with appropriate parameters instead.
 
 References
 -------------
