@@ -10,7 +10,7 @@ import edin.ccg.representation.tree._
 sealed case class BinaryReduceOption(comb:CombinatorBinary) extends TransitionOption {
 
   def apply(conf:Configuration): Configuration = (conf: @unchecked) match {
-    case Configuration(stack, NormalParsing(_)) =>
+    case Configuration(stack, NormalParsing()) =>
       val left = stack.second
       val right = stack.first
       val newNode = BinaryNode(comb, left, right)
@@ -37,7 +37,7 @@ sealed case class BinaryReduceOption(comb:CombinatorBinary) extends TransitionOp
 sealed case class UnaryReduceOption(comb:CombinatorUnary) extends TransitionOption {
 
   def apply(conf:Configuration): Configuration = (conf : @unchecked) match {
-    case Configuration(stack, NormalParsing(_)) =>
+    case Configuration(stack, NormalParsing()) =>
       val const = stack.first
       val newNode = UnaryNode(comb, const)
       val newNodeTransformed = Rebranching.sinkForwardRightward(newNode)
@@ -55,7 +55,7 @@ sealed case class UnaryReduceOption(comb:CombinatorUnary) extends TransitionOpti
 sealed case class RevealingOption() extends TransitionOption {
 
   def apply(conf:Configuration): Configuration = conf.state match {
-    case s@NormalParsing(_) =>
+    case s@NormalParsing() =>
       conf.copy(
         lastTransitionOption = this,
         state = s.toRightAdjunction
@@ -65,13 +65,13 @@ sealed case class RevealingOption() extends TransitionOption {
 
 }
 
-sealed case class ShiftOption() extends TransitionOption {
+sealed case class MoveToNextWordOption() extends TransitionOption {
 
   def apply(conf:Configuration): Configuration = conf.state match {
-    case s@NormalParsing(ShiftIncluded) =>
+    case s@NormalParsing() =>
       conf.copy(
         lastTransitionOption = this,
-        state = s.toBlocked
+        state = if(ConfigurationState.TAG_FIRST) s.toTagging else s.toBlockedWaitingForWord
       )
     case _ =>
       throw new IllegalArgumentException
@@ -80,21 +80,18 @@ sealed case class ShiftOption() extends TransitionOption {
 }
 
 class TransitionReduce(
-                        parserProperties: ParserProperties,
-                        combinatorsContainer: CombinatorsContainer
+                        parserProperties     : ParserProperties,
+                        combinatorsContainer : CombinatorsContainer
                       ) extends TransitionController {
 
   override def currentTransOptions(conf: Configuration): List[TransitionOption] = {
     conf match {
-      case Configuration(stack, NormalParsing(shifting)) =>
+      case Configuration(stack, NormalParsing()) =>
         val container = combinatorsContainer
 
         var options = List[TransitionOption]()
 
-        shifting match {
-          case ShiftIncluded => options ::= ShiftOption()
-          case ShiftExcluded =>
-        }
+        options ::= MoveToNextWordOption()
 
         if(stack.size >= 1){
           val top = stack.first

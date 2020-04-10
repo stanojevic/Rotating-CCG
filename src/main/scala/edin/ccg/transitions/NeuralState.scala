@@ -11,7 +11,6 @@ import edin.nn.attention.{Attention, AttentionConfig}
 import edin.nn.embedder.{Embedder, EmbedderConfig}
 import edin.nn.layers._
 import edin.nn.sequence._
-import edin.nn.DyFunctions._
 import edin.nn.set.{DeepSet, DeepSetConfig, DeepSetStateTyped}
 import edin.nn.tree.composers.{CompositionFunction, MultiCompositionFunctionConfig}
 import edu.cmu.dynet.{Expression, ParameterCollection}
@@ -35,7 +34,9 @@ final case class NeuralState(
                               depsPreencodingDependent  : LazyVector[Expression] = LazyVector(),
                               depsPrepLayerHead         : Layer,
                               depsPrepLayerDependent    : Layer,
-                              recursiveNNEarly          : Boolean
+                              recursiveNNEarly          : Boolean,
+                              locallyNormalized         : Boolean,
+//                              errorStateMLP             : MLP,
 ){
 
   def isUseNodeContentInRevealing : Boolean =
@@ -50,13 +51,13 @@ final case class NeuralState(
     * node.hierState -- node_dim
     */
   def encodeTerminal(node:TerminalNode, outsideRepr:Expression) : NeuralState = {
-    val tagEmb = embedderCategory(node.cat)
-    val compressedH = combinerTerminal(outsideRepr, tagEmb)
+    lazy val tagEmb = embedderCategory(node.cat)
+    lazy val compressedH = combinerTerminal(outsideRepr, tagEmb)
     node.hierState = compositionFunction.initState(compressedH)
     this.copy(
-      headsPreencoding = headsPreencoding :+ headsSet.preEncode(outsideRepr),
-      depsPreencodingHead  = depsPreencodingHead  :+ depsPrepLayerHead(outsideRepr),
-      depsPreencodingDependent = depsPreencodingDependent :+ depsPrepLayerDependent(outsideRepr)
+      headsPreencoding         = headsPreencoding         :+ headsSet.preEncode(     outsideRepr ),
+      depsPreencodingHead      = depsPreencodingHead      :+ depsPrepLayerHead(      outsideRepr ),
+      depsPreencodingDependent = depsPreencodingDependent :+ depsPrepLayerDependent( outsideRepr )
     )
   }
 
@@ -103,7 +104,7 @@ final case class NeuralState(
     else
       addDependencies(node.deps(hockenDeps = false))
 
-  private def addDependencies(deps:List[DepLink]) : NeuralState = this.copy(
+  private def addDependencies(deps: => List[DepLink]) : NeuralState = this.copy(
     depsSetState = this.depsSetState + deps.map(embedDependency) )
 
   private def embedDependency(dep:DepLink) : WrappedStateLazy[DepLink] =
@@ -131,27 +132,31 @@ final case class NeuralParameters(
                                    depsSet                   : DeepSet,
                                    depsPrepLayerHead         : Layer,
                                    depsPrepLayerDependent    : Layer,
-                                   recursiveNNEarly          : Boolean
+                                   recursiveNNEarly          : Boolean,
+                                   locallyNormalized         : Boolean,
+//                                   errorStateMLP             : MLP
 ){
 
   def initState : NeuralState =
     NeuralState(
-      compositionFunction      = compositionFunction     ,
-      embedderCategory         = embedderCategory        ,
-      embedderCombinator       = embedderCombinator      ,
-      embedderPositionBottomUp = embedderPositionBottomUp,
-      embedderPositionTopDown  = embedderPositionTopDown ,
-      combinerTerminal         = combinerTerminal      ,
-      combinerNonTerminal      = combinerNonTerminal   ,
-      configurationCombiner    = configurationCombiner ,
-      logSoftmaxTags           = logSoftmaxTags          ,
-      logSoftmaxTrans          = logSoftmaxTrans         ,
-      attentionRightAdjunction = attentionRightAdjunction,
-      headsSet                 = headsSet                ,
+      compositionFunction      = compositionFunction      ,
+      embedderCategory         = embedderCategory         ,
+      embedderCombinator       = embedderCombinator       ,
+      embedderPositionBottomUp = embedderPositionBottomUp ,
+      embedderPositionTopDown  = embedderPositionTopDown  ,
+      combinerTerminal         = combinerTerminal         ,
+      combinerNonTerminal      = combinerNonTerminal      ,
+      configurationCombiner    = configurationCombiner    ,
+      logSoftmaxTags           = logSoftmaxTags           ,
+      logSoftmaxTrans          = logSoftmaxTrans          ,
+      attentionRightAdjunction = attentionRightAdjunction ,
+      headsSet                 = headsSet                 ,
       depsSetState             = if(depsSet!=null) depsSet.empty() else null,
-      depsPrepLayerHead        = depsPrepLayerHead,
-      depsPrepLayerDependent   = depsPrepLayerDependent,
-      recursiveNNEarly         = recursiveNNEarly
+      depsPrepLayerHead        = depsPrepLayerHead        ,
+      depsPrepLayerDependent   = depsPrepLayerDependent   ,
+      recursiveNNEarly         = recursiveNNEarly         ,
+      locallyNormalized        = locallyNormalized        ,
+//      errorStateMLP            = errorStateMLP            ,
     )
 
 }
@@ -172,23 +177,25 @@ object NeuralParameters{
     val headsSet = if(headsSetConfig.outDim == 0) null else headsSetConfig.construct()
 
     NeuralParameters(
-      stackEncoder             = NeuralStackBuilderConfig.fromYaml[TreeNode]( conf( "neural-stack"                   )).construct(),
-      compositionFunction      = MultiCompositionFunctionConfig.fromYaml(     conf( "composition-function"           )).construct(),
-      embedderCategory         = EmbedderConfig.fromYaml[Category](           conf( "embedder-category"              )).construct(),
-      embedderCombinator       = EmbedderConfig.fromYaml[Combinator](         conf( "embedder-combinator"            )).construct(),
-      combinerTerminal         = CombinerConfig.fromYaml(                     conf( "combiner-layer-terminals"       )).construct(),
-      combinerNonTerminal      = CombinerConfig.fromYaml(                     conf( "combiner-layer-nonterminals"    )).construct(),
-      configurationCombiner    = CombinerConfig.fromYaml(                     conf( "combiner-layer-configuration" )).construct(),
-      logSoftmaxTags           = MLPConfig.fromYaml(                          conf( "mlp-logsoftmax-tags"            )).construct(),
-      logSoftmaxTrans          = MLPConfig.fromYaml(                          conf( "mlp-logsoftmax-trans"           )).construct(),
-      attentionRightAdjunction = AttentionConfig.fromYaml(                    conf( "attention-right-adjunction"     )).construct(),
-      embedderPositionBottomUp = EmbedderConfig.fromYaml[Int](                conf( "embedder-position-bottom-up"    )).construct(),
-      embedderPositionTopDown  = EmbedderConfig.fromYaml[Int](                conf( "embedder-position-top-down"     )).construct(),
+      stackEncoder             = NeuralStackBuilderConfig       .fromYaml[TreeNode  ]( conf( "neural-stack"                   )).construct(),
+      compositionFunction      = MultiCompositionFunctionConfig .fromYaml            ( conf( "composition-function"           )).construct(),
+      embedderCategory         = EmbedderConfig                 .fromYaml[Category  ]( conf( "embedder-category"              )).construct(),
+      embedderCombinator       = EmbedderConfig                 .fromYaml[Combinator]( conf( "embedder-combinator"            )).construct(),
+      combinerTerminal         = CombinerConfig                 .fromYaml            ( conf( "combiner-layer-terminals"       )).construct(),
+      combinerNonTerminal      = CombinerConfig                 .fromYaml            ( conf( "combiner-layer-nonterminals"    )).construct(),
+      configurationCombiner    = CombinerConfig                 .fromYaml            ( conf( "combiner-layer-configuration"   )).construct(),
+      logSoftmaxTags           = MLPConfig                      .fromYaml            ( conf( "mlp-logsoftmax-tags"            )).construct(),
+      logSoftmaxTrans          = MLPConfig                      .fromYaml            ( conf( "mlp-logsoftmax-trans"           )).construct(),
+      attentionRightAdjunction = AttentionConfig                .fromYaml            ( conf( "attention-right-adjunction"     )).construct(),
+      embedderPositionBottomUp = EmbedderConfig                 .fromYaml[Int       ]( conf( "embedder-position-bottom-up"    )).construct(),
+      embedderPositionTopDown  = EmbedderConfig                 .fromYaml[Int       ]( conf( "embedder-position-top-down"     )).construct(),
       headsSet                 = headsSet,
       depsSet                  = depsSet,
       depsPrepLayerHead        = depsPrepLayerHead,
       depsPrepLayerDependent   = depsPrepLayerDependent,
-      recursiveNNEarly         = conf.getOrElse("composition-function-rebranching-free", false)
+      recursiveNNEarly         = conf.getOrElse("composition-function-rebranching-free", false),
+      locallyNormalized        = conf( "locally-normalized" ).bool,
+//      errorStateMLP            = MLPConfig.fromYaml(                          conf( "mlp-error-states"               )).construct(),
     )
   }
 

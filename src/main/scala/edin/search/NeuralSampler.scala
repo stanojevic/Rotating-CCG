@@ -20,7 +20,7 @@ object NeuralSampler {
     var actionCount = 0
 
     while(!state.isFinished && actionCount<maxExpansion){
-      val logProbs:List[Float] = state.nextActionLogProbsLocal.toList
+      val logProbs:List[Float] = state.nextActionLogProbsLocalExp.toList
       val probs: List[(Int, Double)] = logProbs.map { x => math.exp(x.toDouble) }.zipWithIndex.map(_.swap)
       val a = Sampler.sample(probs)
       actions ::= a

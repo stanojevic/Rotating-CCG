@@ -29,12 +29,12 @@ case class ParserProperties (
                               onlyPredefinedCombs     : Boolean
 ){
 
-  assert(!useRevealing || useIncrementalTrans)
-  assert(!withForwardAntiEisnerNF || useIncrementalTrans)
-  assert(!(withForwardEisnerNF  && useIncrementalTrans))
-  assert(!(withBackwardEisnerNF && useIncrementalTrans))
-  assert(!(withHighTRconjNF && withLowTRconjNF))
-  assert(!(withLowLeftAdjNF && withLowRightAdjNF))
+  assert(!(useRevealing            && !useIncrementalTrans))
+  assert(!(withForwardAntiEisnerNF && !useIncrementalTrans))
+  assert(!(withForwardEisnerNF     &&  useIncrementalTrans))
+  assert(!(withBackwardEisnerNF    &&  useIncrementalTrans))
+  assert(!(withHighTRconjNF        &&  withLowTRconjNF    ))
+  assert(!(withLowLeftAdjNF        &&  withLowRightAdjNF  ))
 
   def reduceOptions(combinatorsContainer: CombinatorsContainer) : List[TransitionOption] =
     if(onlyPredefinedCombs)
@@ -45,17 +45,18 @@ case class ParserProperties (
   private def reduceOptionsOnlyPredefined : List[TransitionOption] = {
     val binary = CombinatorBinary.allPredefined.map(BinaryReduceOption)
     val unary  = CombinatorUnary.allPredefined.map(UnaryReduceOption)
-    val rest = if(useRevealing) List(RevealingOption(), ShiftOption()) else List(ShiftOption())
+    val rest = if(useRevealing) List(RevealingOption(), MoveToNextWordOption()) else List(MoveToNextWordOption())
     rest++unary++binary
   }
 
-  private def reduceOptionsEverything(combinatorsContainer: CombinatorsContainer) : List[TransitionOption] = {
-    List(ShiftOption()) ++
-    ( if(useRevealing) List(RevealingOption()) else List()) ++
-    CombinatorBinary.allPredefined.toList.map{BinaryReduceOption} ++
-    combinatorsContainer.allUnholyBinary.map{BinaryReduceOption} ++
-    combinatorsContainer.allUnary.map{UnaryReduceOption}
-  }
+  private def reduceOptionsEverything(combinatorsContainer: CombinatorsContainer) : List[TransitionOption] =
+    List(
+      CombinatorBinary.allPredefined       map BinaryReduceOption,
+      combinatorsContainer.allUnholyBinary map BinaryReduceOption,
+      combinatorsContainer.allUnary        map UnaryReduceOption ,
+      if(useRevealing) RevealingOption()::Nil else Nil,
+      MoveToNextWordOption() :: Nil
+    ).flatten
 
   def prepareDerivationTreeForTraining(node:TreeNode) : TreeNode =
     extractNonGlued(node)
@@ -114,36 +115,25 @@ case class ParserProperties (
     tree
   }
 
-  // this is a hack
-  private def fakeNode(cat: Category, sp: (Int, Int)) : TreeNode = {
-    val l = TerminalNode(null, cat)
-    l.position = sp._1
-    val r = TerminalNode(null, Category(","))
-    r.position = sp._2-1
-    val n = BinaryNode(RemovePunctuation(punctuationIsLeft = false), l, r)
-    assert(n.span == sp)
-    n
-  }
-
   def findDerivation(node: TreeNode) : List[TransitionOption] =
     prepareDerivationTreeForTraining(node).allNodesPostorder.flatMap{
       case BinaryNode(Glue(), _, _)  =>
         Nil
       case BinaryNode(RightAdjoinCombinator(c, span), _, _)  =>
-        RevealingOption() :: RightAdjoinOption(fakeNode(c, span)) :: Nil
+        RevealingOption() :: RightAdjoinOption(c, span) :: Nil
       case BinaryNode(c, _, _)  =>
         BinaryReduceOption(c) :: Nil
       case TerminalNode(_, cat) =>
-        ShiftOption() :: TaggingOption(cat) :: Nil
+        MoveToNextWordOption() :: TaggingOption(cat) :: Nil
       case UnaryNode(c, _)      =>
         UnaryReduceOption(c) :: Nil
-    }
+    }.tail :+ MoveToNextWordOption()
 
 }
 
 object ParserProperties{
 
-  def fromYaml(conf:YamlConfig) : ParserProperties = {
+  def fromYaml(conf:YamlConfig) : ParserProperties =
     ParserProperties(
       useIncrementalTrans     = conf("useIncrementalTrans"     ).bool,
       useRevealing            = conf("useRevealing"            ).bool,
@@ -159,8 +149,6 @@ object ParserProperties{
       withHockenCatNormal     = conf("withHockenCatNormal"     ).bool,
       onlyPredefinedCombs     = conf("onlyPredefinedCombs"     ).bool,
     )
-  }
-
 
   val prototypeProps = ParserProperties(
     useIncrementalTrans     = false,

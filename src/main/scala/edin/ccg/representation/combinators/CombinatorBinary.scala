@@ -1,5 +1,6 @@
 package edin.ccg.representation.combinators
 
+import edin.ccg.representation.CombinatorsContainer
 import edin.ccg.representation.category._
 
 trait CombinatorBinary extends Combinator {
@@ -263,7 +264,77 @@ object CombinatorBinary{
 //    TypeChangeBinary(Category("""NP/N""" ), Category("""NP\NP"""), Category("""NP/N"""))
   )
 
-  val allPredefined  :Set[CombinatorBinary] = my_additional | c_and_c_additional | allForward | allBackwardAndCrossed | allPunc + conj
+  private val chinese_predefined = Set[CombinatorBinary](
+    TypeChangeBinary(
+      l = Category("""conj"""),
+      r = Category("""NP"""),
+      p = Category("""NP""")
+    ),
+    TypeChangeBinary(
+      l = Category("""NP"""),
+      r = Category("""NP"""),
+      p = Category("""NP""")
+    ),
+    TypeChangeBinary(
+      l = Category("""((S\NP)/(S\NP))/(S\NP)"""),
+      r = Category("""S[dcl]\NP"""),
+      p = Category("""(S\NP)/(S\NP)""")
+    ),
+    TypeChangeBinary(
+      l = Category("""conj"""),
+      r = Category("""S[dcl]\NP"""),
+      p = Category("""S[dcl]\NP""")
+    ),
+    TypeChangeBinary(
+      l = Category("""S/QP"""),
+      r = Category("""QP"""),
+      p = Category("""S[frg]""")
+    ),
+    TypeChangeBinary(
+      l = Category("""(S/S)/S"""),
+      r = Category("""S[dcl]"""),
+      p = Category("""S/S""")
+    ),
+    TypeChangeBinary(
+      l = Category("""conj"""),
+      r = Category("""NP/NP"""),
+      p = Category("""NP/NP""")
+    ),
+    TypeChangeBinary(
+      l = Category("""conj"""),
+      r = Category("""S[dcl]"""),
+      p = Category("""S[dcl]""")
+    ),
+    TypeChangeBinary(
+      l = Category("""S/NP"""),
+      r = Category("""NP"""),
+      p = Category("""S[frg]""")
+    ),
+    TypeChangeBinary(
+      l = Category("""S/S"""),
+      r = Category("""S[dcl]\NP"""),
+      p = Category("""S[dcl]\NP""")
+    ),
+    TypeChangeBinary(
+      l = Category("""NP"""),
+      r = Category("""NP"""),
+      p = Category("""NP/NP""")
+    )
+  )
+
+  private[combinators] def setLanguage(lang:String, combinatorsContainer: CombinatorsContainer) : Unit = lang match {
+    case "English" | "English_CandC" =>
+      allPredefinedVar = my_additional | allForward | allBackwardAndCrossed | allPunc + conj | c_and_c_additional
+    case "English_EasyCCG" =>
+      allPredefinedVar = my_additional | allForward | allBackwardAndCrossed | allPunc + conj
+    case "Chinese" =>
+      allPredefinedVar = my_additional | allForward | allBackwardAndCrossed | allPunc + conj | chinese_predefined
+    case "General" =>
+      allPredefinedVar = my_additional | allForward | allBackwardAndCrossed | allPunc + conj | combinatorsContainer.allUnholyBinary.toSet
+  }
+
+  private var allPredefinedVar  :Set[CombinatorBinary] = my_additional | c_and_c_additional | allForward | allBackwardAndCrossed | allPunc + conj
+  def allPredefined : Set[CombinatorBinary] = allPredefinedVar
 
   def findCombinator(x:Category, y:Category, l:Iterable[CombinatorBinary]) : Iterable[CombinatorBinary] = l.view.filter(_.canApply(x, y))
 

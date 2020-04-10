@@ -1,6 +1,6 @@
 package edin.nn.tree.encoders
 
-import edin.general.trees.dependency.DepNode
+import edin.dependencies.DepNode
 import edin.nn._
 import edin.nn.sequence.{MultiRNN, MultiRNNConfig}
 import edin.nn.tree.EncodableNode

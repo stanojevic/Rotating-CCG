@@ -16,24 +16,60 @@ object TreeVisualizer {
     println("exiting")
   }
 
-  case class SimpleTreeNode(label:String, children:List[SimpleTreeNode]) {
-    def sent : List[String] = {
-      if(children.isEmpty){
-        List(label)
-      }else{
-        children.flatMap(_.sent)
-      }
-    }
+  object Color extends Enumeration {
+    type Color = Value
+    val RED        = Value("firebrick1")
+    val GREEN      = Value("green3")
+    val BLUE       = Value("blue")
+    val PURPLE     = Value("purple")
+    val LIGHT_BLUE = Value("lightblue2")
+    val BLACK      = Value("black")
+    val GRAY       = Value("gray")
+  }
+
+  object Shape extends Enumeration{
+    type Shape = Value
+    val TRAPEZIUM = Value("trapezium")
+    val HOUSE     = Value("house")
+    val BOX       = Value("box")
+    val HEXAGON   = Value("hexagon")
+    val ELLIPSE   = Value("ellipse")
+    val RECTANGLE = Value("rectangle")
+    val NOTHING   = Value("plaintext")
+  }
+
+  case class SimpleTreeNode(
+                             label:String,
+                             children:List[SimpleTreeNode],
+                             color: Color.Color = null,
+                             shape: Shape.Shape = null,
+                             textBold:Boolean=false,
+                             textColor:Color.Color=Color.BLACK,
+                             textSize:Int= -1,
+                             position:Int= 0) {
+
+    def sent : List[String] = allTerminals.sortBy(_.position).map(_.label)
+
+    def allTerminals : List[SimpleTreeNode] =
+      if(children.isEmpty)
+        this :: Nil
+      else
+        children.flatMap(_.allTerminals)
 
     private def copyFile(src:String, dest:String) : Unit = {
-      val inputChannel = new FileInputStream(src).getChannel()
-      val outputChannel = new FileOutputStream(dest).getChannel()
+      val inputChannel = new FileInputStream(src).getChannel
+      val outputChannel = new FileOutputStream(dest).getChannel
       outputChannel.transferFrom(inputChannel, 0, inputChannel.size())
       inputChannel.close()
       outputChannel.close()
     }
 
-    def saveVisual(outFile:File, graphLabel:String="") : Unit = {
+    def saveVisual(outFile:File, graphLabel:String="", fileType:String="pdf") : Unit = {
+      outFile.getName.split(".").lastOption.foreach{ x =>
+        if(x != fileType){
+          sys.error(s"cannot save $fileType into file with extension $x")
+        }
+      }
       val dotString = toDotString(this, graphLabel)
 
       val tmpDotFile = File.createTempFile("visual", ".dot", null)
@@ -43,23 +79,24 @@ object TreeVisualizer {
       pw.println(dotString)
       pw.close()
 
-      val dotCmd = s"dot -Tpng $tmpFileName -O"
+      val dotCmd = s"dot -T$fileType $tmpFileName -O"
       val pDot = Runtime.getRuntime.exec(dotCmd)
       pDot.waitFor()
-      copyFile(s"$tmpFileName.png", outFile.getAbsolutePath)
+      copyFile(s"$tmpFileName.$fileType", outFile.getAbsolutePath)
       new File(tmpFileName).delete()
-      new File(s"$tmpFileName.png").delete()
+      new File(s"$tmpFileName.$fileType").delete()
     }
 
-    def visualize(graphLabel:String="") : Unit = {
-      val file = File.createTempFile(s"visual_${graphLabel.replace(" ", "_")}_", ".png", null)
+    def visualize(graphLabel:String="", fileType:String="pdf") : Unit = {
+      val file = File.createTempFile(s"visual_${graphLabel.replace(" ", "_")}_", "."+fileType, null)
       file.deleteOnExit()
-      this.saveVisual(file, graphLabel)
+      this.saveVisual(file, graphLabel=graphLabel, fileType=fileType)
 
       val filename = file.toPath
       val xdgCmd = System.getProperty("os.name") match {
+        /** run this if you use evince and have big pdfs: gsettings set org.gnome.Evince page-cache-size 500 */
         case "Linux" => s"nohup xdg-open $filename"
-        case _       => s"open $filename"
+        case _       => s"nohup firefox  $filename"
       }
       Runtime.getRuntime.exec(xdgCmd)
       val seconds = 2
@@ -71,31 +108,24 @@ object TreeVisualizer {
   // DOT VISUALIZATION
 
   def toDotString(mainNode:SimpleTreeNode, graphLabel:String) : String = {
-    val colorMapping = Map[String, String](
-      "unary" -> "green3",
-      "non-unary" -> "firebrick1"
-    ).withDefaultValue("blue")
-    val shapeMapping = Map[String, String](
-      "unary" -> "hexagon",
-      "nonunary" -> "ellipse"
-    ).withDefaultValue("plaintext")
-
-    val terminalColor = "lightblue2"
-
     def toDotStringRec(node:SimpleTreeNode, nodeId:String) : (String, List[String]) = {
       var outStr = ""
 
       var terms = List[String]()
-
-      outStr += nodeId+"[label=\""+escapeForDot(node.label)+"\"; "
-      val shape = if(node.children.size==1) colorMapping("unary") else if(node.children.isEmpty) terminalColor else colorMapping("non-unary")
+      outStr += nodeId+"["
+      if(node.textBold)
+        outStr += "fontname=\"Times Bold\"; "
+      val fontcolor = Option(node.textColor).getOrElse(Color.BLACK).toString
+      outStr += s"fontcolor=$fontcolor; "
+      outStr += "label=\""+escapeForDot(node.label)+"\"; "
+      val shape = Option(node.shape).getOrElse(Shape.ELLIPSE).toString
       outStr += "shape="+shape+"; "
-      val color = if(node.children.size==1) colorMapping("unary") else if(node.label.matches("^B.*<.*")) "purple" else colorMapping("non-unary")
+      val color = Option(node.color).getOrElse(Color.BLUE).toString
       outStr += s"color=$color; "
-      // outStr += "fontname=\"Times-Bold\" ; "
-      val fontSize = 20
-      outStr += "fontsize="+fontSize+"; "
-      outStr += "style=bold];\n"
+      val fontsize = if(node.textSize < 0) 20 else node.textSize
+      outStr += s"fontsize=$fontsize ; "
+      outStr += "style=bold; "
+      outStr += "];\n"
       node.children.zipWithIndex.foreach{ case (child, index) =>
         val childName = nodeId+"_"+index
         if(child.children.nonEmpty){
@@ -123,17 +153,27 @@ object TreeVisualizer {
     outStr += res._1
     val terms = res._2
 
-    outStr += "  subgraph {rank=same;\n"
-    val sent = mainNode.sent
-    terms.zipWithIndex.foreach{ case (nodeId, i) =>
-      val word = sent(i)
-      outStr += "    "+nodeId+"[shape=plaintext; "
+    outStr += "  subgraph {rank=same;rankdir=LR;\n"
+    (terms zip mainNode.allTerminals).sortBy(_._2.position).foreach{ case (nodeId, node) =>
+      val color = Option(node.color).getOrElse(Color.LIGHT_BLUE).toString
+      val shape = Option(node.shape).getOrElse(Shape.NOTHING).toString
+      val word = node.label
+      outStr += "    "+nodeId+"[ "
+      if(node.textBold)
+        outStr += "fontname=\"Times Bold\"; "
+      val fontcolor = Option(node.textColor).getOrElse(Color.BLACK).toString
+      outStr += s"fontcolor=$fontcolor; "
       outStr += "label=\""+escapeForDot(word)+"\" "
-      outStr += "fontsize=30 "
       outStr += "style=bold; "
-      outStr += "color="+terminalColor+"];\n"
+      val fontsize = if(node.textSize < 0) 30 else node.textSize
+      outStr += s"fontsize=$fontsize "
+      outStr += "color="+color+";"
+      outStr += "shape="+shape+";"
+      outStr += "];\n"
     }
     outStr += "    edge[style=\"invis\"];\n"
+
+    outStr += (terms zip mainNode.allTerminals).sortBy(_._2.position).map(_._1).mkString("--")+";\n"
 
     outStr += "  }\n"
     outStr += "}\n"
@@ -141,18 +181,16 @@ object TreeVisualizer {
     outStr
   }
 
-  private def escapeForDot(s:String) : String = {
-    s.
-      replace("\\", "\\\\").
-      // replace("<", "<").
-      // replace(">", ">").
-      // replace("\\N", "\\\\N").
-      replace("---", "ABCDEFGXYZ").
-      replace("--", "ABCDEFG").
-      replace("-", "\\n").
-      replace("ABCDEFGXYZ", "\n--").
-      replace("ABCDEFG", "--")
-  }
+  private def escapeForDot(s:String) : String =
+    s.replace("\\", "\\\\")
+     // .replace("<", "<")
+     // .replace(">", ">")
+     // .replace("\\N", "\\\\N")
+     // .replace("---", "ABCDEFGXYZ")
+     // .replace("--", "ABCDEFG")
+     // .replace("-", "\\n")
+     // .replace("ABCDEFGXYZ", "\n--")
+     // .replace("ABCDEFG", "--")
 
 
 
@@ -197,14 +235,12 @@ object TreeVisualizer {
     tokens.filterNot{_.matches("^\\s*$")}
   }
 
-  private def escapeBrackets(label:String) = {
-    label.replaceAllLiterally("(", "-LRB-").
-      replaceAllLiterally(")", "-RRB-")
-  }
+//  private def escapeBrackets(label:String) =
+//    label.replaceAllLiterally("(", "-LRB-").
+//      replaceAllLiterally(")", "-RRB-")
 
-  private def unescapeBrackets(label:String) = {
+  private def unescapeBrackets(label:String) : String =
     label.replaceAllLiterally("-LRB-", "(").
       replaceAllLiterally("-RRB-", ")")
-  }
 
 }

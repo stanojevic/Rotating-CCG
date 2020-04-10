@@ -13,7 +13,8 @@ class FScoreAggregator[T](val name:String, mapper:T => List[AnyRef]) extends Sco
   override def exposedScores: List[(String, Double)] = List(
     ("p", fScoreState.p),
     ("r", fScoreState.r),
-    ("f", fScoreState.f)
+    ("f", fScoreState.f),
+    ("e", fScoreState.e),
   )
 
 

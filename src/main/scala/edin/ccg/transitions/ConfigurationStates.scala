@@ -1,57 +1,107 @@
 package edin.ccg.transitions
 
+import edin.ccg.representation.category.Category
 import edu.cmu.dynet.Expression
-
 
 object ConfigurationState{
 
-  // def initState(outsideRepr:Expression) : ConfigurationState = BlockedWaitingForWord()(outsideRepr)
-  def initState(outsideRepr:Expression) : ConfigurationState = NormalParsing(ShiftIncluded)(outsideRepr)
+  val TAG_FIRST: Boolean = false
+
+  def initState(outsideRepr:Expression) : ConfigurationState =
+    if(TAG_FIRST) Tagging()(outsideRepr)
+    else BlockedWaitingForWordWF()(outsideRepr)
 
 }
 
 sealed abstract class ConfigurationState(val outsideRepr:Expression){
-  def isFinal : Boolean = this match {
-    case NormalParsing(ShiftExcluded) => true
-    case _ => false
-  }
+  def isParsing : Boolean = !isBlocked && !isTagging
   def isBlocked : Boolean = this match {
-    case BlockedWaitingForWord() => true
-    case _ => false
+    case BlockedWaitingForWord(_)  => true
+    case BlockedWaitingForWordWF() => true
+    case _                         => false
+  }
+  def isTagging : Boolean = this match {
+    case Tagging()    => true
+    case TaggingWF(_) => true
+    case _            => false
   }
 }
 
-sealed trait Shifting
-case object ShiftIncluded extends Shifting
-case object ShiftExcluded extends Shifting
+case class RightAdjunction()(outsideRepr:Expression) extends ConfigurationState(outsideRepr){
 
-case class  NormalParsing(shifting:Shifting)(outsideRepr:Expression) extends ConfigurationState(outsideRepr){
-  def toRightAdjunction : ConfigurationState = RightAdjunction()(shifting, outsideRepr)
-  def toBlocked : ConfigurationState = shifting match {
-    case ShiftIncluded => BlockedWaitingForWord()(outsideRepr)
-    case ShiftExcluded => throw new Exception("can't do shifting now")
+  def toNormalParsing : ConfigurationState = NormalParsing()(outsideRepr)
+
+  override def equals(obj: scala.Any): Boolean = obj match {
+    case RightAdjunction() => true
+    case _                 => false
   }
-  override def equals(obj: scala.Any): Boolean = obj.isInstanceOf[NormalParsing] && obj.asInstanceOf[NormalParsing].shifting == shifting
 }
 
-case class BlockedWaitingForWord()(outsideRepr:Expression) extends ConfigurationState(outsideRepr){
-  def toTagging(outsideRepr:Expression, word:String, isFinal:Boolean) : ConfigurationState = Tagging(word)(outsideRepr, isFinal)
-  override def equals(obj: scala.Any): Boolean = obj.isInstanceOf[BlockedWaitingForWord]
+case class NormalParsing()(outsideRepr:Expression) extends ConfigurationState(outsideRepr){
+
+  def toRightAdjunction       : ConfigurationState = RightAdjunction()(outsideRepr)
+  def toTagging               : ConfigurationState = {
+    assert(ConfigurationState.TAG_FIRST)
+    Tagging()(outsideRepr)
+  }
+  def toBlockedWaitingForWord : ConfigurationState = {
+    assert(!ConfigurationState.TAG_FIRST)
+    BlockedWaitingForWordWF()(outsideRepr)
+  }
+
+  override def equals(obj: scala.Any): Boolean = obj match {
+    case NormalParsing() => true
+    case _               => false
+  }
 }
 
-case class Tagging(word:String)(outsideRepr:Expression, isFinal:Boolean) extends ConfigurationState(outsideRepr){
+case class BlockedWaitingForWord(tag:Category)(outsideRepr:Expression) extends ConfigurationState(outsideRepr){
 
-  def toNormalParsing : ConfigurationState =
-    if(isFinal)
-      NormalParsing(ShiftExcluded)(outsideRepr)
-    else
-      NormalParsing(ShiftIncluded)(outsideRepr)
+  assert(ConfigurationState.TAG_FIRST)
 
-  override def equals(obj: scala.Any): Boolean = obj.isInstanceOf[Tagging] && obj.asInstanceOf[Tagging].word == word
+  def toNormalParsing(outsideRepr:Expression) : ConfigurationState = NormalParsing()(outsideRepr)
+
+  override def equals(obj: scala.Any): Boolean = obj match {
+    case BlockedWaitingForWord(`tag`) => true
+    case _                            => false
+  }
 }
 
-case class RightAdjunction()(val shifting:Shifting, outsideRepr:Expression) extends ConfigurationState(outsideRepr){
-  def toNormalParsing : ConfigurationState = NormalParsing(shifting)(outsideRepr)
-  override def equals(obj: scala.Any): Boolean = obj.isInstanceOf[RightAdjunction] && obj.asInstanceOf[RightAdjunction].shifting == shifting
+case class Tagging()(outsideRepr:Expression) extends ConfigurationState(outsideRepr){
+
+  assert(ConfigurationState.TAG_FIRST)
+
+  def toBlockedWaitingForWord(tag:Category) : ConfigurationState = BlockedWaitingForWord(tag)(outsideRepr)
+
+  override def equals(obj: scala.Any): Boolean = obj match {
+    case Tagging() => true
+    case _         => false
+  }
+
+}
+
+case class BlockedWaitingForWordWF()(outsideRepr:Expression) extends ConfigurationState(outsideRepr){
+
+  assert(!ConfigurationState.TAG_FIRST)
+
+  def toTagging(word:String, outsideRepr:Expression) : ConfigurationState = TaggingWF(word)(outsideRepr)
+
+  override def equals(obj: scala.Any): Boolean = obj match {
+    case BlockedWaitingForWordWF() => true
+    case _                         => false
+  }
+}
+
+case class TaggingWF(word:String)(outsideRepr:Expression) extends ConfigurationState(outsideRepr){
+
+  assert(!ConfigurationState.TAG_FIRST)
+
+  def toNormalParsing : ConfigurationState = NormalParsing()(outsideRepr)
+
+  override def equals(obj: Any): Boolean = obj match {
+    case TaggingWF(`word`) => true
+    case _                 => false
+  }
+
 }
 

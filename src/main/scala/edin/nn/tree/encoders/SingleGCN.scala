@@ -1,11 +1,13 @@
 package edin.nn.tree.encoders
 
+import edin.dependencies.DepNode
 import edin.general.Any2Int
-import edin.general.trees.dependency.DepNode
-import edin.nn.{StateClosed, SimpleState, State}
+import edin.nn.{SimpleState, State, StateClosed}
 import edin.nn.DyFunctions._
 import edin.nn.tree.EncodableNode
 import edu.cmu.dynet.{Expression, LookupParameter, Parameter, ParameterCollection}
+
+import scala.language.implicitConversions
 
 sealed case class SingleGCNConfig(
                                  inDim:Int,

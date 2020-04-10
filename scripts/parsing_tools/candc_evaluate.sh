@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if [ $# -ne 3 ]; then
+if [[ $# -ne 3 ]]; then
     echo usage: $0 GOLD_AUTO GOLD_PARG PRED_AUTO
     exit 1
 fi
 
-[ ! -z "${CANDC}" ] || { echo 'finding CandC failed' ; exit 1; }
+[[ ! -z "${CANDC}" ]] || { echo 'finding CandC failed' ; exit 1; }
 
 GOLD_AUTO=$1
 GOLD_PARG=$2

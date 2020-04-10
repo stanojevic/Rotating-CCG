@@ -1,13 +1,14 @@
 package edin.ccg.transitions
 
+import edin.ccg.parsing.Parser
 import edin.ccg.representation._
 import edin.ccg.representation.combinators._
 import edin.ccg.representation.transforms.{PuncAttachment, TypeRaisingTransforms}
-import edin.ccg.representation.tree.{BinaryNode, TreeNode}
+import edin.ccg.representation.tree.{BinaryNode, TerminalNode, TreeNode}
 import edin.nn.sequence.NeuralStack
 import edu.cmu.dynet.Expression
 import edin.nn.DyFunctions._
-import edin.nn.StateClosed
+import edin.nn.{DyFunctions, State}
 import edin.nn.embedder.Embedder
 
 import scala.util.Random
@@ -17,8 +18,8 @@ final case class ParsingException(msg:String, left:TreeNode, right:TreeNode) ext
 }
 
 final case class Configuration(
-                          stack       : NeuralStack[TreeNode],
-                          state       : ConfigurationState
+                          stack        : NeuralStack[TreeNode],
+                          state        : ConfigurationState
                         )(
                           val totalScoreExpression   : Expression,
                           val neuralState            : NeuralState,
@@ -26,8 +27,15 @@ final case class Configuration(
                           val allS2I                 : AllS2I,
                           val combinatorsContainer   : CombinatorsContainer,
                           val lastTransitionOption   : Option[TransitionOption],
-                          val prevConf               : Option[Configuration]
-                        ) extends StateClosed {
+                          val prevConf               : Option[Configuration],
+                          val maxStackSize           : Int
+                        ) extends State {
+
+  override def myEquals(o: Any): Boolean = o match {
+    case that : Configuration => this.lastTransitionOption == that.lastTransitionOption && this.prevConf == that.prevConf
+    case _ => false
+  }
+  override def myHash(): Int = throw new Exception("not supposed to call this")
 
   lazy val totalScore: Float = totalScoreExpression.toFloat
 
@@ -61,8 +69,8 @@ final case class Configuration(
     val transScoreExpression = this.lookupLogProb(lastTransitionOption)
     val totalScoreExpression = this.totalScoreExpression + transScoreExpression
     Configuration(
-      stack = stack,
-      state = state
+      stack        = stack,
+      state        = state
     )(
       totalScoreExpression = totalScoreExpression,
       neuralState          = neuralState,
@@ -70,50 +78,59 @@ final case class Configuration(
       allS2I               = allS2I,
       combinatorsContainer = combinatorsContainer,
       lastTransitionOption = lastTrans,
-      prevConf             = Some(prevConf)
+      prevConf             = Some(prevConf),
+      maxStackSize         = maxStackSize
     )
   }
 
-  def isFinal : Boolean = (stack.size == 1 && state.isFinal) || transitionLogDistribution._1.isEmpty
-
-  // override lazy val h: Expression = {
-  override def h: Expression = {
+  override lazy val h: Expression =
     neuralState.configurationCombiner(
         stack.h,
         state.outsideRepr,
         if(neuralState.depsSetState == null) null else neuralState.depsSetState.h
     )
-  }
 
   def lookupLogProb(x:TransitionOption) : Expression =
     state match {
-      case Tagging(_) =>
+      case Tagging() | TaggingWF(_) =>
         if(allS2I.taggingOptions2i.contains(x)){
           val i = allS2I.taggingOptions2i(x)
           transitionLogDistribution._2(i)
         }else{
-          scalar(0)
+          // THIS IS FOR DUMMY TRANSITIONS THAT WE WANT TO IGNORE DURING TRAINING
+          scalar(0f)
         }
-      case RightAdjunction() | NormalParsing(_)      =>
-        if(!transitionLogDistribution._1.zipWithIndex.exists(_._1 == x)){
-          // System.err.println(x)
-          val right = stack.first
-          val left = if(stack.size>=2) stack.second else null
-//          val reduceOptions = new TransitionReduce(parserProperties, combinatorsContainer).currentTransOptions(this)
-//          val revealingOptions = new TransitionRightAdjunction(parserProperties).currentTransOptions(this)
-          throw ParsingException(
-            msg = s"couldn't parse with\nstate:$state\ntransition:$x\noffered options:${transitionLogDistribution._1}\nstack size:${stack.size}",
-            left = left,
-            right = right
-          )
+      case RightAdjunction() | NormalParsing()      =>
+        transitionLogDistribution._1.zipWithIndex.find(_._1 == x) match {
+          case Some((_, i)) =>
+            transitionLogDistribution._2(i)
+          case None =>
+            val right = stack.first
+            val left = if(stack.size>=2) stack.second else null
+            throw ParsingException(
+              msg = s"couldn't parse with\nstate:$state\ntransition:$x\noffered options:${transitionLogDistribution._1}\nstack size:${stack.size}",
+              left = left,
+              right = right
+            )
         }
-        val i = transitionLogDistribution._1.zipWithIndex.find(_._1 == x).get._2
-        transitionLogDistribution._2(i)
-      case BlockedWaitingForWord() =>
+//        if(!transitionLogDistribution._1.zipWithIndex.exists(_._1 == x)){
+//          // System.err.println(x)
+//          val right = stack.first
+//          val left = if(stack.size>=2) stack.second else null
+////          val reduceOptions = new TransitionReduce(parserProperties, combinatorsContainer).currentTransOptions(this)
+////          val revealingOptions = new TransitionRightAdjunction(parserProperties).currentTransOptions(this)
+//          throw ParsingException(
+//            msg = s"couldn't parse with\nstate:$state\ntransition:$x\noffered options:${transitionLogDistribution._1}\nstack size:${stack.size}",
+//            left = left,
+//            right = right
+//          )
+//        }
+//        val i = transitionLogDistribution._1.zipWithIndex.find(_._1 == x).get._2
+//        transitionLogDistribution._2(i)
+      case BlockedWaitingForWord(_) | BlockedWaitingForWordWF() =>
         x match {
           case UnlockingOption(_) =>
             scalar(0f)
-            // transScore
           case _=>
             throw new IllegalArgumentException
         }
@@ -121,69 +138,87 @@ final case class Configuration(
 
   lazy val transitionLogDistribution:(List[TransitionOption], Expression) =
     state match {
-      case NormalParsing(_) =>
-        val allOptions = new TransitionReduce(parserProperties, combinatorsContainer).currentTransOptions(this)
+      case NormalParsing() =>
+        var allOptions = new TransitionReduce(parserProperties, combinatorsContainer).currentTransOptions(this)
+        if(stack.size >= maxStackSize && allOptions.size > 1){
+          allOptions = allOptions.filter(_ != MoveToNextWordOption())
+        }
 
         // not necessarily only holy
         val (holyOptions, unholyOptions) = allOptions.partition(allS2I.reduceOptions2i.contains)
 
         val holyOptionsI = holyOptions.map( allS2I.reduceOptions2i(_).toLong )
-        val dist = neuralState.logSoftmaxTrans(h, targets = holyOptionsI)
+        var dist = neuralState.logSoftmaxTrans(h, targets = holyOptionsI)
+        if(neuralState.locallyNormalized){
+          dist = DyFunctions.logSoftmax(dist)
+        }
+        if(stack.size >= maxStackSize && allOptions == List(MoveToNextWordOption())){
+          dist = vector(Array(-21f))
+        }
 
-        if(dropoutIsEnabled && unholyOptions.nonEmpty){
+        if(dropoutIsEnabled && unholyOptions.nonEmpty && Parser.include_unholy_transitions_with_zero_cost){
           //Training time so let the unholy transitions in
           (unholyOptions++holyOptions, concat(zeros(unholyOptions.size), dist))
         }else{
           (holyOptions, dist)
         }
+      case Tagging() | TaggingWF(_) =>
+        val taggingOptions = allS2I.taggingOptions2i.all_non_UNK_values
+        var dist = neuralState.logSoftmaxTags(h)
 
+        if(neuralState.locallyNormalized)
+          dist = DyFunctions.logSoftmax(dist)
 
-      case Tagging(_) =>
-        val dist = neuralState.logSoftmaxTags(h)
-        (allS2I.taggingOptions2i.all_non_UNK_values, dist)
+        (taggingOptions, dist)
       case RightAdjunction()            =>
         val allOptions = new TransitionRightAdjunction(parserProperties).currentTransOptions(this).asInstanceOf[List[RightAdjoinOption]]
         val allOptionsSize =  allOptions.size
         val tdEmbedder:Embedder[Int] = neuralState.embedderPositionTopDown
         val buEmbedder:Embedder[Int] = neuralState.embedderPositionBottomUp
-        // val useNodeContent:Boolean = neuralState.attentionRightAdjunction.inDim - neuralState.configurationCompressor.outDim - tdEmbedder.dim - buEmbedder.dim > 0
-        val nodeEmbs = allOptions.map{_.nodeToModify}.zipWithIndex.map{case (node, i_top_down) =>
+        val nodeEmbs = allOptions.zipWithIndex.map{case (adjOption, i_top_down) =>
           val i_bottom_up = allOptionsSize - i_top_down
           val tdEmb:Expression = tdEmbedder.apply(i_top_down )
           val buEmb:Expression = buEmbedder.apply(i_bottom_up)
-          val ndEmb:Expression = if(neuralState.isUseNodeContentInRevealing){
-            node.h
-          }else{
-            null
-          }
+          val ndEmb:Expression = if(neuralState.isUseNodeContentInRevealing) adjOption.findNodeToAdjoinTo(stack.second).h else null
           concatWithNull(ndEmb, tdEmb, buEmb)
         }
-        val dist = log(neuralState.attentionRightAdjunction.align(nodeEmbs, h))
+        var dist = neuralState.attentionRightAdjunction.unnormalizedAlign(nodeEmbs, h)
+        if(neuralState.locallyNormalized){
+          dist = logSoftmax(dist)
+        }
         (allOptions, dist)
-//      case UnlockingOption(_) => {
-//        scalar(0.0)
-//      }
-      case BlockedWaitingForWord()      =>
-        // throw new IllegalArgumentException
+      case BlockedWaitingForWord(_) | BlockedWaitingForWordWF()  =>
         (List(), null)
     }
 
   case class UnlockingOption(word:String) extends TransitionOption {
-
     override def apply(conf:Configuration): Configuration = throw new IllegalStateException
-
+    override def equals(o: Any): Boolean =
+      o.isInstanceOf[UnlockingOption] &&
+      o.asInstanceOf[UnlockingOption].word == word
   }
 
   def isBlocked : Boolean = state match {
-    case BlockedWaitingForWord() => true
-    case _ => false
+    case BlockedWaitingForWord(_)  => true
+    case BlockedWaitingForWordWF() => true
+    case _                         => false
   }
 
-  def unblockWithWord(outsideRep:Expression, word:String, isFinal:Boolean) : Configuration = state match {
-    case s@BlockedWaitingForWord()      =>
+  def unblockWithWord(outsideRep:Expression, word:String) : Configuration = state match {
+    case s@BlockedWaitingForWord(tag) =>
+      val node = TerminalNode(word, tag)
+      node.position = if(stack.size == 0) 0 else stack.first.span._2
+      val newNeuralState = neuralState.encodeTerminal(node, s.outsideRepr)
       this.copy(
         lastTransitionOption = UnlockingOption(word),
-        state = s.toTagging(outsideRep, word, isFinal)
+        stack                = stack.push(node),
+        state                = s.toNormalParsing(outsideRep),
+        neuralState          = newNeuralState
+      )
+    case s@BlockedWaitingForWordWF() =>
+      this.copy(
+        lastTransitionOption = UnlockingOption(word),
+        state = s.toTagging(word, outsideRep)
       )
     case _ =>
       throw new IllegalArgumentException
@@ -198,7 +233,8 @@ object Configuration{
                   parserProperties     : ParserProperties,
                   allS2I               : AllS2I,
                   combinatorsContainer : CombinatorsContainer,
-                  outsideRepr          : Expression
+                  outsideRepr          : Expression,
+                  maxStackSize         : Int
                 ) : Configuration = {
     Configuration(
       stack = neuralStuff.stackEncoder.empty,
@@ -210,7 +246,8 @@ object Configuration{
       allS2I                 = allS2I,
       combinatorsContainer   = combinatorsContainer,
       lastTransitionOption   = None,
-      prevConf               = None
+      prevConf               = None,
+      maxStackSize           = maxStackSize
     )
   }
 

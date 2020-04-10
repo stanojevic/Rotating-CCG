@@ -1,7 +1,6 @@
 package edin.nn.tree
 
 import edin.nn.State
-import edu.cmu.dynet.Expression
 
 trait EncodableNode extends Serializable {
 
@@ -11,7 +10,7 @@ trait EncodableNode extends Serializable {
 
   val children:List[EncodableNode]
 
-  val isTerm:Boolean = children.isEmpty
-  val isNonTerm:Boolean = ! children.isEmpty
+  val isTerm:Boolean    = children.isEmpty
+  val isNonTerm:Boolean = children.nonEmpty
 
 }

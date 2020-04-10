@@ -1,0 +1,52 @@
+model:
+  encoder:
+    type: bi-sequence
+    output-dim: 128
+    output-dropout: 0.2
+    word-embedding-size: 128
+    word-embedding-dropout: 0.2
+    sequence-type: lstm
+    sequence-dropout: 0.2
+    sequence-layers: 2
+  decoder:
+    type: sequence
+    output-dim: 128
+    output-dropout: 0.2
+    word-embedding-size: 128
+    word-embedding-dropout: 0.2
+    init-with-source: average
+    sequence-type: lstm
+    sequence-dropout: 0.2
+    sequence-layers: 2
+  glue:
+    h-prime-size: 128
+    input-feeding: true
+    attention-type: dot
+
+trainer:
+  type: Adam
+  init-learning-rate: 0.001
+  gradient-clipping: true
+  decay-learning-rate: true
+  mini-batch-size: 25
+  reporting-frequency: 100
+  validation-frequency: 50000
+
+words:
+  source:
+    min-count: 1
+    max-vocab: 50000
+    max-sent-length: 100
+  target:
+    min-count: 1
+    max-vocab: 50000
+    max-sent-length: 100
+    bytepairs: 16000
+
+validation:
+  beam-search:
+    word-penalty: 1.0
+    beam-size: 12
+  metric: bleu
+  weight-decay: 0
+  sparse-update: false

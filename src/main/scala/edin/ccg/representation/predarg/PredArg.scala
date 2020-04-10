@@ -5,8 +5,7 @@ import edin.ccg.representation.category._
 import edin.ccg.representation.combinators._
 import edin.ccg.representation.transforms.AdjunctionGeneral.RightAdjoinCombinator
 import edin.ccg.representation.tree.{BinaryNode, TerminalNode, TreeNode, UnaryNode}
-
-import scala.io.Source
+import edin.algorithms.AutomaticResourceClosing.linesFromFile
 
 sealed trait PredArgState
 case object Normal extends PredArgState
@@ -110,7 +109,7 @@ sealed case class Word(wordPos:Int, word:String)
 object PredArg {
 
   private val fn = s"$projectDir/src/main/scala/edin/ccg/representation/predarg/PredArgMapping.txt"
-  lazy val mappingCatFormula : Map[Category, Formula] = Source.fromFile(fn).getLines().map{ line =>
+  lazy val mappingCatFormula : Map[Category, Formula] = linesFromFile(fn).map{ line =>
     val fields = line.split("\t")
     (Category(fields(0)), Formula(fields(1)))
   }.toMap
@@ -365,7 +364,7 @@ object PredArg {
             val rPargA = r.predArg
             val slashes = findSlashes(node.leftChild.category)
             coordCombine(lPargA, rPargA, slashes)
-          case WeirdCoordination(r) =>
+          case WeirdCoordination(_) =>
             weirdCoordCombine(lParg, rParg, node.category)
 //            val lHeadTerm = findHeadTerm(node.leftChild.predArg.formula)
 //            val rHeadTerm = findHeadTerm(r.predArg.formula)
@@ -388,9 +387,9 @@ object PredArg {
         }
       case c:Backwards =>
         rParg.state match {
-          case WeirdCoordination(r) if c.order == 0 =>
+          case WeirdCoordination(_) if c.order == 0 =>
             weirdCoordCombine(lParg, rParg, node.category)
-          case WeirdCoordination(r) =>
+          case WeirdCoordination(_) =>
             trivialCombine(lParg, rParg, Normal).copy(formula = cat2formula(node.category))
 //            val lHeadTerm = findHeadTerm(node.leftChild.predArg.formula)
 //            val rHeadTerm = findHeadTerm(r.predArg.formula)
@@ -462,7 +461,7 @@ object PredArg {
     val childParg = node.child.predArg
     val childF = childParg.formula
     node.c match {
-      case TypeRaiser(_, funcResult, _) =>
+      case TypeRaiser(_, funcResult, _, _) =>
         val newVar = Var(childParg.vars.size)
         val funcF = replaceHeadTerm(cat2formula(funcResult), newVar)
         val formula = PAFunctor(newVar, Local, funcF, PAFunctor(newVar, Local, funcF, childF))
@@ -508,11 +507,39 @@ object PredArg {
 
   private val specialIgnoreCat = Category("""(S[to]\NP)/(S[b]\NP)""")
 
+  private val specialChineseFunctionWords = Map[(String, Category), Formula](
+    ("被", Category("""(S[dcl]\NP)/((S[dcl]\NP)/NP)""")) -> Formula("""(S[dcl]\NP_2)/((S[dcl]\NP_2:B)/NP)_1"""),
+    ("被", Category("""(S[dcl]\NP)/((S[dcl]\NP)/NP)""")) -> Formula("""(S[dcl]\NP_2)/((S[dcl]\NP)/NP_2:B)_1"""),
+    ("将", Category("""(S\NP)/(S\NP)"""               )) -> Formula("""(S\NP_2)/(S\NP_2:B)_1"""               ),
+    ("的", Category("""(NP/NP)\(S[dcl]\NP)"""         )) -> Formula("""(NP/NP_2)\(S[dcl]\NP_2:B)_1"""         ),
+    ("了", Category("""(S\NP)\(S\NP)"""               )) -> Formula("""(S\NP_2)\(S\NP_2:B)_1"""               ),
+    ("是", Category("""(S[dcl]\NP)/(S[dcl]\NP)"""     )) -> Formula("""(S[dcl]\NP_2)/(S[dcl]\NP_2:B)_1"""     ),
+    ("完", Category("""(S\NP)\(S\NP)"""               )) -> Formula("""(S\NP_2)\(S\NP_2:B)_1"""               )
+  )
+
+
+  private def formula2indexedFormula(formula:Formula, inx:Int=1) : Formula = formula match {
+    case PAFunctor(head, boundness, left, PAAtom(_, boundness2)) =>
+      PAFunctor(head, boundness, formula2indexedFormula(left, inx+1), PAAtom(Var(inx), boundness2))
+    case PAFunctor(head, boundness, left, PAFunctor(_, boundness2, left2, right2)) =>
+      PAFunctor(head, boundness, formula2indexedFormula(left, inx+1), PAFunctor(Var(inx), boundness2, left2, right2))
+    case x@PAAtom(_, _) =>
+      x
+  }
+
   private def processTerminalNode(node:TerminalNode) : PredArg = {
-    val formula = mappingCatFormula(node.cat).assignHeadWord(node.span._1, node.word)
+    val formula = if(Combinator.language == "Chinese"){
+      if(specialChineseFunctionWords.contains(node.word, node.category)) {
+        specialChineseFunctionWords(node.word, node.category).assignHeadWord(node.span._1, node.word)
+      }else{
+        formula2indexedFormula(cat2formula(node.cat)).assignHeadWord(node.span._1, node.word)
+      }
+    }else{
+      mappingCatFormula.getOrElse(node.cat, formula2indexedFormula(cat2formula(node.cat))).assignHeadWord(node.span._1, node.word)
+    }
     val ds = cutArgs(formula, 10000)._2.map(x => (x.head, x.boundness))
     val word = Word(node.position, node.word)
-    var unfinishedDeps = ds.zipWithIndex.reverse.take(countDeps(node.category, formula))map{ case ((d:Term, b:Boundness), i:Int) =>
+    var unfinishedDeps = ds.zipWithIndex.reverse.take(countDeps(node.category, formula)).map{ case ((d:Term, b:Boundness), i:Int) =>
       UnfinishedDepLink(
         headCat   = node.category,
         slot      = i+1,
@@ -602,20 +629,20 @@ object PredArg {
   def loadPredArgFromFile(fn:String) : List[List[DepLink]] = {
     var allDeps = List[List[DepLink]]()
     var currDeps = List[DepLink]()
-    Source.fromFile(fn).getLines().foreach{ line =>
+    for(line <- linesFromFile(fn)){
       if(line == "<\\s>"){
         allDeps ::= currDeps.reverse
         currDeps = List()
       }else if(! line.startsWith("<s id")){
         val fields = line.split("\\s+")
         currDeps ::= DepLink(
-          headCat = Category(fields(2)),
-          headPos = fields(1).toInt,
-          depPos = fields(0).toInt,
-          depSlot = fields(3).toInt,
-          headWord = fields(5),
-          depWord = fields(4),
-          boundness = if(fields.size>6 && fields(6)=="<XB>") Bound else if(fields.size>6 && fields(6)=="<XU>") UnBound else Local
+          headCat    = Category(fields(2)),
+          headPos    = fields(1).toInt,
+          depPos     = fields(0).toInt,
+          depSlot    = fields(3).toInt,
+          headWord   = fields(5),
+          depWord    = fields(4),
+          boundness  = if(fields.size>6 && fields(6)=="<XB>") Bound else if(fields.size>6 && fields(6)=="<XU>") UnBound else Local
         )
       }
     }

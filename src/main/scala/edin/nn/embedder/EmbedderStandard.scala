@@ -7,7 +7,7 @@ import edin.nn.{DyFunctions, DynetSetup}
 import edu.cmu.dynet._
 import edu.cmu.dynet.{FloatVector, LookupParameter}
 
-import scala.io.Source
+import edin.algorithms.AutomaticResourceClosing.linesFromFile
 import scala.util.Random
 
 sealed case class EmbedderStandardConfig[K](
@@ -28,7 +28,7 @@ object EmbedderStandardConfig{
     EmbedderStandardConfig[K](
       s2i               = conf("w2i").any2int,
       outDim            = conf("out-dim").int,
-      initFile          = conf.getOrElse("init-file", null.asInstanceOf[String]),
+      initFile          = conf.getOrElse[String]("init-file", null),
       normalize         = conf.getOrElse("normalize", false),
       dropout           = conf.getOrElse("dropout", 0f),
       wordDropoutUse    = conf.getOrElse("word-dropout-use", false),
@@ -41,24 +41,14 @@ class EmbedderStandard[T](config:EmbedderStandardConfig[T])(implicit model: Para
 
   val normalized: Boolean = config.normalize
 
-  private var E:LookupParameter = _
-  var s2i:Any2Int[T] = _  // TODO eventually you should make this property private
-  private var dim:Int = _
-  private var dropProb:Float = _
+  var s2i:Any2Int[T] = config.s2i
+  private val dropProb:Float = config.dropout
 
   override val outDim: Int = config.outDim
 
-  define()
-
-  protected def define(): Unit = {
-    s2i = config.s2i
-    dim = config.outDim
-    dropProb = config.dropout
-    E = model.addLookupParameters(s2i.size, dim)
-    if(config.initFile != null){
-      EmbedderStandard.initEmbedderFromPretrainedTable(config.initFile, this.asInstanceOf[EmbedderStandard[String]])
-    }
-  }
+  private val E:LookupParameter = model.addLookupParameters(s2i.size, outDim)
+  if(config.initFile != null)
+    EmbedderStandard.initEmbedderFromPretrainedTable(config.initFile, this.asInstanceOf[EmbedderStandard[String]])
 
   private var droppedWordTypes = Set[T]()
   private var latestCG_id = -1
@@ -97,11 +87,11 @@ class EmbedderStandard[T](config:EmbedderStandardConfig[T])(implicit model: Para
 object EmbedderStandard{
 
   def pretrainedEmb_loadDim(file:String) : Int =
-    Source.fromFile(file).getLines().next().split(" +").length-1
+    linesFromFile(file).next().split(" +").length-1
 
   def pretrainedEmb_loadS2I(file:String, lowercased:Boolean) : Any2Int[String] = {
     val s2i : Any2Int[String] = new String2Int(lowercased = lowercased)
-    Source.fromFile(file).getLines().zipWithIndex.foreach{ case (line, i) =>
+    linesFromFile(file).zipWithIndex.foreach{ case (line, i) =>
       val word = line.split(" ")(0)
       s2i.addToCounts(word)
       if(i% 100000 == 0)
@@ -115,7 +105,7 @@ object EmbedderStandard{
     val s2i = embedder.s2i
     var avgVector:MathArray = null
     var vecCount = 0
-    Source.fromFile(fn).getLines().zipWithIndex.foreach{ case (line, line_id) =>
+    linesFromFile(fn).zipWithIndex.foreach{ case (line, line_id) =>
       vecCount+=1
       val fields = line.split(" ").toList
       val word = fields.head

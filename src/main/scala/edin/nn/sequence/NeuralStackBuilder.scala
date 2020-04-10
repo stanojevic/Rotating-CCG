@@ -7,18 +7,18 @@ import edu.cmu.dynet.{Expression, ParameterCollection}
 case class NeuralStackBuilderConfig[T <: State](
                                         rnnConfig : MultiRNNConfig
                                       ){
-  def construct()(implicit model: ParameterCollection) = {
+
+  def construct()(implicit model: ParameterCollection): NeuralStackBuilder[T] =
     new NeuralStackBuilder(this)
-  }
+
 }
 
 object NeuralStackBuilderConfig{
 
-  def fromYaml[T <: State](conf:YamlConfig) : NeuralStackBuilderConfig[T] = {
+  def fromYaml[T <: State](conf:YamlConfig) : NeuralStackBuilderConfig[T] =
     NeuralStackBuilderConfig(
       rnnConfig = MultiRNNConfig.fromYaml(conf)
     )
-  }
 
 }
 
@@ -27,18 +27,20 @@ class NeuralStackBuilder[T <: State](stackLSTMConfig: NeuralStackBuilderConfig[T
 
   var rnn:MultiRNN = stackLSTMConfig.rnnConfig.construct()
 
-  def empty : NeuralStack[T] = {
+  def empty : NeuralStack[T] =
     new NeuralStack[T](None, None, rnn.initState())
-  }
+
 }
 
 class NeuralStack[T <: State](
-                               prevState:Option[NeuralStack[T]],
-                               el:Option[T],
-                               prevRNNstate: RecurrentState
+                               prevState    : => Option[NeuralStack[T]],
+                               el           : => Option[T],
+                               prevRNNstate : => RecurrentState
                            ) extends StateClosed {
 
-  private val currRNNstate = el match {
+  override def toString: String = "NeuralStack("+bottomToTop.map(_.toString).mkString(", ")+")"
+
+  private lazy val currRNNstate = el match {
     case Some(x) => prevRNNstate.addInput(x.h)
     case None => prevRNNstate
   }
@@ -48,9 +50,9 @@ class NeuralStack[T <: State](
     case None => List()
   }
 
-  override val h: Expression = currRNNstate.h
+  override lazy val h: Expression = currRNNstate.h
 
-  def first : T = this(0)
+  def first  : T = this(0)
   def second : T = this(1)
 
   val size:Int = prevState match {
@@ -58,13 +60,11 @@ class NeuralStack[T <: State](
     case Some(x) => x.size+1
   }
 
-  def apply(i:Int):T = {
-    if(i==0){
+  def apply(i:Int):T =
+    if(i==0)
       el.get
-    }else{
+    else
       prevState.get(i-1)
-    }
-  }
 
   def nonEmpty:Boolean = ! isEmpty
 
@@ -72,9 +72,7 @@ class NeuralStack[T <: State](
 
   def pop:NeuralStack[T] = prevState.get
 
-  def push(el:T):NeuralStack[T] = {
-    new NeuralStack(Some(this), Some(el), currRNNstate)
-  }
+  def push(el:T):NeuralStack[T] = new NeuralStack(Some(this), Some(el), currRNNstate)
 
   def head: T = first // some aliases
 

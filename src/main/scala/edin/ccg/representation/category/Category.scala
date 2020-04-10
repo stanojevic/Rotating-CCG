@@ -19,10 +19,24 @@ trait Category extends Serializable {
 
   val isTypeRaised: Boolean
 
-  def isVerbal : Boolean = this match {
-    case Functor(_, x, _) => x.isVerbal
-    case Atomic(NonTerm("S"), _) => true
+  def isNoun : Boolean = this match {
+    case Atomic(NonTerm("N"), _) => true
     case _ => false
+  }
+
+  def isPreposition : Boolean = this match {
+    case Functor(_, x, _)         => x.isPreposition
+    case Atomic(NonTerm("PP"), _) => true
+    case _                        => false
+  }
+
+  def isVerbal : Boolean = this match {
+//    case x if x.matches(Category("""(S[dcl]\NP)/(S[b]\NP)""")) => false
+    case Functor(_, x, y) if x == y                            => false
+    case Functor(_, x, _)                                      => x.isVerbal
+    case Atomic(NonTerm("S"), FeatureNonEmpty("adj"))          => false
+    case Atomic(NonTerm("S"), _                     )          => true
+    case _                                                     => false
   }
 
   def isBackSlashAdjunctCategory : Boolean = this match {
@@ -77,8 +91,10 @@ object Category{
         val core = s.replace("[conj]", "")
         val (cat, Nil) = processTokens(tokenize(core))
         ConjCat(cat)
-      }else if(s == "((S[b]\\NP)/NP)/"){ // this is a bug in the treebank
-        processTokens(tokenize("(S[b]\\NP)/NP"))._1
+      }else if(s == """((S[b]\NP)/NP)/"""){ // this is a bug in the English CCGbank
+        processTokens(tokenize("""(S[b]\NP)/NP"""))._1
+      }else if(s == """(S[dcl]\NP)/(S[dcl]\NP)~SB"""){ // this is something special in Chinese CCGbank
+        processTokens(tokenize("""(S[dcl]\NP)/(S[dcl]\NP)"""))._1
       }else{
         processTokens(tokenize(s))._1
       }

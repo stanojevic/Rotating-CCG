@@ -44,17 +44,26 @@ trait Attention{
   type ContextVector = Expression
   type Alignments = Expression
 
-  def align(sourceVectors:List[Expression], targetHidden:Expression) : Alignments = {
+  def unnormalizedAlign(sourceMatrix:Expression, targetHidden:Expression, sourceWordsCount:Int) : Alignments
+
+  final def unnormalizedAlign(sourceVectors:List[Expression], targetHidden:Expression) : Alignments = {
+    val sourceMatrix = Attention.toSourceMatrix(sourceVectors)
+    val sourceWordsCount = sourceVectors.size
+    unnormalizedAlign(sourceMatrix, targetHidden, sourceWordsCount)
+  }
+
+
+  final def align(sourceVectors:List[Expression], targetHidden:Expression) : Alignments = {
     val sourceMatrix = Attention.toSourceMatrix(sourceVectors)
     val sourceWordsCount = sourceVectors.size
     align(sourceMatrix, targetHidden, sourceWordsCount)
   }
 
-  def align(sourceMatrix:Expression, targetHidden:Expression, sourceWordsCount:Int) : Alignments
+  final def align(sourceMatrix:Expression, targetHidden:Expression, sourceWordsCount:Int) : Alignments =
+    DyFunctions.softmax(unnormalizedAlign(sourceMatrix, targetHidden, sourceWordsCount))
 
-  def context(sourceMatrix:Expression, alignment:Alignments) : ContextVector = {
+  final def context(sourceMatrix:Expression, alignment:Alignments) : ContextVector =
     sourceMatrix.T * alignment
-  }
 
 }
 

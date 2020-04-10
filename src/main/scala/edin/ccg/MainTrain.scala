@@ -1,10 +1,9 @@
 package edin.ccg
 
-import java.lang.management.ManagementFactory
-
 import edin.ccg.parsing.RevealingModel
 import edin.general.TrainingController
 import edin.nn.DynetSetup
+import edin.general.Global
 
 object MainTrain {
 
@@ -17,11 +16,10 @@ object MainTrain {
                       dev_file              : String    = null,
                       epochs                : Int       = 10,
                       hyper_params_file     : String    = null,
-                      all_in_memory         : Boolean   = false,
+                      all_in_memory         : Boolean   = true,
+                      language              : String    = "English",
                       dynet_mem             : String    = null,
-                      dynet_weight_decay    : Float     = 0.0f,
-                      dynet_autobatch       : Int       = 0,
-                      dynet_gpus            : List[Int] = List()
+                      dynet_autobatch       : Int       = 0
                     )
 
   def main(args:Array[String]) : Unit = {
@@ -34,12 +32,11 @@ object MainTrain {
       opt[ Int      ]( "embeddings_dim"        ).action((x,c) => c.copy( embeddings_dim        = x         ))
       opt[ String   ]( "train_file"            ).action((x,c) => c.copy( train_file            = x         )).required()
       opt[ String   ]( "dev_file"              ).action((x,c) => c.copy( dev_file              = x         )).required()
+      opt[ String   ]( "language"              ).action((x,c) => c.copy( language              = x         )).required()
       opt[ Int      ]( "epochs"                ).action((x,c) => c.copy( epochs                = x         )).required()
       opt[ Boolean  ]( "all_in_memory"         ).action((x,c) => c.copy( all_in_memory         = x         ))
       opt[ Int      ]( "dynet-autobatch"       ).action((x,c) => c.copy( dynet_autobatch       = x         ))
-      opt[ Double   ]( "dynet-weight-decay"    ).action((x,c) => c.copy( dynet_weight_decay    = x.toFloat ))
       opt[ String   ]( "dynet-mem"             ).action((x,c) => c.copy( dynet_mem             = x         ))
-      opt[ Seq[Int] ]( "dynet-gpus"            ).action((x,c) => c.copy( dynet_gpus            = x.toList  ))
       help("help").text("prints this usage text")
     }
 
@@ -50,18 +47,17 @@ object MainTrain {
         assert((cmd_args.embedding_file==null) == (cmd_args.embeddings_dim>0),
           "you can provide ether embedding_file or embeddings_dim but not both")
 
-        System.err.println("\nprocess identity: "+ManagementFactory.getRuntimeMXBean.getName+"\n")
+        Global.printProcessId()
 
         DynetSetup.init_dynet(
-          cmd_args.dynet_mem,
-          cmd_args.dynet_weight_decay,
-          cmd_args.dynet_autobatch,
-          cmd_args.dynet_gpus)
+          dynet_mem = cmd_args.dynet_mem,
+          autobatch = cmd_args.dynet_autobatch)
 
         val model = new RevealingModel(
-          embeddingsFile=cmd_args.embedding_file,
-          embeddingsDim=cmd_args.embeddings_dim,
-          lowercased=cmd_args.embeddings_lowercased
+          embeddingsFile = cmd_args.embedding_file,
+          embeddingsDim  = cmd_args.embeddings_dim,
+          lowercased     = cmd_args.embeddings_lowercased,
+          language       = cmd_args.language
         )
 
         new TrainingController(

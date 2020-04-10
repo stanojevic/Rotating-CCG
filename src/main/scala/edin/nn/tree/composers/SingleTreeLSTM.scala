@@ -73,7 +73,7 @@ class SingleTreeLSTM(config:SingleTreeLSTMConfig)(implicit model: ParameterColle
     val o = superDuoLayer(sigmoid, Wo, parentRep, Uo, hs, bo)
     val fs= Ufs.map{Uf => superDuoLayer(sigmoid, Wf, parentRep, Uf, hs, bf)}
     val u = superDuoLayer(tanh, Wu, parentRep, Uu, hs, bu)
-    val c = cmult(i, u) + esum((fs zip cs).map{case (f, c) => dropout(cmult(f, c), config.dropout)})
+    val c = cmult(i, u) + (fs zip cs).map{case (f, c) => dropout(cmult(f, c), config.dropout)}.esum
     val h = cmult(o, tanh(c))
     TreeLSTMState(h, c)
   }
@@ -86,6 +86,6 @@ class SingleTreeLSTM(config:SingleTreeLSTMConfig)(implicit model: ParameterColle
   private case class TreeLSTMState(h:Expression, c:Expression) extends StateClosed
 
   private def superDuoLayer(a:Activation, W:Expression, x:Expression, Us:List[Expression], hs:List[Expression], b:Expression) : Expression =
-    a(W*x + esum((Us zip hs).map{y => y._1*y._2}) + b)
+    a(W*x + (Us zip hs).map{y => y._1*y._2}.esum + b)
 
 }

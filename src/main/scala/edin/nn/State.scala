@@ -4,11 +4,11 @@ import edu.cmu.dynet.Expression
 
 trait State {
 
-  def h:Expression
+  val h:Expression
 
   protected def myEquals(o: Any): Boolean
 
-  override final def equals(o: Any): Boolean = myEquals()
+  override final def equals(o: Any): Boolean = myEquals(o)
 
   protected def myHash(): Int
 
@@ -17,8 +17,8 @@ trait State {
 }
 
 trait StateClosed extends State{
-  override final def myEquals(o: Any): Boolean = throw new Exception("not supposed to call this")
-  override final def myHash(): Int = throw new Exception("not supposed to call this")
+  override final def myEquals(o: Any) : Boolean = throw new Exception("not supposed to call this")
+  override final def myHash()         : Int     = throw new Exception("not supposed to call this")
 }
 
 class SimpleStateLazy(hh: => Expression) extends StateClosed{

@@ -4,96 +4,117 @@ import java.io.File
 
 import scala.io.StdIn.readLine
 import edin.ccg.representation.DerivationsLoader
+import edin.ccg.representation.combinators.Combinator
 import edin.ccg.representation.tree._
 
 object MainVisualize {
 
   private var loadedTrees = List[TreeNode]()
 
+  case class CMDargs(
+                      ccg_file           : String = null,
+                      language           : String = "English"
+                    )
+
   def main(args:Array[String]) : Unit = {
-
-    assert(args.length <= 1)
-
-    if(args.length == 1){
-      loadTrees(args(0))
+    val parser = new scopt.OptionParser[CMDargs](PROGRAM_NAME) {
+      head(PROGRAM_NAME, PROGRAM_VERSION.toString)
+      opt[ String   ]( "language"           ).action((x,c) => c.copy( language          = x ))
+      opt[ String   ]( "ccg_file"           ).action((x,c) => c.copy( ccg_file          = x ))
+      help("help").text("prints this usage text")
     }
 
-    var stop = false
-    while(!stop){
-      val inputParts = readLine("> ").split(" +").toList
-      inputParts.head.toLowerCase match {
-        case x if x.startsWith("(") =>
-          val origTree = DerivationsLoader.fromString(inputParts.mkString(" "))
-          visualizeTree(origTree, derivationTypesToShow=List("original"), "string")
-        case "load" =>
-          assert(inputParts.size == 2)
-          val fileName = inputParts(1)
-          loadTrees(fileName)
-        case "list" =>
-          assert(inputParts.size <= 3)
-          val start = if(inputParts.size<=2) 0 else inputParts(1).toInt
-          val take = if(inputParts.size <=3 || inputParts(2) == "*") loadedTrees.size else inputParts(2).toInt
-          for((tree, i) <- loadedTrees.zipWithIndex.slice(start, start + take)){
-            println(i+" : "+tree.words.mkString(" "))
-          }
-        case "visualise" | "visualize" =>
-          assert(inputParts.size >= 2)
-          val sentId = inputParts.last.toInt
-          val stuff = inputParts.tail.init
-          val origTree = loadedTrees(sentId)
-          val derivationTypes = if (stuff.nonEmpty) stuff else List[String]("original")
-          visualizeTree(origTree, derivationTypes, s"$sentId")
-        case "visualise_string" | "visualize_string" =>
-          val stuff = inputParts.tail.takeWhile(!_.startsWith("("))
-          val derivationTypes = if (stuff.nonEmpty) stuff else List[String]("original")
-          val origTree = DerivationsLoader.fromString(inputParts.dropWhile(!_.startsWith("(")).mkString(" "))
-          visualizeTree(origTree, derivationTypes, "string")
-        case "print_string" =>
-          println(loadedTrees(inputParts(1).toInt).toCCGbankString)
-        case "grep" =>
-          val s = inputParts.tail.mkString(" ")
-          for((tree, i) <- loadedTrees.zipWithIndex){
-            val sent = tree.words.mkString(" ").toLowerCase
-            if(sent.toLowerCase contains s){
-              println(s"$i: $sent")
-            }
-          }
-        case "grep_cat" =>
-          assert(inputParts.size==2)
-          val s = inputParts(1)
-          for((tree, i) <- loadedTrees.zipWithIndex){
-            if(tree.allNodes.exists(_.category.toString == s)) {
-              val sent = tree.words.mkString(" ").toLowerCase
-              println(s"$i: $sent")
-            }
-          }
-        case "grep_comb" =>
-          assert(inputParts.size==2)
-          val s = inputParts(1)
-          for((tree, i) <- loadedTrees.zipWithIndex){
-            if(tree.allNodes.flatMap(_.getCombinator).exists(_.toString == s)) {
-              val sent = tree.words.mkString(" ").toLowerCase
-              println(s"$i: $sent")
-            }
-          }
-        case "deps" =>
-          assert(inputParts.size == 2)
-          val sentId = inputParts(1).toInt
-          val origTree = loadedTrees(sentId)
-          origTree.depsVisualize()
-        case "deps_string" =>
-          val origTree = DerivationsLoader.fromString(inputParts.dropWhile(!_.startsWith("(")).mkString(" "))
-          origTree.depsVisualize()
-        case "exit" | "done" | "quit" =>
-          stop=true
-        case "" =>
-        case _ =>
-          System.err.println("unknown command "+inputParts.head)
-      }
 
+    parser.parse(args, CMDargs()) match {
+      case Some(cmd_args) =>
+
+        Combinator.setLanguage(cmd_args.language, null)
+
+        if(cmd_args.ccg_file != null){
+          loadTrees(cmd_args.ccg_file)
+        }
+
+        var stop = false
+        while(!stop){
+          val inputParts = readLine("> ").split(" +").toList
+          inputParts.head.toLowerCase match {
+            case x if x.startsWith("(") =>
+              val origTree = DerivationsLoader.fromString(inputParts.mkString(" "))
+              visualizeTree(origTree, derivationTypesToShow=List("original"), "string")
+            case "load" =>
+              assert(inputParts.size == 2)
+              val fileName = inputParts(1)
+              loadTrees(fileName)
+            case "list" =>
+              assert(inputParts.size <= 3)
+              val start = if(inputParts.size<=2) 0 else inputParts(1).toInt
+              val take = if(inputParts.size <=3 || inputParts(2) == "*") loadedTrees.size else inputParts(2).toInt
+              for((tree, i) <- loadedTrees.zipWithIndex.slice(start, start + take)){
+                println(i+" : "+tree.words.mkString(" "))
+              }
+            case "visualise" | "visualize" =>
+              assert(inputParts.size >= 2)
+              val sentId = inputParts.last.toInt
+              val stuff = inputParts.tail.init
+              val origTree = loadedTrees(sentId)
+              val derivationTypes = if (stuff.nonEmpty) stuff else List[String]("original")
+              visualizeTree(origTree, derivationTypes, s"$sentId")
+            case "visualise_string" | "visualize_string" =>
+              val stuff = inputParts.tail.takeWhile(!_.startsWith("("))
+              val derivationTypes = if (stuff.nonEmpty) stuff else List[String]("original")
+              val origTree = DerivationsLoader.fromString(inputParts.dropWhile(!_.startsWith("(")).mkString(" "))
+              visualizeTree(origTree, derivationTypes, "string")
+            case "print_string" =>
+              println(loadedTrees(inputParts(1).toInt).toCCGbankString)
+            case "grep" =>
+              val s = inputParts.tail.mkString(" ")
+              for((tree, i) <- loadedTrees.zipWithIndex){
+                val sent = tree.words.mkString(" ").toLowerCase
+                if(sent.toLowerCase contains s){
+                  println(s"$i: $sent")
+                }
+              }
+            case "grep_cat" =>
+              assert(inputParts.size==2)
+              val s = inputParts(1)
+              for((tree, i) <- loadedTrees.zipWithIndex){
+                if(tree.allNodes.exists(_.category.toString == s)) {
+                  val sent = tree.words.mkString(" ").toLowerCase
+                  println(s"$i: $sent")
+                }
+              }
+            case "grep_comb" =>
+              assert(inputParts.size==2)
+              val s = inputParts(1)
+              for((tree, i) <- loadedTrees.zipWithIndex){
+                if(tree.allNodes.flatMap(_.getCombinator).exists(_.toString == s)) {
+                  val sent = tree.words.mkString(" ").toLowerCase
+                  println(s"$i: $sent")
+                }
+              }
+            case "deps" =>
+              assert(inputParts.size == 2)
+              val sentId = inputParts(1).toInt
+              val origTree = loadedTrees(sentId)
+              origTree.depsVisualize()
+            case "deps_string" =>
+              val origTree = DerivationsLoader.fromString(inputParts.dropWhile(!_.startsWith("(")).mkString(" "))
+              origTree.depsVisualize()
+            case "exit" | "done" | "quit" =>
+              stop=true
+            case "" =>
+            case _ =>
+              System.err.println("unknown command "+inputParts.head)
+          }
+
+        }
+
+        println("Done")
+
+      case None =>
+        System.err.println("You didn't specify all the required arguments")
+        System.exit(-1)
     }
-
-    println("Done")
   }
 
   private def visualizeTree(origTree:TreeNode, derivationTypesToShow:List[String], info:String):Unit ={

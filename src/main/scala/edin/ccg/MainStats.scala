@@ -15,12 +15,14 @@ object MainStats {
 
   case class CMDargs(
                       ccg_file           : String = null,
+                      language           : String = "English",
                       hyper_params_file  : String = null
                     )
 
   def main(args:Array[String]) : Unit = {
     val parser = new scopt.OptionParser[CMDargs](PROGRAM_NAME) {
       head(PROGRAM_NAME, PROGRAM_VERSION.toString)
+      opt[ String   ]( "language"           ).action((x,c) => c.copy( language          = x )).required()
       opt[ String   ]( "ccg_file"           ).action((x,c) => c.copy( ccg_file          = x )).required()
       opt[ String   ]( "hyper_params_file"  ).action((x,c) => c.copy( hyper_params_file = x )).required()
       help("help").text("prints this usage text")
@@ -29,6 +31,8 @@ object MainStats {
 
     parser.parse(args, CMDargs()) match {
       case Some(cmd_args) =>
+
+        Combinator.setLanguage(cmd_args.language, null)
 
         val parserProperties = if(cmd_args.hyper_params_file == "original")
           null

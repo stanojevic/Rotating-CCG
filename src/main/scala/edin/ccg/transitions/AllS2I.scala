@@ -18,11 +18,11 @@ class AllS2I (
 
   def this(){
     this(
-      w2i_tgt_gen    = new String2Int,
-      w2i_tgt_embed  = new String2Int,
-      c2i    = new String2Int,
-      cat2i  = new DefaultAny2Int[Category](),
-      comb2i = new DefaultAny2Int[Combinator](),
+      w2i_tgt_gen      = new String2Int,
+      w2i_tgt_embed    = new String2Int,
+      c2i              = new String2Int,
+      cat2i            = new DefaultAny2Int[Category](),
+      comb2i           = new DefaultAny2Int[Combinator](),
       taggingOptions2i = new DefaultAny2Int[TransitionOption](),
       reduceOptions2i  = new DefaultAny2Int[TransitionOption]()
     )

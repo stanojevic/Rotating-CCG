@@ -17,6 +17,11 @@ class PackedScoreAggregator[T](mainAggName:String, aggregators:List[ScoreAggrega
   override val name: String = "Packed"
 
   override def exposedScores: List[(String, Double)] =
-    aggregators.flatMap(ag => ag.exposedScores.map{case (n, v)=>(ag.name+"_"+n, v)})
+    // aggregators.flatMap(ag => ag.exposedScores.map{case (n, v)=>(ag.name+"_"+n, v)})
+    for{
+      ag <- aggregators
+      (n, v) <- ag.exposedScores
+    }
+      yield (ag.name+"_"+n, v)
 
 }

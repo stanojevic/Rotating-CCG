@@ -10,7 +10,7 @@ import edin.ccg.representation.transforms.AdjunctionGeneral.RightAdjoinCombinato
 import edin.ccg.transitions.ParserProperties
 import edin.general.DepsVisualizer
 import edin.general.DepsVisualizer.DepsDesc
-import edin.general.TreeVisualizer.SimpleTreeNode
+import edin.general.TreeVisualizer.{SimpleTreeNode, Color, Shape}
 import edin.nn.State
 import edu.cmu.dynet.Expression
 
@@ -55,7 +55,7 @@ abstract class TreeNode extends State with Serializable {
         throw exception
     }
 
-  def deps(hockenDeps:Boolean=false) : List[DepLink] = debugCage(if(hockenDeps) hockenDepsList else predArgDepsList)
+  def deps(hockenDeps:Boolean=false) : List[DepLink] = debugCage(if(hockenDeps && Combinator.language != "Chinese") hockenDepsList else predArgDepsList)
   private def depsDesc(hockenDeps:Boolean, graphLabel:String) : DepsDesc =
     DepsDesc(
       label=graphLabel,
@@ -68,8 +68,18 @@ abstract class TreeNode extends State with Serializable {
   def depsSaveVisual(hockenDeps:Boolean=false, graphLabel:String="", fn:String) : Unit = DepsVisualizer.visualize(depsDesc(hockenDeps, graphLabel), fn)
 
   ////////////////   Neural Stuff   /////////////////
-  @transient var hierState:State = _
-  def h:Expression = hierState.h
+  private var hierStateMemo: State = _ // null means it's unitialized
+  private var hierStateComputation: () => State = {() => null}
+  def hierState : State = {
+    if(hierStateMemo == null){
+      hierStateMemo = hierStateComputation()
+    }
+    hierStateMemo
+  }
+  def hierState_=(computation : => State) : Unit = {
+    hierStateComputation = () => computation
+  }
+  override lazy val h:Expression = hierState.h
 
   def span : (Int, Int)
 
@@ -113,14 +123,43 @@ abstract class TreeNode extends State with Serializable {
 
   ////////////////   Visualization   /////////////////
   private def toSimpleTreeNode : SimpleTreeNode = this match {
-    case n@TerminalNode(word, cat) => SimpleTreeNode(label = s"$cat-$word-${n.position}", children = List())
-    case UnaryNode(_, child) => SimpleTreeNode(label = this.toString, children = List(child.toSimpleTreeNode))
-    case BinaryNode(_, left, right) => SimpleTreeNode(label = this.toString, children = List(left.toSimpleTreeNode, right.toSimpleTreeNode))
+    case n@TerminalNode(word, cat) =>
+      SimpleTreeNode(
+        label = s"$cat\n$word\n${n.position}",
+        children = List(),
+        shape=Shape.RECTANGLE, color = Color.LIGHT_BLUE)
+    case UnaryNode(c, child) =>
+      val shape = c match {
+        case tc:TypeChangeUnary if tc.isUnaryCoordination => Shape.HEXAGON
+        case _                                            => Shape.BOX
+      }
+      SimpleTreeNode(
+        label = this.toString.replaceAll("-", "\n"),
+        children = List(child.toSimpleTreeNode),
+        shape=shape, color = Color.GREEN)
+    case BinaryNode(c, left, right) =>
+      val color = c match {
+        case _:Backwards                      => Color.PURPLE
+        case _:ConjunctionTop | _:Conjunction => Color.BLUE
+        case _:Forwards                       => Color.RED
+        case _:RemovePunctuation              => Color.LIGHT_BLUE
+        case _                                => Color.BLACK
+      }
+      val shape = c match {
+        case _:ConjunctionTop | _:Conjunction => Shape.HEXAGON
+        case _                                => Shape.RECTANGLE
+      }
+      SimpleTreeNode(
+        label = this.toString.replaceAll("-", "\n"),
+        children = List(left.toSimpleTreeNode, right.toSimpleTreeNode),
+        shape=shape, color = color)
   }
 
-  def visualize(graphLabel:String="") : Unit = this.toSimpleTreeNode.visualize(graphLabel)
+  def visualize(graphLabel:String="", fileType:String="pdf") : Unit =
+    this.toSimpleTreeNode.visualize(graphLabel=graphLabel, fileType=fileType)
 
-  def saveVisual(fn:String, graphLabel:String="") : Unit = this.toSimpleTreeNode.saveVisual(new File(s"$fn.png"), graphLabel)
+  def saveVisual(fn:String, graphLabel:String="", fileType:String="pdf") : Unit =
+    this.toSimpleTreeNode.saveVisual(new File(s"$fn.$fileType"), graphLabel=graphLabel, fileType=fileType)
 
   ////////////////   Rebranching   /////////////////
   def toLeftBranching : TreeNode = ParserProperties.prototypeProps.copy(

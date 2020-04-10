@@ -5,16 +5,20 @@ import edu.cmu.dynet.{Expression, ModelLoader, ModelSaver, ParameterCollection}
 
 trait ModelContainer[I]{
 
+  val negLossIsOk : Boolean = false
+
   // useful for debugging
   var currentAvgLoss : Double = Double.MaxValue
 
   private var _lastMiniBatchLoss = Double.MaxValue
-  def lastMiniBatchLoss_=(x:Double) : Unit = {
+  def lastMiniBatchLoss_=(x:Double) : Unit =
     _lastMiniBatchLoss = x
-  }
-  def lastMiniBatchLoss : Double = {
+
+  def lastMiniBatchLoss : Double =
     _lastMiniBatchLoss
-  }
+
+
+  val toSentence: Option[I => List[String]] = None
 
   var trainingStatsDir : String = _
 
@@ -39,7 +43,7 @@ trait ModelContainer[I]{
     System.err.println("Saving the model START")
     val f = new File(modelDir)
     if(!f.exists())
-      f.mkdir()
+      f.mkdirs()
     hyperParams.save(s"$modelDir/$HYPER_PARAMS_FN")
     saveExtra(modelDir)
     val modelSaver = new ModelSaver(s"$modelDir/$PARAMS_FN")
@@ -49,16 +53,15 @@ trait ModelContainer[I]{
   }
 
   final var hyperParams: YamlConfig = _
-  final lazy val model:ParameterCollection = new ParameterCollection()
+  lazy  val model:ParameterCollection = new ParameterCollection()
 
   final def defineModelFromHyperFileCaller() : Unit = {
     defineModelFromHyperFile()(model)
   }
 
   // called order 1. // doesn't need to be implemented
-  final def loadHyperFile(hyperFile: String): Unit = {
+  final def loadHyperFile(hyperFile: String): Unit =
     hyperParams = hyperParamTransformPermanently(YamlConfig.fromFile(hyperFile))
-  }
 
   protected def hyperParamTransformPermanently(hyperParam:YamlConfig) : YamlConfig = hyperParam
 
@@ -85,10 +88,6 @@ trait ModelContainer[I]{
   // called order 7
   // DOC called before training starts
   def prepareForEpoch(trainData:Iterable[IndexedInstance[I]], epoch:Int) : Unit = {}
-
-  // called order 8
-  // DOC called for precomputation
-  def precomputeChunk(chunk:Iterable[IndexedInstance[I]]) : Unit = {}
 
   // called order 9
   // DOC called before minibatch starts (useful for better softmaxes)

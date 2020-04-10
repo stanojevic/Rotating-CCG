@@ -10,7 +10,7 @@ final case class TypeChangeBinary(l:Category, r:Category, p:Category) extends Co
 
   override def apply(x: Category, y: Category): Category = p
 
-  override val toString: String = s"TC2___${l}___${r}___==>___${p}"
+  override val toString: String = s"TC2__${l}__${r}__=>__$p"
 
   val isCoordinationOfNotAlikes : Boolean = p.isInstanceOf[ConjCat]
 //    isCoordinationOfNotAlikesGeneral(rightAdjunction = true, rightBalanced = true) ||

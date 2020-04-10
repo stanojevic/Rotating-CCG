@@ -3,6 +3,11 @@ package edin.nn.sequence
 import edin.general.YamlConfig
 import edu.cmu.dynet.{Expression, ParameterCollection}
 
+
+/**
+  * Constructs multi-layer recurrent neural net with the same directionality (not bi-directional)
+  */
+
 sealed case class MultiRNNConfig(
                                   rnnType           : String,
                                   inDim             : Int,

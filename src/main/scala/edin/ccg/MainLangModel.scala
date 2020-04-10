@@ -3,10 +3,9 @@ package edin.ccg
 import java.io.File
 
 import edin.algorithms.evaluation.LogProbAggregator
-import edin.nn.embedder.SequenceEmbedderELMo
 import edin.algorithms.Math
 
-import scala.io.Source
+import edin.algorithms.AutomaticResourceClosing.linesFromFile
 
 object MainLangModel {
 
@@ -54,8 +53,6 @@ object MainLangModel {
         println(logProbAgg.reportStringWithPerpl)
         System.err.println(logProbAgg.reportStringWithPerpl)
 
-        SequenceEmbedderELMo.endServer()
-
       case None =>
         System.err.println("You didn't specify all the required arguments")
         System.exit(-1)
@@ -63,7 +60,7 @@ object MainLangModel {
   }
 
   private def loadSampleScores(f:File) : List[Double] =
-    Source.fromFile(f).getLines().map{ line =>
+    linesFromFile(f).map{ line =>
       line.split(" ").head.toDouble
     }.toList
 

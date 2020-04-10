@@ -1,7 +1,7 @@
 package edin.ccg.representation.hockendeps
 
 import edin.ccg.representation.hockendeps.{CCGcat => HockenCat}
-import edin.ccg.representation.category.{Category, Functor}
+import edin.ccg.representation.category.Category
 import edin.ccg.representation.combinators._
 import edin.ccg.representation.predarg.{Bound, DepLink, Local, UnBound}
 import edin.ccg.representation.tree._
@@ -65,13 +65,14 @@ object HockenCatHelper {
     var deps = List[DepLink]()
     while(currDep != null){
       deps ::=  DepLink(
-        headCat   = Category(currDep.headCat),
-        headPos   = currDep.headIndex,
-        depPos    = currDep.argIndex ,
-        depSlot   = currDep.argPos   ,
-        headWord  = currDep.headWord ,
-        depWord   = currDep.argWord  ,
-        boundness = if(currDep.extracted && currDep.bounded) Bound else if (! currDep.bounded) UnBound else Local)
+        headCat    = Category(currDep.headCat),
+        headPos    = currDep.headIndex,
+        depPos     = currDep.argIndex ,
+        depSlot    = currDep.argPos   ,
+        headWord   = currDep.headWord ,
+        depWord    = currDep.argWord  ,
+        boundness  = if(currDep.extracted && currDep.bounded) Bound else if (! currDep.bounded) UnBound else Local
+      )
       currDep = currDep.next
     }
     deps

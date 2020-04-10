@@ -17,10 +17,10 @@ object FScore {
     else
       (1+beta*beta)*p*r/(beta*beta*p+r)
 
-  def computeScores[K, T](sys:List[K], ref:List[K])(f:K=>List[T]) : (Double, Double, Double) =
+  private def computeScores[K, T](sys:List[K], ref:List[K])(f:K=>List[T]) : (Double, Double, Double) =
     computeScores(sys.map(f), ref.map(f))
 
-  def computeScores[T](sysProps:List[List[T]], refProps:List[List[T]]) : (Double, Double, Double) = {
+  private def computeScores[T](sysProps:List[List[T]], refProps:List[List[T]]) : (Double, Double, Double) = {
     val scorer = new FScore[T]
     for((sys, ref) <- sysProps zip refProps){
       scorer.addToCounts(sys, ref)
@@ -37,9 +37,11 @@ class FScore[T]{
 
   import FScore._
 
-  private var overlapCount = 0
-  private var totalSys     = 0
-  private var totalRef     = 0
+  private var overlapCount  = 0
+  private var totalSys      = 0
+  private var totalRef      = 0
+  private var exactMatch    = 0
+  private var examplesTotal = 0
 
   private var locked = false
 
@@ -49,6 +51,9 @@ class FScore[T]{
     overlapCount += (sys intersect ref).size
     totalSys += sys.size
     totalRef += ref.size
+    if(sys.groupBy(identity).mapValues(_.size) == ref.groupBy(identity).mapValues(_.size))
+      exactMatch += 1
+    examplesTotal += 1
   }
 
   def p : Double = {
@@ -66,7 +71,12 @@ class FScore[T]{
     f_score(p, r)
   }
 
-  def prf : (Double, Double, Double) = (p, r, f)
+  def e : Double = {
+    locked = true
+    exactMatch.toDouble/examplesTotal
+  }
+
+  private def prf : (Double, Double, Double) = (p, r, f)
 
 }
 

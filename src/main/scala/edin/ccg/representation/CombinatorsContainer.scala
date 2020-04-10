@@ -64,10 +64,9 @@ class CombinatorsContainer extends Serializable {
 
   def add(x:CombinatorBinary) : Unit = {
     x match {
-      case c@TypeChangeBinary(l, r, p) => {
+      case c@TypeChangeBinary(l, r, _) =>
         unholyBinaryRulesLookup((l, r)) += c //:: specialRulesLookup((l, r))
         unholyBinaryStorage.add(c)
-      }
       case _ =>
     }
   }

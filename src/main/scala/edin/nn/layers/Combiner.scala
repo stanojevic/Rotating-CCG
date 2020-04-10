@@ -83,7 +83,7 @@ class Combiner(config:CombinerConfig)(implicit model: ParameterCollection) {
       case "concat" =>
         concatSeqWithNull(exps)
       case "sum" =>
-        esum((exps.filter(_!=null) zip compressors).map{case (e, c) => c(e)})
+        (exps.filter(_!=null) zip compressors).map{case (e, c) => c(e)}.esum
     }
     finalCompressor(preencoding)
   }

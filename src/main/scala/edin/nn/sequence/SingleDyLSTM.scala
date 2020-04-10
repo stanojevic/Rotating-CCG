@@ -57,7 +57,7 @@ class SingleDyLSTM(config:SingleDyLSTMConfig)(implicit model: ParameterCollectio
       new SingleDyLSTMState(builder=dyLSTM, stateId=newStateId, output=out)
     }
 
-    override def h: Expression = output
+    override lazy val h: Expression = output
 
   }
 

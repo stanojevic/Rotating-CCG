@@ -61,7 +61,7 @@ class NeuralBeamLatent(
     override def topActions(k: Int): List[(Int, Float)] = {
       val semiring = if (subApproximateInside) logSumExp(_) else max(_)
       argmaxWithScores(
-        semiring(nextEmittingStates.map { _.nextActionLogProbsTotal }),
+        semiring(nextEmittingStates.map { _.nextActionLogProbsTotalExp }),
         k
       )
     }

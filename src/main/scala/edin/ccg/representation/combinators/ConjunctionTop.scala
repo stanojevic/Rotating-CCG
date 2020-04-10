@@ -13,6 +13,6 @@ final case class ConjunctionTop() extends CombinatorBinary {
 
   override def apply(x: Category, y: Category): Category = x
 
-  override def toString: String = "ConjTop"
+  override def toString: String = "<Φ" // "ConjTop"
 
 }

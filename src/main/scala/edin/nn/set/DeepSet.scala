@@ -125,7 +125,7 @@ final class DeepSet(config:DeepSetConfig)(implicit model: ParameterCollection) {
 //
 //}
 
-final class DeepSetStateTyped[T <: State](midEncoding:Expression, val elems:Set[T], ds:DeepSet) extends StateClosed {
+final class DeepSetStateTyped[T <: State](midEncoding: => Expression, val elems:Set[T], ds:DeepSet) extends StateClosed {
 
   lazy val h: Expression = ds.postEncode(midEncoding)
 

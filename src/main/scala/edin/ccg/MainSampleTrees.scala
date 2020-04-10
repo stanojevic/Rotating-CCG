@@ -1,18 +1,17 @@
 package edin.ccg
 
 import java.io.{File, PrintWriter}
-import java.lang.management.ManagementFactory
-import java.text.SimpleDateFormat
-import java.util.Date
 
 import edin.ccg.parsing.{Parser, ParserState, RevealingModel}
 import edin.nn.{DyFunctions, DynetSetup}
 import edin.search.{EnsamblePredictionState, NeuralSampler}
 import edin.ccg.representation.tree.TreeNode
-import edin.nn.embedder.SequenceEmbedderELMo
 
-import scala.io.Source
+import edin.algorithms.AutomaticResourceClosing.linesFromFile
 import scala.util.{Failure, Success, Try}
+import edin.general.Global.{printMessageWithTime, printProcessId}
+
+import scala.annotation.tailrec
 
 object MainSampleTrees {
 
@@ -24,9 +23,7 @@ object MainSampleTrees {
                       alpha              : Double         = 1.0,
 
                       dynet_mem          : String         = null,
-                      dynet_autobatch    : Int            =    0,
-                      dynet_weight_decay : Float          = 0.0f,
-                      dynet_gpus         : List[Int]      = List()
+                      dynet_autobatch    : Int            =    0
                     )
 
   def main(args:Array[String]) : Unit = {
@@ -44,7 +41,6 @@ object MainSampleTrees {
 
       opt[ Int         ]( "dynet-autobatch"    ).action((x,c) => c.copy( dynet_autobatch      = x        ))
       opt[ String      ]( "dynet-mem"          ).action((x,c) => c.copy( dynet_mem            = x        ))
-      opt[ Seq[Int]    ]( "dynet-gpus"         ).action((x,c) => c.copy( dynet_gpus           = x.toList ))
 
       help("help").text("prints this usage text")
     }
@@ -52,15 +48,12 @@ object MainSampleTrees {
     parser.parse(args, CMDargs()) match {
       case Some(cmd_args) =>
 
-        System.err.println("\nprocess identity: "+ManagementFactory.getRuntimeMXBean.getName+"\n")
-        val ft = new SimpleDateFormat ("HH:mm dd.MM.yyyy")
-        System.err.println(s"sampling started at ${ft.format(new Date())}")
+        printProcessId()
+        printMessageWithTime("sampling started")
 
         DynetSetup.init_dynet(
-          cmd_args.dynet_mem,
-          cmd_args.dynet_weight_decay,
-          cmd_args.dynet_autobatch,
-          cmd_args.dynet_gpus)
+          dynet_mem = cmd_args.dynet_mem,
+          autobatch = cmd_args.dynet_autobatch)
 
         val disc_models = cmd_args.disc_model_dirs.map { modelDir =>
           val model = new RevealingModel()
@@ -71,7 +64,7 @@ object MainSampleTrees {
         if(! new File(cmd_args.samples_dir).exists())
           new File(cmd_args.samples_dir).mkdirs()
 
-        for((line, lineId) <- Source.fromFile(cmd_args.sentsFile).getLines().zipWithIndex){
+        for((line, lineId) <- linesFromFile(cmd_args.sentsFile).zipWithIndex){
           System.err.print(s"processing $lineId ")
           val pw = new PrintWriter(s"${cmd_args.samples_dir}/$lineId")
 
@@ -87,9 +80,7 @@ object MainSampleTrees {
           pw.close()
         }
 
-        System.err.println(s"sampling finished at ${ft.format(new Date())}")
-
-        SequenceEmbedderELMo.endServer()
+        printMessageWithTime("sampling finished")
 
       case None =>
         System.err.println("You didn't specify all the required arguments")
@@ -97,7 +88,8 @@ object MainSampleTrees {
     }
   }
 
-  private def getSampleScoresPairRepeatUntilSuccess(words:List[String], discModels:List[RevealingModel], alpha:Double) : (Double, TreeNode) =
+  @tailrec
+  def getSampleScoresPairRepeatUntilSuccess(words:List[String], discModels:List[RevealingModel], alpha:Double) : (Double, TreeNode) =
     Try(getSampleScoresPair(words, discModels, alpha)) match {
       case Success(value) => value
       case Failure(exception) =>
@@ -113,16 +105,17 @@ object MainSampleTrees {
     DyFunctions.disableAllDropout()
 
     val discParserState = new EnsamblePredictionState(
-      states = discModels.map{model => Parser.initParserState(words)(model)},
-      alpha = alpha
+      states = discModels map Parser.initParserState(words, maxStackSize = Int.MaxValue),
+      alpha  = alpha
     )
     val (predictedPaserState, discScore, _) = NeuralSampler.sample(discParserState, maxExpansion = words.size*10)
 
     val conf = predictedPaserState.unwrapState[ParserState].conf
     Try(conf.extractTree) match {
-      case Success(tree) => (discScore, tree)
+      case Success(tree) =>
+        (discScore, tree)
       case Failure(e) =>
-        conf.saveVisualStackState("sampling")
+        // conf.saveVisualStackState("sampling")
         throw e
     }
   }

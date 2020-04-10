@@ -55,7 +55,8 @@ object AdjunctionGeneral {
   def isRightAdjunctionPlace(node:TreeNode) : Boolean = node match {
     case BinaryNode(c, l, r) =>
       c.isRightAdjCombinator(l.category, r.category)
-    case _ => false
+    case _ =>
+      false
   }
   def isLeftAdjunctionPlace(node:TreeNode) : Boolean = node match {
     case BinaryNode(RemovePunctuation(true), _, _) =>

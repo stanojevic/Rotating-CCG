@@ -1,0 +1,21 @@
+bso:
+  beam-size-train : 16
+  beam-size-valid : 16
+  update-method   : LaSO
+  training-type   : global
+  distance        : one
+
+trainer:
+  type: Adam
+  init-learning-rate: 0.001
+  gradient-clipping: true
+  decay-learning-rate: false
+  mini-batch-size: 1
+  reporting-frequency: 100
+  validation-frequency: -1
+  epoch-saving-freq    : 1
+  early-stopping: false
+
+  precomputation-embeddings: true
+  weight-decay: 0
+  sparse-update: false

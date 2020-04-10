@@ -1,0 +1,93 @@
+
+main-vars:
+  terminal-rep-dim      : &word-rep-dim          128
+  aux-tag-rep-dim       : &aux-tag-rep-dim         0
+  word-recurrent-layers : &word-recurrent-layers   2
+  aux-recurrent-layers  : &aux-recurrent-layers    0
+
+
+MLP:
+  activations: ["tanh", "logsoftmax"]
+  sizes:  [[*word-rep-dim, *aux-tag-rep-dim], *word-rep-dim, RESOURCE_OUT_TAGS_SIZE]
+
+aux-tags-sequence-embedder:
+  seq-emb-type: global
+  recurrent-conf:
+    bi-directional: true
+    rnn-type: lstm
+    in-dim: *aux-tag-rep-dim
+    out-dim: *aux-tag-rep-dim
+    layers: *aux-recurrent-layers
+  sub-embedder-conf:
+    seq-emb-type: local
+    embedder-conf:
+      emb-type: word-standard
+      out-dim: *aux-tag-rep-dim
+      w2i: RESOURCE_AUX2I
+
+word-sequence-embedder1:
+  seq-emb-type: global
+  recurrent-conf:
+    bi-directional: true
+    rnn-type: lstm
+    in-dim: *word-rep-dim
+    out-dim: *word-rep-dim
+    layers: *word-recurrent-layers
+  sub-embedder-conf:
+    seq-emb-type: local
+    embedder-conf:
+      emb-type: combined
+      out-dim: *word-rep-dim
+      subembs:
+        -
+          emb-type: char-lstm
+          out-dim: 20
+          c2i: RESOURCE_C2I
+          char-embedding-raw-dim: 50
+        -
+          emb-type: word-standard
+          out-dim: RESOURCE_EMB_DIM
+          w2i: RESOURCE_W2I
+          init-file: RESOURCE_EMB_LOC
+
+word-sequence-embedder1:
+  seq-emb-type: global
+  recurrent-conf:
+    bi-directional: true
+    rnn-type: lstm
+    in-dim: *word-rep-dim
+    out-dim: *word-rep-dim
+    layers: *word-recurrent-layers
+  sub-embedder-conf:
+    seq-emb-type: ELMo
+    ELMo-type: concat_top
+    out-dim: *word-rep-dim
+    normalize: true
+    dropout: 0.2
+
+word-sequence-embedder:
+  seq-emb-type: global
+  recurrent-conf:
+    bi-directional: true
+    rnn-type: lstm
+    in-dim: *word-rep-dim
+    out-dim: *word-rep-dim
+    layers: *word-recurrent-layers
+  sub-embedder-conf:
+    seq-emb-type: BERT
+    out-dim: *word-rep-dim
+    normalize: true
+    dropout: 0.2
+
+trainer:
+  type: Adam
+  init-learning-rate: 0.002
+  gradient-clipping: true
+  decay-learning-rate: true
+  mini-batch-size: 5
+  reporting-frequency: 1000
+  validation-frequency: -1
+
+  precomputation-embeddings: true
+  weight-decay: 0
+  sparse-update: false

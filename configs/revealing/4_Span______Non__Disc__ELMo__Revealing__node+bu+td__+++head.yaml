@@ -1,0 +1,248 @@
+
+
+parser-properties:
+  useIncrementalTrans     : true
+  useRevealing            : true
+
+  withForwardAntiEisnerNF : true
+  withForwardEisnerNF     : false
+  withBackwardEisnerNF    : false
+
+  withObservedCatsOnly    : true
+  withPuncNF              : true
+  withHighTRconjNF        : true
+  withLowTRconjNF         : false   # not useful; better use the one above
+  withLowLeftAdjNF        : false   # don't use before it's instable (coordination and right adjunction problem)
+  withLowRightAdjNF       : false   # don't use before it's instable (coordination and right adjunction problem)
+  withHockenCatNormal     : false   # good but slow
+
+  onlyPredefinedCombs     : true
+
+  language                : RESOURCE_LANGUAGE
+
+main-vars:
+
+  bi-directional                        : &bi-directional                                      true
+  ELMo-type                             : &ELMo-type                                     concat_top
+  model-type                            :                                            discriminative
+  learned-rescaling                     :                                                     false
+
+  valid-beam-rescaled                   :                                                     false
+  valid-beam-type                       :                                                    simple
+  valid-beam-size-parsing               :                                                         1
+  valid-beam-size-parsing-out           :                                                         1
+  valid-beam-size-word                  :                                                         1
+  valid-beam-size-tag                   :                                                         1
+
+  position-emb-type                     : &position-emb-type                           position-sin
+  composition-function-rebranching-free : &composition-function-rebranching-free              false
+  word-rep-dim-heads                    : &word-rep-dim-heads                                    64
+  word-rep-dim-deps                     : &word-rep-dim-deps                                      0
+  word-rep-dim                          : &word-rep-dim                                         128       # lstm input  dim
+  recurrent-rep-dim                     : &recurrent-rep-dim                                    128       # lstm output dim
+  node-dim                              : &node-dim                                              64       # node dim
+  neural-stack-dim                      : &neural-stack-dim                                     128       # neural stack size (probably should be the same as node-dim)
+  config-dim                            : &config-dim                                            64
+  category-dim                          : &category-dim                                          64
+  combinator-dim                        : &combinator-dim                                        64
+  stack-lstm-layers                     : &stack-lstm-layers                                      2
+  recurrent-layers                      : &recurrent-layers                                       4
+  composition-layers                    : &composition-layers                                     1
+  td-emb-size-pos-emb                   : &td-emb-size                                           10
+  bu-emb-size-pos-emb                   : &bu-emb-size                                           10
+
+  min-supertag-count                    :                                                        10
+  dropout-general                       : &dropout-general                                      0.0
+  dropout-recurrent                     : &dropout-recurrent                                    0.0
+  dropout-recursive                     : &dropout-recursive                                    0.0
+  dropout-word-use                      : &dropout-word-use                                   false
+  dropout-word-alpha                    : &dropout-word-alpha                                   0.0
+  with-layer-norm-general               : &with-layer-norm-general                            false
+  with-layer-norm-recurrent             : &with-layer-norm-recurrent                          false
+  with-layer-norm-recursive             : &with-layer-norm-recursive                          false
+  elmo-dropout                          : &elmo-dropout                                         0.2
+  embedding-normalize                   : &embedding-normalize                                 true
+  attention-right-adjunction-in-dim     : &attention-right-adjunction-in-dim
+  - *node-dim
+  - *td-emb-size
+  - *bu-emb-size
+  - *config-dim
+
+word-softmax:
+  w2i: RESOURCE_W2I_TGT_GENERATION
+  sizes: [*config-dim, *config-dim]
+  css-use: false
+  css-negative-samples-size: 150
+  css-positive-samples-use-all: false
+
+sequence-embedder:
+  seq-emb-type: global
+  recurrent-conf:
+    bi-directional: *bi-directional
+    rnn-type: lstm
+    in-dim: *word-rep-dim
+    out-dim: *recurrent-rep-dim
+    layer-norm: false
+    layers: *recurrent-layers
+    dropout: *dropout-recurrent
+    with-layer-norm: *with-layer-norm-recurrent
+  sub-embedder-conf:
+    seq-emb-type: ELMo
+
+    ELMo-type: *ELMo-type
+    out-dim: *word-rep-dim
+    dropout: *elmo-dropout
+    normalize: *embedding-normalize
+
+#    seq-emb-type: local
+#    embedder-conf:
+#      emb-type: combined
+#      out-dim: *word-rep-dim
+#      subembs:
+#      -
+#        emb-type: word-standard
+#        word-dropout-use: *dropout-word-use
+#        word-dropout-alpha: *dropout-word-alpha
+#        out-dim: RESOURCE_EMB_DIM
+#        w2i: RESOURCE_W2I_TGT_EMBED
+#        init-file: RESOURCE_EMB_LOC
+
+
+neural-parameters:
+  locally-normalized: true
+
+#  mlp-error-states:
+#    activations: [relu, linear]
+#    sizes: [*config-dim, *config-dim, 2]
+#    dropouts: [*dropout-general, *dropout-general]
+#    with-layer-norm: *with-layer-norm-general
+
+  neural-stack:
+    rnn-type: lstm
+    in-dim: *node-dim
+    out-dim: *neural-stack-dim
+    layers: *stack-lstm-layers
+    dropout: *dropout-recurrent
+    with-layer-norm: *with-layer-norm-recurrent
+  composition-function-rebranching-free: *composition-function-rebranching-free
+  composition-function:
+    compositionType: SpanRep
+    in-dim: *node-dim
+    out-dim: *node-dim
+    layers: *composition-layers
+    max-arity: 2
+    ignore-higher-input: false
+    dropout: *dropout-recursive
+    with-layer-norm: *with-layer-norm-recursive
+  embedder-position-top-down:
+    emb-type: *position-emb-type
+    max-position: 40
+    out-dim: *td-emb-size
+  heads-deep-set:
+    in-dim: *recurrent-rep-dim
+    out-dim: *word-rep-dim-heads
+    mid-dim: *word-rep-dim-heads
+    activation: tanh
+    dropout: *dropout-general
+    with-layer-norm: *with-layer-norm-general
+    with-pre-encoding: true
+    with-post-encoding: true
+  deps-deep-set:
+    in-dim: *word-rep-dim-deps
+    out-dim: *word-rep-dim-deps
+    mid-dim: *word-rep-dim-deps
+    activation: tanh
+    dropout: *dropout-general
+    with-layer-norm: false # *with-layer-norm-general
+    with-pre-encoding: false
+    with-post-encoding: true
+  deps-prep-layer-head:
+    in-dim: *recurrent-rep-dim
+    out-dim: *word-rep-dim-deps
+    activation: tanh
+    dropout: *dropout-general
+    with-layer-norm: false #*with-layer-norm-general
+    with-bias: true
+  deps-prep-layer-dependent:
+    in-dim: *recurrent-rep-dim
+    out-dim: *word-rep-dim-deps
+    activation: tanh
+    dropout: *dropout-general
+    with-layer-norm: false #*with-layer-norm-general
+    with-bias: true
+  embedder-position-bottom-up:
+    emb-type: *position-emb-type
+    max-position: 40
+    out-dim: *bu-emb-size
+    dropout: *dropout-general
+    with-layer-norm: *with-layer-norm-general
+  embedder-category:
+    emb-type: word-standard
+    out-dim: *category-dim
+    w2i: RESOURCE_CAT2I
+    dropout: *dropout-general
+    with-layer-norm: *with-layer-norm-general
+  embedder-combinator:
+    emb-type: word-standard
+    out-dim: *combinator-dim
+    w2i: RESOURCE_COMB2I
+    dropout: *dropout-general
+    with-layer-norm: *with-layer-norm-general
+  combiner-layer-terminals:
+    comb-type: sum
+    in-dims: [*recurrent-rep-dim, *category-dim]
+    mid-dim: *node-dim
+    out-dim: *node-dim
+    activation: tanh
+    dropout: *dropout-general
+    with-postencoding: true
+    with-layer-norm: *with-layer-norm-general
+  combiner-layer-nonterminals:
+    comb-type: sum
+    in-dims: [*category-dim, *combinator-dim, *word-rep-dim-heads]
+    mid-dim: *node-dim
+    out-dim: *node-dim
+    activation: tanh
+    dropout: *dropout-general
+    with-postencoding: true
+    with-layer-norm: *with-layer-norm-general
+  combiner-layer-configuration:
+    comb-type: sum
+    in-dims: [*neural-stack-dim, *recurrent-rep-dim, *word-rep-dim-deps]
+    # mid-dim: [*neural-stack-dim, *recurrent-rep-dim, *word-rep-dim-deps]
+    mid-dim: *config-dim
+    out-dim: *config-dim
+    activation: tanh
+    with-bias: true
+    dropout: *dropout-general
+    with-postencoding: true
+    with-layer-norm: *with-layer-norm-general
+  mlp-logsoftmax-tags:
+    activations: [relu, linear]
+    sizes: [*config-dim, *config-dim, RESOURCE_TAGS_SIZE]
+    dropouts: [*dropout-general, *dropout-general]
+    with-layer-norm: *with-layer-norm-general
+  mlp-logsoftmax-trans:
+    activations: [relu, linear]
+    sizes: [*config-dim, *config-dim, RESOURCE_TRANS_SIZE]
+    dropouts: [*dropout-general, *dropout-general]
+    with-layer-norm: *with-layer-norm-general
+  attention-right-adjunction:
+    attention-type: mlp
+    in-dim: *attention-right-adjunction-in-dim
+
+
+trainer:
+  type                 : Adam
+  init-learning-rate   : 0.001
+  gradient-clipping    : true
+  decay-learning-rate  : true
+  mini-batch-size      : 10
+  reporting-frequency  : 100
+  validation-frequency : -1
+  epoch-saving-freq    : 1
+  early-stopping       : false
+
+  precomputation-embeddings : true
+  weight-decay              : 0
+  sparse-update             : false

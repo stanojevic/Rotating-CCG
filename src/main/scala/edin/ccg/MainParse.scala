@@ -1,98 +1,95 @@
 package edin.ccg
 
 import java.io.PrintWriter
-import java.lang.management.ManagementFactory
-import java.text.SimpleDateFormat
-import java.util.Date
 
-import edin.ccg.parsing.{Parser, ParserState, RevealingModel}
+import edin.ccg.parsing.{Parser, RevealingModel}
+import edin.general.Global
 import edin.nn.DynetSetup
-import edin.nn.embedder.SequenceEmbedderELMo
-import edin.search.EnsamblePredictionState
-
-import scala.io.Source
+import Global.{printMessageWithTime, printProcessId}
+import edin.algorithms.AutomaticResourceClosing.linesFromFile
 
 object MainParse {
 
   case class CMDargs(
-                      input_file_words  : String         = null,
-                      output_file_words : String         = null,
-                      model_dirs        : List[String]   = null,
+                      input_file_words  : String         =         null,
+                      output_file       : String         =         null,
+                      model_dirs        : Seq[String]    =         null,
 
-                      parsingBeamSize   : Int            =    1,
-                      wordBeamSize      : Int            =    0,
-                      fastTrackBeamSize : Int            =    0,
+                      max_stack_size    : Int            = Int.MaxValue,
 
-                      dynet_mem             : String     = null,
-                      dynet_weight_decay    : Float      = 0.0f,
-                      dynet_autobatch       : Int        =    0,
-                      dynet_gpus            : List[Int]  = List()
+                      beamType          : String         =   "wordSync",
+                      kMidParsing       : Int            =            1,
+                      kOutWord          : Int            =            1,
+                      beamRescaled      : Boolean        =        false,
+                      kOutParsing       : Int            =            1,
+                      kOutTagging       : Int            =            1,
+
+                      dynet_mem         : String         =         null,
+                      dynet_autobatch   : Int            =            0
                     )
 
   def main(args:Array[String]) : Unit = {
     val parser = new scopt.OptionParser[CMDargs](PROGRAM_NAME) {
       head(PROGRAM_NAME, PROGRAM_VERSION.toString)
 
-      opt[ String      ]( "input_file"         ).action((x,c) => c.copy( input_file_words     = x        )).required()
-      opt[ String      ]( "output_file"        ).action((x,c) => c.copy( output_file_words    = x        )).required()
-      opt[ Seq[String] ]( "model_dirs"         ).action((x,c) => c.copy( model_dirs           = x.toList )).required()
+      opt[ String      ]( "input_file"            ).action((x,c) => c.copy( input_file_words     = x )).required
+      opt[ String      ]( "output_file"           ).action((x,c) => c.copy( output_file          = x )).required
+      opt[ Seq[String] ]( "model_dirs"            ).action((x,c) => c.copy( model_dirs           = x )).required
 
-      opt[ Int         ]( "beam-parsing"       ).action((x,c) => c.copy( parsingBeamSize      = x        )).text("k")
-      opt[ Int         ]( "beam-word"          ).action((x,c) => c.copy( wordBeamSize         = x        )).text("k_wd")
-      opt[ Int         ]( "beam-fasttrack"     ).action((x,c) => c.copy( fastTrackBeamSize    = x        )).text("k_ft")
+      opt[ Int         ]( "max_stack_size"        ).action((x,c) => c.copy( max_stack_size       = x ))
 
-      opt[ Int         ]( "dynet-autobatch"    ).action((x,c) => c.copy( dynet_autobatch      = x        ))
-      opt[ String      ]( "dynet-mem"          ).action((x,c) => c.copy( dynet_mem            = x        ))
-      opt[ Seq[Int]    ]( "dynet-gpus"         ).action((x,c) => c.copy( dynet_gpus           = x.toList ))
+      opt[ Boolean     ]("beam-rescaled"          ).action((x,c) => c.copy( beamRescaled         = x ))
+      opt[ String      ]("beam-type"              ).action((x,c) => c.copy( beamType             = x )).required
+      opt[ Int         ]("beam-mid-parsing"       ).action((x,c) => c.copy( kMidParsing          = x )).required
+      opt[ Int         ]("beam-out-parsing"       ).action((x,c) => c.copy( kOutParsing          = x )).required
+      opt[ Int         ]("beam-out-word"          ).action((x,c) => c.copy( kOutWord             = x ))
+      opt[ Int         ]("beam-out-tagging"       ).action((x,c) => c.copy( kOutTagging          = x ))
+
+      opt[ Int         ]( "dynet-autobatch"       ).action((x,c) => c.copy( dynet_autobatch      = x ))
+      opt[ String      ]( "dynet-mem"             ).action((x,c) => c.copy( dynet_mem            = x ))
 
       help("help").text("prints this usage text")
     }
 
     parser.parse(args, CMDargs()) match {
       case Some(cmd_args) =>
-        System.err.println("\nprocess identity: "+ManagementFactory.getRuntimeMXBean.getName+"\n")
+        printProcessId()
 
         DynetSetup.init_dynet(
-          cmd_args.dynet_mem,
-          cmd_args.dynet_weight_decay,
-          cmd_args.dynet_autobatch,
-          cmd_args.dynet_gpus)
+          dynet_mem = cmd_args.dynet_mem,
+          autobatch = cmd_args.dynet_autobatch)
 
-        val ft = new SimpleDateFormat ("HH:mm dd.MM.yyyy")
-
-        System.err.println(s"model loading started at ${ft.format(new Date())}")
+        printMessageWithTime("model loading started")
         val models = cmd_args.model_dirs.map { modelDir =>
           val model = new RevealingModel()
           model.loadFromModelDir(modelDir)
           model
         }
-        System.err.println(s"parsing started at ${ft.format(new Date())}")
+        printMessageWithTime("parsing started")
+        val pw = new PrintWriter(cmd_args.output_file)
 
-        val pw = new PrintWriter(cmd_args.output_file_words)
-
-        for((line, i) <- Source.fromFile(cmd_args.input_file_words).getLines().zipWithIndex){
+        for((line, i) <- linesFromFile(cmd_args.input_file_words).zipWithIndex){
           DynetSetup.cg_renew()
           if(i%1 == 0)
             System.err.println(s"processing $i")
           val words = line.split(" +").toList
-          val searcher = Parser.searcherForModel(
-            model = models.head,
-            sent = words,
-            parsingBeamSize = cmd_args.parsingBeamSize,
-            wordBeamSize = cmd_args.wordBeamSize,
-            fastTrackBeamSize = cmd_args.fastTrackBeamSize
-          )
-          val parserState = new EnsamblePredictionState(
-            states = models.map{model => Parser.initParserState(words)(model)}
-          )
-          val bestStates = searcher(parserState::Nil).map(_.unwrapState[ParserState])
-          val bestTree = bestStates.maxBy(_.score).conf.extractTree
+
+          val bestTree = Parser.parse(
+            sent         = words,
+            beamType     = cmd_args.beamType,
+            beamRescaled = cmd_args.beamRescaled,
+            kMidParsing  = cmd_args.kMidParsing,
+            kOutParsing  = cmd_args.kOutParsing,
+            kOutWord     = cmd_args.kOutWord,
+            kOutTagging  = cmd_args.kOutTagging,
+            maxStackSize = cmd_args.max_stack_size
+          )(models.toList)
+
           pw.println(bestTree.toCCGbankString)
           pw.flush()
         }
         pw.close()
-        SequenceEmbedderELMo.endServer()
-        System.err.println(s"parsing finished at ${ft.format(new Date())}")
+        printMessageWithTime("parsing finished")
       case None =>
         System.err.println("You didn't specify all the required arguments")
         System.exit(-1)

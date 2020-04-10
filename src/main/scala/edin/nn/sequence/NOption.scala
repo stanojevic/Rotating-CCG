@@ -16,13 +16,11 @@ sealed abstract class NOption[T<:State](dim:Int) extends StateClosed{
 }
 
 case class NNone[T<:State]()(dim:Int) extends NOption[T](dim){
-  override def h: Expression = zeros(dim)
+  override lazy val h: Expression = zeros(dim)
   override def isDefined: Boolean = false
 }
 
 case class NSome[T<:State](x:T)(dim:Int) extends NOption[T](dim){
-  override def h: Expression = x.h
+  override lazy val h: Expression = x.h
   override def isDefined: Boolean = true
 }
-
-

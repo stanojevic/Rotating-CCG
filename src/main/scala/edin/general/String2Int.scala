@@ -3,7 +3,7 @@ package edin.general
 import java.io.PrintWriter
 
 import scala.collection.mutable.{HashMap => MutMap}
-import scala.io.Source
+import edin.algorithms.AutomaticResourceClosing.linesFromFile
 
 abstract class Any2Int[T](
                            minCount       : Int            = 0,
@@ -219,7 +219,7 @@ object String2Int{
   def loadFromText(fn:String) : String2Int = {
     var lowercased = false
     val mapping = MutMap[String, Int]()
-    Source.fromFile(fn).getLines().zipWithIndex.foreach{ case (line, line_i) =>
+    for((line, line_i) <- linesFromFile(fn).zipWithIndex){
       if(line_i == 0 && line == "LOWERCASED"){
         lowercased = true
       }else{

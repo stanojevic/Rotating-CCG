@@ -17,15 +17,13 @@ case object UnBound extends Boundness
 case object Local   extends Boundness
 
 sealed case class DepLink(
-                           headCat   : Category,
-                           headPos   : Int,
-                           depPos    : Int,
-                           depSlot   : Int,
-                           headWord  : String,
-                           depWord   : String,
-                           boundness: Boundness
-                           // bounded   : Boolean,
-                           // unbounded : Boolean
+                           headCat    : Category,
+                           headPos    : Int,
+                           depPos     : Int,
+                           depSlot    : Int,
+                           headWord   : String,
+                           depWord    : String,
+                           boundness  : Boundness
                          ){
 
   def arcLabel:String = s"$depSlot$boundness"

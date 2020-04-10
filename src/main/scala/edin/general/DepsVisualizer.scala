@@ -51,11 +51,11 @@ object DepsVisualizer {
 
   def visualize(dd:DepsDesc, file:String) : Unit = {
     val pw = new PrintWriter(file+".tex")
-    pw.println(latexWhole(dd))
+    pw.println(latexWhole(dd, withIndices = true))
     pw.close()
 
     val dir = new File(file).toPath.getParent.toFile
-    val cmd =s"pdflatex $file"
+    val cmd =s"xelatex $file"
     val proc = Runtime.getRuntime.exec(cmd, null, dir)
     proc.waitFor()
     new File(s"$file.log").delete()
@@ -74,23 +74,25 @@ object DepsVisualizer {
     Thread.sleep(seconds*1000)
   }
 
-  private def latexWhole(d:DepsDesc) : String =
-    latexHeader + latexBody(d) + latexFooter
+  private def latexWhole(dd:DepsDesc, withIndices:Boolean) : String =
+    latexHeader + latexBody(dd, withIndices) + latexFooter
 
   private def latexHeader : String =
-    "\\documentclass{standalone}\n\n\\usepackage{tikz-dependency}\n\n\n\\begin{document}\n\\begin{dependency}[arc edge,scale=1.7, edge style={very thick}]\n" // +
+    "\\documentclass{standalone}\n\n\\usepackage[UTF8]{ctex}\n\\usepackage{tikz-dependency}\n\n\n\\begin{document}\n\\begin{dependency}[arc edge,scale=1.7, edge style={very thick}]\n" // +
     // "\\depstyle{outer bubble}{draw=gray!80, minimum height=26pt, rounded corners=10pt,\ninner sep=5pt, top color=white, bottom color=gray!40}\n"
 
   private def latexFooter : String =
     "\\end{dependency}\n\\end{document}\n"
 
-  private def latexBody(dd:DepsDesc) : String = {
+  private def latexBody(dd:DepsDesc, withIndices:Boolean) : String = {
     var out = "\\begin{deptext}[column sep=1em]\n"
     if(dd.tags != null && dd.tags.nonEmpty)
-      out += dd.tags.map(escape).mkString(" \\& ") + " \\\\\n"
-    out += dd.words.map(escape).mkString(" \\& ") + " \\\\\n"
+      out += dd.tags.map(escape).map("\\textcolor{purple}{"+_+"}").mkString(" \\& ") + " \\\\\n"
+    out += dd.words.map(escape).map("\\textbf{"+_+"}").mkString(" \\& ") + " \\\\\n"
+    if(withIndices)
+      out += dd.words.indices.map("\\textcolor{gray}{"+_+"}").mkString(" \\& ") + " \\\\\n"
     if(dd.tagsBelow != null && dd.tagsBelow.nonEmpty)
-      out += dd.tagsBelow.map(escape).mkString(" \\& ") + " \\\\\n"
+      out += dd.tagsBelow.map(escape).map("\\textcolor{purple}{"+_+"}").mkString(" \\& ") + " \\\\\n"
     out += "\\end{deptext}\n"
     // out += (1 to words.size).map(i => s"\\wordgroup[outer bubble]{1}{$i}{$i}{name}\n").mkString("")
     out += dd.deps.map{case (h, d, label, color) => s"\\depedge[label style={scale=1.2, text=$color}, arc angle=60, edge style = {$color}]{${h+1}}{${d+1}}{$label}\n"}.mkString("")
@@ -121,12 +123,8 @@ object DepsVisualizer {
         deps=deps,
         depsBelow=deps
       )
-    System.err.println(latexWhole(dd))
+    System.err.println(latexWhole(dd, withIndices = true))
     visualize(dd)
-//    visualize(
-//      dd,
-//      "proba"
-//    )
   }
 
 }

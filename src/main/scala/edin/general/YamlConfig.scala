@@ -5,6 +5,7 @@ import java.io.{FileInputStream, PrintWriter}
 
 import org.yaml.snakeyaml.Yaml
 import java.util.{List => JavaList, Map => JavaMap}
+
 import scala.collection.JavaConverters._
 
 object YamlConfig{
@@ -17,6 +18,33 @@ object YamlConfig{
 class YamlConfig(val conf:AnyRef){
 
   def contains(key:String) : Boolean = conf.asInstanceOf[Map[String, AnyRef]].contains(key)
+
+  def replace(path:List[AnyRef]) : YamlConfig = new YamlConfig(replaceRec(conf, path))
+
+  private def replaceRec(c:AnyRef, path:List[AnyRef]) : AnyRef =  path match {
+    case List(el) =>
+      (el)
+    case (h:String) :: tail =>
+      val cc = c.asInstanceOf[Map[String, AnyRef]]
+      assert(cc.contains(h))
+      cc.map{ case (k, v) =>
+        if(k == h)
+          k -> replaceRec(v, tail)
+        else
+          k -> v
+      }
+    case (h:java.lang.Integer) :: tail =>
+      val cc = c.asInstanceOf[List[AnyRef]]
+      assert(cc.size > h)
+      cc.zipWithIndex.map{ case (v, k) =>
+        if(k == h)
+          replaceRec(v, tail)
+        else
+          v
+      }
+    case _ =>
+      sys.error("invalid type for address")
+  }
 
   def deepSearch(key:String) : List[YamlConfig] = conf match {
     case x:Map[_, _] =>
@@ -48,13 +76,13 @@ class YamlConfig(val conf:AnyRef){
     if(contains(key))
       this(key).floatList
     else
-      List()
+      Nil
 
   def getOptionalListInt(key:String) : List[Int] =
     if(contains(key))
       this(key).intList
     else
-      List()
+      Nil
 
   def getOrElse(key:String, default:Float) : Float =
     if(contains(key))
@@ -65,6 +93,12 @@ class YamlConfig(val conf:AnyRef){
   def getOrElse(key:String, default:Int) : Int =
     if(contains(key))
       this(key).int
+    else
+      default
+
+  def getOrElse(key:String, default:String) : String =
+    if(contains(key))
+      this(key).str
     else
       default
 
@@ -88,7 +122,7 @@ class YamlConfig(val conf:AnyRef){
 
   def any2int[T]: Any2Int[T] = conf.asInstanceOf[Any2Int[T]]
 
-  def str:String = conf.asInstanceOf[String]
+  def str:String = conf.toString
 
   def strList : List[String] = conf.asInstanceOf[List[String]]
 
@@ -99,7 +133,7 @@ class YamlConfig(val conf:AnyRef){
     conf.asInstanceOf[List[AnyRef]].map{new YamlConfig(_)}
 
   def intList : List[Int] =
-    conf.asInstanceOf[List[AnyRef]].map(this.toInt(_))
+    conf.asInstanceOf[List[AnyRef]].map(this.toInt)
 
   def mapAllTerminals(map:Map[String, AnyRef]) : YamlConfig =
     new YamlConfig(HelperFunctions.mapAllTerminals(conf, map))
@@ -108,37 +142,30 @@ class YamlConfig(val conf:AnyRef){
     HelperFunctions.saveConfFile(conf.asInstanceOf[Map[String, Object]], file)
 
   private def toInt(x:AnyRef) : Int =
-    if(x.isInstanceOf[Int])
-      x.asInstanceOf[Int]
-//    else if(x.isInstanceOf[String])
-//      Integer.parseInt(x.asInstanceOf[String])
-    else
-      x.asInstanceOf[List[Int]].sum
+    x match {
+      case i: java.lang.Integer => i
+      case _ => x.asInstanceOf[List[Int]].sum
+    }
 
-  private def toFloat(x:AnyRef) : Float =
-    if(x.isInstanceOf[Float])
-      x.asInstanceOf[Float]
-    else
-      x.asInstanceOf[Double].toFloat
+  private def toFloat(x:Any) : Float =
+    x match {
+      case fl: Float => fl
+      case i: Int => i.toFloat
+      case _ => x.asInstanceOf[Double].toFloat
+    }
 
 }
 
 private object HelperFunctions{
 
-  def mapAllTerminals(conf:AnyRef, map:Map[String, AnyRef]) : AnyRef = {
+  def mapAllTerminals(conf:AnyRef, map:Map[String, AnyRef]) : AnyRef =
     map.toList.foldLeft(conf){case (c, (s, x)) => mapTerminal(c, s, x)}
-  }
 
-  private def mapTerminal(conf:AnyRef, s:String, x:AnyRef) : AnyRef = {
-    if(conf.isInstanceOf[Map[_, _]]){
-      conf.asInstanceOf[Map[String, AnyRef]].mapValues(mapTerminal(_, s, x))
-    }else if(conf.isInstanceOf[List[_]]){
-      conf.asInstanceOf[List[AnyRef]].map{mapTerminal(_, s, x)}
-    }else if(conf == s){
-      x
-    }else{
-      conf
-    }
+  private def mapTerminal(conf:AnyRef, s:String, x:AnyRef) : AnyRef = conf match {
+    case conf:Map[_, _] => conf.asInstanceOf[Map[String, AnyRef]].mapValues(mapTerminal(_, s, x))
+    case conf:List[_]   => conf.asInstanceOf[List[AnyRef]       ].map      (mapTerminal(_, s, x))
+    case `s`            => x
+    case _              => conf
   }
 
   def parseConfFile(confFile:String) : Map[String, Object] = {
@@ -156,13 +183,13 @@ private object HelperFunctions{
   }
 
   private def deepScalatize(x:Any) : Any = x match {
-    case aList : JavaList[_] => aList.asScala.map{deepScalatize(_)}.toList
-    case aMap  : JavaMap[_, _] => aMap.asScala.mapValues{deepScalatize(_)}.toMap
+    case aList : JavaList[_] => aList.asScala.map(deepScalatize).toList
+    case aMap  : JavaMap[_, _] => aMap.asScala.mapValues(deepScalatize).toMap
     case _ => x
   }
 
   private def deepJavatize(x:Any) : Any = x match{
-    case aList: List[_] => seqAsJavaList(aList.map{deepJavatize(_)})
+    case aList: List[_] => seqAsJavaList(aList.map(deepJavatize))
     case aMap : Map[_,_]  => mapAsJavaMap(aMap.map{case (x,y) => (x,deepJavatize(y))})
     case _ => x
   }

@@ -1,5 +1,6 @@
 package edin.ccg.representation.combinators
 
+import edin.ccg.representation.CombinatorsContainer
 import edin.ccg.representation.category.{Category, Slash}
 
 object CombinatorUnary{
@@ -7,7 +8,8 @@ object CombinatorUnary{
   val typeRaiserSubject = TypeRaiser(
     fromMatcher= Category("NP"),
     functionResult= Category("S"),
-    slash = Slash.FWD // Functor(Slash.FWD, Atomic.fromString("S"), Functor(Slash.BCK, Atomic.fromString("S"), Atomic.fromString("NP")))
+    slash = Slash.FWD,
+    orderPreserving = true
   )
 
   def isPredefined(c:CombinatorUnary) : Boolean = allPredefined.contains(c)
@@ -77,21 +79,24 @@ object CombinatorUnary{
     TypeRaiser(
       fromMatcher = Category("NP"),
       functionResult = Category("S"),
-      slash=Slash.FWD
+      slash=Slash.FWD,
+      orderPreserving = true
     ),
     // Type raise 2
     // NP      (S[X]\NP)\((S[X]\NP)/NP)
     TypeRaiser(
       fromMatcher= Category("NP"),
       functionResult = Category("""S\NP"""),
-      slash= Slash.BCK
+      slash= Slash.BCK,
+      orderPreserving = true
     ),
     // Type raise 3
     // PP      (S[X]\NP)\((S[X]\NP)/PP)
     TypeRaiser(
       fromMatcher = Category("PP"),
       functionResult = Category("""S\NP"""),
-      slash = Slash.BCK
+      slash = Slash.BCK,
+      orderPreserving = true
     )
   )
 
@@ -100,27 +105,32 @@ object CombinatorUnary{
     TypeRaiser(
       fromMatcher= Category("NP"),
       functionResult = Category("""(S\NP)/NP"""),
-      slash= Slash.BCK
+      slash= Slash.BCK,
+      orderPreserving = true
     ),
     TypeRaiser(
       fromMatcher= Category("NP"),
       functionResult = Category("""(S\NP)/PP"""),
-      slash= Slash.BCK
+      slash= Slash.BCK,
+      orderPreserving = true
     ),
     TypeRaiser(
       fromMatcher= Category("NP"),
       functionResult = Category("""(S\NP)/(S[to]\NP)"""),
-      slash= Slash.BCK
+      slash= Slash.BCK,
+      orderPreserving = true
     ),
     TypeRaiser(
       fromMatcher= Category("NP"),
       functionResult = Category("""(S\NP)/(S[adj]\NP)"""),
-      slash= Slash.BCK
+      slash= Slash.BCK,
+      orderPreserving = true
     ),
     TypeRaiser(
       fromMatcher= Category("""S[adj]\NP"""),
       functionResult = Category("""S\NP"""),
-      slash= Slash.BCK
+      slash= Slash.BCK,
+      orderPreserving = true
     ),
     TypeChangeUnary(
       from= Category("""NP"""),
@@ -192,7 +202,89 @@ object CombinatorUnary{
     )
   )
 
-  val allPredefined : List[CombinatorUnary] = (a_star_predefined ++ c_and_c_additional).distinct
+  private val chinese_predefined : List[CombinatorUnary] = List[CombinatorUnary](
+    TypeRaiser(
+      fromMatcher = Category("NP"),
+      functionResult = Category("S"),
+      slash=Slash.FWD,
+      orderPreserving = true
+    ),
+    TypeRaiser(
+      fromMatcher = Category("NP"),
+      functionResult = Category("S"),
+      slash=Slash.FWD,
+      orderPreserving = false
+    ),
+    TypeChangeUnary(
+      from= Category("""S[dcl]\NP"""),
+      to= Category("""S[dcl]""")
+    ),
+    TypeChangeUnary(
+      from= Category("""NP"""),
+      to= Category("""S/S""")
+    ),
+    TypeChangeUnary(
+      from= Category("""(S[dcl]\NP)/NP"""),
+      to= Category("""S[dcl]/NP""")
+    ),
+    TypeChangeUnary(
+      from= Category("""((S[dcl]\NP)/(S[dcl]\NP))/NP"""),
+      to= Category("""(S[dcl]\NP)/(S[dcl]\NP)""")
+    ),
+    TypeChangeUnary(
+      from= Category("""S[dcl]\NP"""),
+      to= Category("""NP/NP""")
+    ),
+    TypeChangeUnary(
+      from= Category("""S[dcl]"""),
+      to= Category("""S/(S/S)""")
+    ),
+    TypeChangeUnary(
+      from= Category("""S[dcl]/NP"""),
+      to= Category("""NP/NP""")
+    ),
+    TypeChangeUnary(
+      from= Category("""(S/S)\NP"""),
+      to= Category("""S/S""")
+    ),
+    TypeChangeUnary(
+      from= Category("""M"""),
+      to= Category("""NP/NP""")
+    ),
+    TypeChangeUnary(
+      from= Category("""S[dcl]\NP"""),
+      to= Category("""(S[dcl]\NP)\((S[dcl]\NP)/(S[dcl]\NP))""")
+    ),
+    TypeChangeUnary(
+      from= Category("""S[dcl]"""),
+      to= Category("""S/S""")
+    ),
+    TypeChangeUnary(
+      from= Category("""S[dcl]"""),
+      to= Category("""NP/NP""")
+    ),
+    TypeChangeUnary(
+      from= Category("""((S\NP)/(S\NP))\NP"""),
+      to= Category("""(S\NP)/(S\NP)""")
+    )
+  )
+
+  private var allPredefinedVar : List[CombinatorUnary] = (a_star_predefined ++ c_and_c_additional).distinct
+  def allPredefined : List[CombinatorUnary] = allPredefinedVar
+
+  private[combinators] def setLanguage(lang:String, combinatorsContainer: CombinatorsContainer) : Unit = {
+    allPredefinedVar = lang match {
+      case "English" | "English_CandC" =>
+        a_star_predefined ++ c_and_c_additional
+      case "English_EasyCCG" =>
+        a_star_predefined
+      case "Chinese" =>
+        chinese_predefined
+      case "General" =>
+        combinatorsContainer.allUnary.toList
+    }
+    allPredefinedVar = allPredefinedVar.distinct
+  }
 
 }
 

@@ -11,12 +11,11 @@ trait SequenceEmbedderIncrementalConfig[T] extends SequenceEmbedderGeneralConfig
 
 object SequenceEmbedderIncrementalConfig{
 
-  def fromYaml[K](origConf:YamlConfig) : SequenceEmbedderIncrementalConfig[K] = {
+  def fromYaml[K](origConf:YamlConfig) : SequenceEmbedderIncrementalConfig[K] =
     origConf("seq-emb-type").str match {
-      case "standard"     => SequenceEmbedderStandardConfig.fromYaml(origConf)
-      case "recurrent"    => SequenceEmbedderRecurrentConfig.fromYaml(origConf)
+      case "local"     => SequenceEmbedderLocalConfig.fromYaml(origConf)
+      case "recurrent"    => SequenceEmbedderDirectionalRecurrentConfig.fromYaml(origConf)
     }
-  }
 
 }
 

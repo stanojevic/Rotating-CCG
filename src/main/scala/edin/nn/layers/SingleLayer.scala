@@ -19,7 +19,7 @@ sealed case class SingleLayerConfig(
 
 object SingleLayerConfig{
 
-  def fromYaml(conf:YamlConfig) : SingleLayerConfig = {
+  def fromYaml(conf:YamlConfig) : SingleLayerConfig =
     SingleLayerConfig(
       inDim          = conf("in-dim"         ).int,
       outDim         = conf("out-dim"        ).int,
@@ -29,7 +29,6 @@ object SingleLayerConfig{
       withWeightNorm = conf.getOrElse("with-weight-norm", false),
       dropout        = conf.getOrElse("dropout", 0f)
     )
-  }
 
 }
 

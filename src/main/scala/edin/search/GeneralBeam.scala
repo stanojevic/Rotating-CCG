@@ -9,7 +9,7 @@ class GeneralBeam[H <: Hypothesis](
                                     stopWhenKfinished      : Int =0 ,
                                     earlyStop              : Boolean
                                   ) {
-  assert((stopWhenBestKfinished>0) != (stopWhenKfinished>0))
+  require((stopWhenBestKfinished>0) != (stopWhenKfinished>0))
 
   def searchAllHyps(initHypos:List[H]) : List[H] = {
     searchBeamState(initHypos).hyps.asInstanceOf[List[H]]

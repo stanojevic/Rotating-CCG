@@ -15,7 +15,7 @@ sealed case class MLPConfig(
 
 object MLPConfig{
 
-  def fromYaml(conf:YamlConfig) : MLPConfig = {
+  def fromYaml(conf:YamlConfig) : MLPConfig =
     MLPConfig(
       activations = conf("activations").strList,
       sizes = conf("sizes").intList,
@@ -23,7 +23,6 @@ object MLPConfig{
       withLayerNorm = conf.getOrElse("with-layer-norm", false),
       withWeightNorm = conf.getOrElse("with-weight-norm", false)
     )
-  }
 
 }
 

@@ -1,7 +1,7 @@
 Rotating CCG Parser
 =========
 
-This is the implementation of incremental CCG parser described in "CCG Parsing Algorithm with Incremental Tree Rotation" by Stanojević and Steedman NAACL 2019.
+This is the implementation of the incremental CCG parsing model described in "CCG Parsing with a Fully Incremental Neural Model" by Stanojević and Steedman ACL 2020.
 
 If you have any problems using it shout at:
 
@@ -38,17 +38,29 @@ Now you need to compile all the files by running the following command:
     
 Unzip the pretrained model with:
 
-    unzip model.zip
+    unzip models.zip
+
+There are three models inside:
+- discriminative locally-normalized incremental parser (the baseline)
+- discriminative locally-normalized non-incremental parser
+- BSO-LaSO-All -- unnormalized max-margin trained model that worked best in our incremental experiments
     
 And finally, use it to parse file input.sentences and store trees in new file output.trees:
 
     ./scripts/run.sh edin.ccg.MainParse \
-               --model_dirs model \
-               --beam-parsing 1 \
                --input_file input.sentences \
+               --model_dirs $MODEL_DIR \
+               --beam-type simple \
+               --beam-mid-parsing $BEAM_SIZE \
+               --beam-out-parsing $BEAM_SIZE \
                --output_file output.trees
 
-On the first run it may take longer to start because it will download be downloading ELMo models, but afterwards it should be relatively fast. If you want a really fast (but less accurate) CCG parser you should go for EasyCCG instead.
+On the first run it may take longer to start because it will be downloading ELMo models, but afterwards it should get faster depending on the beam size.
+
+CRF-approximation
+-----------------
+
+The extended code for approximate CRF is available in `code_with_approx_crf.zip`.
 
 Output
 ------
@@ -59,11 +71,11 @@ If you want to do evaluation with Hockenmaier style dependencies then GLUE nodes
 References
 -------------
 
-    @InProceedings{NAACL2019:CCG,
-      author    = "Milo\v{s} Stanojevi\'{c} and Mark Steedman",
-      title     = "CCG Parsing Algorithm with Incremental Tree Rotation",
-      booktitle = "Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics, Volume 1 (Long Papers)",
-      year      = "2019",
-      publisher = "Association for Computational Linguistics",
-      location  = "Minneapolis, Minnesota"
+    @inproceedings{ACL2020:CCG,
+      title="{CCG Parsing with a Fully Incremental Neural Model}",
+        booktitle = "Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+        author    = "Milo\v{s} Stanojevi\'{c} and Mark Steedman",
+        year = "2020",
+        address = "Seattle, Washington",
+        publisher = "Association for Computational Linguistics",
     }

@@ -17,7 +17,7 @@ final case class Conjunction() extends CombinatorBinary{
 
   override def apply(x: Category, y: Category): Category = ConjCat(y)
 
-  override def toString: String = "Conj"
+  override def toString: String = "Φ>" // "Conj"
 
 }
 

@@ -1,7 +1,7 @@
 package edin.nn.embedder
 
+import edin.dependencies.DepNode
 import edin.general.Any2Int
-import edin.general.trees.dependency.DepNode
 import edin.nn.DyFunctions.{dropout, _}
 import edin.nn._
 import edin.nn.layers.{Layer, SingleLayer}

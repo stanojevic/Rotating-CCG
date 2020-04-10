@@ -1,6 +1,6 @@
 package edin.ccg.representation.combinators
 
-import edin.ccg.representation.category.{Category, ConjCat, Functor, Slash}
+import edin.ccg.representation.category.{Category, ConjCat}
 
 final case class TypeChangeUnary(
                                   from:Category,
@@ -14,11 +14,11 @@ final case class TypeChangeUnary(
   override val toString: String = if(from == Category.N && to == Category.NP){
     s"TC_BNP"
   }else{
-    s"TC____${from}_____==>_____$to"
+    s"TC__${from}__=>__$to"
   }
 
   override def isUnaryCoordination: Boolean = to match {
-    case ConjCat(_) => true
+    case ConjCat(`from`) => true
     case _ => false
   }
 }

@@ -3,7 +3,7 @@ package edin.ccg.parsing
 import java.io.PrintWriter
 
 import edin.algorithms.evaluation.LogProbAggregator
-import edin.algorithms.{Math, Pointer, Zipper}
+import edin.algorithms.Math
 import edin.ccg.representation._
 import edin.ccg.transitions._
 import edin.ccg._
@@ -12,13 +12,14 @@ import edin.ccg.representation.combinators.{Combinator, TypeChangeUnary}
 import edin.ccg.representation.tree._
 import edin.general._
 import edin.nn.DynetSetup
-import edin.nn.embedder.{EmbedderStandard, SequenceEmbedderELMo, SequenceEmbedderGeneral, SequenceEmbedderGeneralConfig}
+import edin.nn.embedder._
 import edin.nn.layers.{VocLogSoftmax, VocLogSoftmaxConfig}
-import edu.cmu.dynet.{Expression, ParameterCollection}
+import edu.cmu.dynet.{Dim, Expression, Parameter, ParameterCollection}
 
-import scala.util.{Failure, Success, Try}
+import scala.util.Try
 
 class RevealingModel(
+                  var language       : String  = null,
                       embeddingsFile : String  = null,
                       embeddingsDim  : Int     = -1,
                       lowercased     : Boolean = false
@@ -32,27 +33,36 @@ class RevealingModel(
   var parserProperties       : ParserProperties                = _
   var neuralParameters       : NeuralParameters                = _
   var isDiscriminative       : Boolean                         = false
-  var validBeamSizeParsing   : Int                             = 1
-  var validBeamSizeWord      : Int                             = 1
-  var validBeamSizeFastTrack : Int                             = 0
+  def isGenerative           : Boolean                         = ! isDiscriminative
+  var isLearnedRescaled      : Boolean                         = _
   var vocabularyLogSoftmax   : VocLogSoftmax[String]           = _
 
-  private val elmoPointer = new Pointer[SequenceEmbedderELMo]
+  var validBeamKMidParsing   : Int                             = 1
+  var validBeamKOutWord      : Int                             = 1
+  var validBeamRescaled      : Boolean                         = true
+  var validBeamType          : String                          = _
+  var validBeamKOutParsing   : Int                             = 1
+  var validBeamKOutTagging   : Int                             = 1
+  var scalingWeights         : Parameter                       = _
+
+  override val toSentence: Option[TrainInstance => List[String]] = Some(_.words)
 
   override protected def hyperParamTransformPermanently(hyperParam: YamlConfig): YamlConfig = {
-    val dim = if(embeddingsFile != null){
-      EmbedderStandard.pretrainedEmb_loadDim(embeddingsFile)
-    }else{
-      embeddingsDim
+    val dim = Option(embeddingsFile) match {
+      case Some(file) => EmbedderStandard.pretrainedEmb_loadDim(file)
+      case None       => embeddingsDim
     }
 
     hyperParam.mapAllTerminals(Map[String, AnyRef]( elems=
+      "RESOURCE_LANGUAGE"     -> this.language,
       "RESOURCE_EMB_DIM"      -> dim.asInstanceOf[AnyRef],
-      "RESOURCE_EMB_LOC"      -> embeddingsFile
     ))
   }
 
   override protected def defineModelFromHyperFile()(implicit model: ParameterCollection): Unit = {
+
+    scalingWeights           = model.addParameters(Dim(3))
+
     val config:YamlConfig = hyperParams.mapAllTerminals(Map[String, AnyRef](elems =
       "RESOURCE_C2I"                -> allS2I.c2i,
       "RESOURCE_W2I_TGT_GENERATION" -> allS2I.w2i_tgt_gen,
@@ -61,10 +71,13 @@ class RevealingModel(
       "RESOURCE_COMB2I"             -> allS2I.comb2i,
       "RESOURCE_TAGS_SIZE"          -> allS2I.taggingOptions2i.size.asInstanceOf[AnyRef],
       "RESOURCE_TRANS_SIZE"         -> allS2I.reduceOptions2i.size.asInstanceOf[AnyRef],
-      "RESOURCE_ELMo_POINTER"       -> elmoPointer
+      "RESOURCE_EMB_LOC"            -> embeddingsFile
     ))
 
     parserProperties = ParserProperties.fromYaml(hyperParams("parser-properties"))
+
+    this.language = hyperParams("parser-properties")("language").str
+    Combinator.setLanguage(this.language, combinatorsContainer)
 
     sequenceEmbedder = SequenceEmbedderGeneralConfig.fromYaml(
       config("sequence-embedder")
@@ -72,136 +85,87 @@ class RevealingModel(
 
     isDiscriminative = config("main-vars").getOrElse("model-type", "discriminative") == "discriminative"
     assert(Set("discriminative", "generative") contains config("main-vars").getOrElse("model-type", "discriminative") )
-    validBeamSizeParsing = config("main-vars").getOrElse("valid-beam-size-parsing", 1)
-    if(isDiscriminative){
-      validBeamSizeWord = 0
-      validBeamSizeFastTrack = 0
-    }else {
-      validBeamSizeWord = config("main-vars").getOrElse("valid-beam-size-word", 1)
-      validBeamSizeFastTrack = config("main-vars").getOrElse("valid-beam-size-fasttrack", 0)
-    }
-    if(!isDiscriminative)
+
+    isLearnedRescaled = config("main-vars")("learned-rescaling").bool
+
+    if(isGenerative)
       vocabularyLogSoftmax = VocLogSoftmaxConfig.fromYaml(config("word-softmax")).construct()
 
-    neuralParameters = NeuralParameters.fromYaml(
-      config("neural-parameters")
-    )
+    validBeamRescaled    = config("main-vars").getOrElse("valid-beam-rescaled"        , false        )
+    validBeamType        = config("main-vars").getOrElse("valid-beam-type"            , "simple"     )
+    validBeamKMidParsing = config("main-vars").getOrElse("valid-beam-size-parsing"    , 1            )
+    validBeamKOutParsing = config("main-vars").getOrElse("valid-beam-size-parsing-out", validBeamKMidParsing )
+    validBeamKOutWord    = config("main-vars").getOrElse("valid-beam-size-word"       , 1            )
+    validBeamKOutTagging = config("main-vars").getOrElse("valid-beam-size-tag"        , 1            )
+
+    neuralParameters = NeuralParameters.fromYaml( config("neural-parameters") )
   }
 
   override def validate(devData: Iterable[IndexedInstance[TrainInstance]]): (Double, Map[String, Double]) = {
     val evaluator = MainEvaluate.newEvaluatorsPackage()
     val logProbAggregator = new LogProbAggregator()
 
-    for((IndexedInstance(_, inst), i) <- devData.zipWithIndex){
+    for((IndexedInstance(_, tree), i) <- devData.zipWithIndex){
 
       if(i%100==0 && i>0)
         System.err.println(s"validation $i")
 
-      setEmbedding(inst.tree.words, inst.emb)
       DynetSetup.cg_renew()
 
-      val words = inst.tree.words
+      val words = tree.words
 
-      val finalBeam = Try(Parser.parseMany(words, parsingBeamSize = validBeamSizeParsing, wordBeamSize = validBeamSizeWord, fastTrackBeamSize = validBeamSizeFastTrack)(List(this))) match {
-        case Success(value) => value
-        case Failure(e) =>
-          val pw = new PrintWriter(s"EXCEPTION")
-          pw.println(e)
-          pw.close()
-
-          inst.tree.saveVisual(s"origTree", "origTree")
-          parserProperties.prepareDerivationTreeForTraining(inst.tree).saveVisual(s"transTree", "transTree")
-          throw e
+      val finalBeam = Try(Parser.parseKbest(
+          sent         = words,
+          beamType     = validBeamType,
+          beamRescaled = validBeamRescaled,
+          kMidParsing  = validBeamKMidParsing,
+          kOutParsing  = validBeamKOutParsing,
+          kOutWord     = validBeamKOutWord,
+          kOutTagging  = validBeamKOutTagging,
+          maxStackSize = Int.MaxValue
+        )(List(this))
+      ).getOrElse{
+        new PrintWriter(s"EXCEPTION").close()
+        System.err.println("SOME EXPECTION")
+        tree.saveVisual(s"origTree", "origTree")
+        parserProperties.prepareDerivationTreeForTraining(tree).saveVisual(s"transTree", "transTree")
+        throw new Exception("SOME EXCEPTION")
       }
-      evaluator.addToCounts(sys = finalBeam.head._1, ref = inst.tree)
+      evaluator.addToCounts(sys = finalBeam.head._1, ref = tree)
 
-      if(!isDiscriminative) {
+      if(isGenerative) {
         val sentLogProb = Math.logSumExp(finalBeam.map(_._2))
         logProbAggregator.addLogProb(sentLogProb, words.size)
       }
-
-      unsetEmbedding(inst.tree.words)
     }
 
     (evaluator.mainScore, evaluator.exposedScores.toMap++logProbAggregator.exposedScores.toMap)
   }
 
-  private def setEmbedding(sent:List[String], emb:SentEmbedding) : Unit = {
-    if(emb != null && elmoPointer() != null){
-      // turn on precomputed
-      elmoPointer().cachedEmbeddings(sent) = emb
-    }
-  }
-
-  private def unsetEmbedding(sent:List[String]) : Unit = {
-    if(elmoPointer() != null){
-      // turn off precomputed
-      elmoPointer().cachedEmbeddings.remove(sent)
-    }
-  }
-
   override def computeLoss(instance: IndexedInstance[TrainInstance]): Expression = {
     currentlyProcessing = instance
-
-    // System.err.println(s"proc ${instance.index} ${instance.instance.tree.words.mkString(" ")}")
-
-    setEmbedding(instance.instance.tree.words, instance.instance.emb)
-    val loss = Parser.loss(instance.instance.tree)(this)
-    unsetEmbedding(instance.instance.tree.words)
-
+    val loss = Parser.loss(instance.instance)(this)
     loss
   }
 
-  override def loadTrainData(file: String): Iterator[TrainInstance] = {
-    val instances = representation.DerivationsLoader.fromFile(file)
-    val useElmo = hyperParams("sequence-embedder").deepSearch("ELMo").nonEmpty
-    val precomputeEmbs = hyperParams("trainer").getOrElse("precomputation-all-ELMo-embeddings", default= false)
-    if(useElmo && precomputeEmbs){
-      System.err.println(s"Loading precomputed ELMo embeddings for $file")
-      val embeddingType = hyperParams("sequence-embedder").deepSearch("ELMo-type").head.str
-      val r : String => Iterator[List[String]] = f => DerivationsLoader.fromFile(f).map{_.words}
-      SequenceEmbedderELMo.precomputeEmbsSafe(file, r, embeddingType)
-      val embs = new ObjectIteratorFromFile[List[Array[Float]]](s"$file.elmo.$embeddingType")
-      Zipper.zip2(instances, embs).map{case (x, y) => Inst(x, y)}
-    }else{
-      Zipper.zip2(instances, Stream.from(0).map(_=>null.asInstanceOf[SentEmbedding]).iterator).map{
-        case (x:TreeNode, y:SentEmbedding) => Inst(x, y)
-        case (x:TreeNode, null) => Inst(x, null)
-      }
-    }
-  }
+  override def loadTrainData(file: String): Iterator[TrainInstance] =
+    representation.DerivationsLoader.fromFile(file)
 
-  override protected def loadExtra(modelDir: String): Unit = {
+  override def loadExtra(modelDir: String): Unit = {
     allS2I = AllS2I.load(modelDir)
     combinatorsContainer = CombinatorsContainer.load(s"$modelDir/combinator_container.serialized")
   }
 
-  var firstIteration = true
-  override protected def saveExtra(modelDir: String): Unit = {
-    if(firstIteration){
-      allS2I.save(modelDir)
-      combinatorsContainer.save(s"$modelDir/combinator_container.serialized")
-      firstIteration = false
-    }
+  override def saveExtra(modelDir: String): Unit = {
+    allS2I.save(modelDir)
+    combinatorsContainer.save(s"$modelDir/combinator_container.serialized")
   }
 
   override def filterTrainingData(trainData: Iterable[IndexedInstance[TrainInstance]]): Iterator[IndexedInstance[TrainInstance]] = trainData.iterator
 
-  override def precomputeChunk(chunk: Iterable[IndexedInstance[TrainInstance]]): Unit = {
-    if(hyperParams("main-vars")("precompute-embeddings").bool){
-      sequenceEmbedder.cleanPrecomputedCache()
-      chunk.filter(_.instance.emb != null).foreach{inst =>
-        val sent = inst.instance.tree.words
-        if(elmoPointer() != null)
-          elmoPointer().cachedEmbeddings(sent) = inst.instance.emb
-      }
-      sequenceEmbedder.precomputeEmbeddings(chunk.map{_.instance.tree.leafs.map{_.word}}.toList)
-    }
-  }
-
   override def prepareForMiniBatch(miniBatch: List[IndexedInstance[TrainInstance]]): Unit = {
-    if(!isDiscriminative){
-      val miniBatchWords: Set[String] = miniBatch.flatMap(_.instance.tree.words).toSet
+    if(isGenerative){
+      val miniBatchWords: Set[String] = miniBatch.flatMap(_.instance.words).toSet
       vocabularyLogSoftmax.resampleImportaneSamples(miniBatchWords)
     }
   }
@@ -224,18 +188,25 @@ class RevealingModel(
     }
     val c2i = new String2Int()
 
+    val minTagCount = if(language == "General")
+      0
+    else if (hyperParams("main-vars").contains("min-supertag-count"))
+      hyperParams("main-vars")("min-supertag-count").int
+    else
+      10
+
     val cat2i            = new DefaultAny2Int[Category](         withUNK = true  , minCount=0 , UNK=Category("UNKNOWN"))
     val comb2i           = new DefaultAny2Int[Combinator](       withUNK = true  , minCount=0 , UNK=TypeChangeUnary(Category("UNKNOWN"), Category("UNKNOWN")))
-    val taggingOptions2i = new DefaultAny2Int[TransitionOption]( withUNK = false , minCount=hyperParams("main-vars").getOrElse("min-supertag-count", 10) )
+    val taggingOptions2i = new DefaultAny2Int[TransitionOption]( withUNK = false , minCount=minTagCount)
     val reduceOptions2i  = new DefaultAny2Int[TransitionOption]( withUNK = false , minCount=0 )
 
     combinatorsContainer = new CombinatorsContainer()
 
-    trainData.foreach{ case IndexedInstance(_, inst) =>
+    for(IndexedInstance(_, tree) <- trainData){
 
-      val origTree = inst.tree
+      val origTree = tree
 
-      origTree.leafs.foreach{ case TerminalNode(word, category) =>
+      for(TerminalNode(word, category) <- origTree.leafs){
         taggingOptions2i.addToCounts(TaggingOption(category))
         if(embeddingsFile == null || w2i_tgt_embed.frequency(word)>0){
           w2i_tgt_embed.addToCounts(word)
@@ -253,7 +224,7 @@ class RevealingModel(
       treeWithRevealing.allNodes.foreach{
         case UnaryNode(c, _)     => combinatorsContainer.add(c)
         case BinaryNode(c, _, _) => combinatorsContainer.add(c)
-        case _ =>
+        case _                   =>
       }
 
       treeWithRevealing.allNodes.flatMap(_.getCombinator).withFilter(Combinator.isPredefined).foreach(comb2i.addToCounts)
@@ -261,29 +232,28 @@ class RevealingModel(
       treeWithRevealing.allNodes.map(_.category).foreach(cat2i.addToCounts)
     }
 
-    // w2i(0) // to lock the w2i
-    w2i_tgt_gen.lock()
-    w2i_tgt_embed.lock()
-    cat2i.lock()
-    comb2i.lock()
+    Combinator.setLanguage(language, combinatorsContainer)
 
     parserProperties.reduceOptions(combinatorsContainer).foreach(reduceOptions2i.addToCounts)
 
+    w2i_tgt_gen.lock()
+    w2i_tgt_embed.lock()
+    c2i.lock()
+    cat2i.lock()
+    comb2i.lock()
+    taggingOptions2i.lock()
+    reduceOptions2i.lock()
+
     allS2I = new AllS2I(
-      w2i_tgt_gen      = w2i_tgt_gen, //: Any2Int[String],
-      w2i_tgt_embed    = w2i_tgt_embed, //: Any2Int[String],
-      c2i              = c2i, //: Any2Int[String],
-      cat2i            = cat2i, //: Any2Int[Category],
-      comb2i           = comb2i, //: Any2Int[Combinator],
+      w2i_tgt_gen      = w2i_tgt_gen,      //: Any2Int[String],
+      w2i_tgt_embed    = w2i_tgt_embed,    //: Any2Int[String],
+      c2i              = c2i,              //: Any2Int[String],
+      cat2i            = cat2i,            //: Any2Int[Category],
+      comb2i           = comb2i,           //: Any2Int[Combinator],
       taggingOptions2i = taggingOptions2i, //: Any2Int[TransitionOption],
-      reduceOptions2i  = reduceOptions2i //: Any2Int[TransitionOption]
+      reduceOptions2i  = reduceOptions2i   //: Any2Int[TransitionOption]
     )
   }
-
-  override def trainingEnd(): Unit = {
-    SequenceEmbedderELMo.endServer()
-  }
-
 
 }
 

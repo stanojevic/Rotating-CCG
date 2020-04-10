@@ -1,29 +1,15 @@
 package edin.nn.embedder
 
-import java.io._
-import java.net.ServerSocket
-
-import edin.algorithms.Pointer
-import edin.general.{Global, YamlConfig}
-import edin.nn.DyFunctions._
-import edin.nn.layers.{Layer, SingleLayer}
+import edin.general.{Python, YamlConfig}
 import edu.cmu.dynet.{Expression, ParameterCollection}
-
-import scala.collection.mutable.{Map => MutMap}
-import scala.collection.JavaConverters._
-import org.apache.thrift.transport.TSocket
-import org.apache.thrift.protocol.TBinaryProtocol
-
-import scala.util.{Failure, Success, Try}
-
+import edin.nn.DyFunctions._
+import edin.nn.layers.SingleLayer
 
 case class SequenceEmbedderELMoConfig(
                                        embeddingType           : String,
-                                       withoutCompression      : Boolean,
                                        normalize               : Boolean,
                                        dropout                 : Float,
                                        outDim                  : Int,
-                                       elmoPointer             : Pointer[SequenceEmbedderELMo]
                                      ) extends SequenceEmbedderGeneralConfig[String]{
   override def construct()(implicit model: ParameterCollection): SequenceEmbedderGeneral[String] = new SequenceEmbedderELMo(this)
 }
@@ -32,227 +18,97 @@ object SequenceEmbedderELMoConfig{
 
   def fromYaml(origConf:YamlConfig) : SequenceEmbedderGeneralConfig[String] = {
     val embType = origConf("ELMo-type").str
-    assert(Set("average-top", "concat-top", "forward-top", "backward-top", "local") contains embType)
+    assert(Set("average_top", "concat_top", "forward_top", "backward_top", "local") contains embType)
     val outDim = origConf("out-dim").int
     val withoutCompression = origConf.getOrElse("withoutCompression", false)
     SequenceEmbedderELMoConfig(
       embeddingType      = embType,
-      withoutCompression = withoutCompression,
-      normalize          = origConf.getOrElse("normalize", false),
-      dropout            = origConf.getOrElse("dropout", 0f),
-      outDim             = outDim,
-      elmoPointer        = origConf.getOrElse("elmo-pointer", new Pointer[SequenceEmbedderELMo])
+      normalize          = origConf("normalize").bool,
+      dropout            = origConf("dropout").float,
+      outDim             = outDim
     )
   }
 
 }
 
-object SequenceEmbedderELMo{
+class SequenceEmbedderELMo(config: SequenceEmbedderELMoConfig)(implicit model: ParameterCollection) extends SequenceEmbedderGeneral[String] with SequenceEmbedderPrecomputable {
 
-  /**
-    * @param reader
-    *               reader is a funciton that transforms filename into a iterator over sentences
-    *               where each sentence is a list of words
-    *               this is useful in case line is not a normal sequenc of words but for example a penn tree
-    */
-  def precomputeEmbsSafe(sentsFile:String, reader:String => Iterator[List[String]], elmoType:String) : Unit = {
-    val lockFile = new File(s"$sentsFile.elmo.$elmoType.lock")
+  override type T = List[Array[Float]]
 
-    if(lockFile.exists()){
-      var i = 0
-      while(lockFile.exists()){
-        if(i%30==0)
-          System.err.println("waiting for embeddings ; 5 minute check")
-        Thread.sleep(10*1000)
-        i+=1
-      }
-    }else{
-      if(! new File(s"$sentsFile.elmo.$elmoType").exists()){
-        lockFile.createNewFile()
-        precomputeEmbs(sentsFile, reader, elmoType)
-        lockFile.delete()
-        Thread.sleep( 1*1000)
-      }
-    }
+  override val name: String = "ELMo_"+(if(config.normalize) "normalized" else "raw")+"_"+config.embeddingType
+
+  private val compressor = SingleLayer.compressor(ELMoDim, config.outDim)
+
+  private def ELMoDim: Int = config.embeddingType match {
+    case "concat_top" => 2*512
+    case _            =>   512
   }
 
-  private def precomputeEmbs(sentsFile:String, reader:String => Iterator[List[String]], elmoType:String) : Unit = {
-    val pw = new ObjectOutputStream(
-      new BufferedOutputStream(
-        new FileOutputStream(s"$sentsFile.elmo.$elmoType")))
-
-    val batchSize = 64
-
-    var lastPrinted = 0
-    var processed = 0
-
-    reader(sentsFile).sliding(batchSize, batchSize).foreach{ batch =>
-      val embs = SequenceEmbedderELMo.embed_sents(elmoType, batch.toList)
-      for(emb <- embs){
-        pw.writeObject(emb)
-      }
-      processed += batch.size
-      if(processed - lastPrinted > 100){
-        lastPrinted = processed
-        System.err.println(s"processed $processed")
-      }
-    }
-
-    pw.close()
-
-    SequenceEmbedderELMo.endServer()
+  private var ELMO_loaded = false
+  private def loadELMo() : Unit = {
+    System.err.println("Loading ELMO model START -- potentially also downloading the models if this is a first run")
+    Python.exec("from allennlp.commands.elmo import ElmoEmbedder")
+    Python.exec("import numpy as np")
+    Python.exec(s"${name}layer=2")
+    Python.exec(s"${name}half_dimension=512")
+    Python.set(s"${name}emb_type", config.embeddingType)
+    Python.set(s"${name}options_file", "https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_options.json")
+    Python.set(s"${name}weight_file",  "https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5")
+    Python.exec(s"${name}embedder = ElmoEmbedder(options_file=${name}options_file, weight_file=${name}weight_file)")
+    System.err.println("Loading ELMO model DONE")
   }
 
-  private def findFreePort(start:Int, end:Int) : Int = {
-    for(i <- start to end){
-      Try(new ServerSocket(i)) match {
-        case Success(socket) =>
-          socket.close()
-          return i
-        case Failure(_) =>
-      }
+  override protected def embedBatchDirect(sents: Seq[List[String]]) : List[List[Array[Float]]] = {
+    if(! ELMO_loaded){
+      loadELMo()
+      ELMO_loaded = true
     }
-    throw new Exception("couldn't find a free port")
+    Python.setList(s"${name}batch", sents)
+    Python.exec(s"${name}ress = ${name}embedder.embed_sentences(${name}batch)")
+
+    Python.exec(s"${name}all_vectors = []")
+    Python.exec(cmd =
+      s"for ${name}sent, ${name}res in zip(${name}batch, ${name}ress):",
+      s"  ${name}curr_seq_vecs = []",
+      s"  for ${name}word_position in range(len(${name}sent)):",
+      s"    if ${name}emb_type == 'forward_top':",
+      s"      ${name}vec = ${name}res[${name}layer, ${name}word_position, :${name}half_dimension]",
+      s"    elif ${name}emb_type == 'backward_top':",
+      s"      ${name}vec = ${name}res[${name}layer, ${name}word_position, ${name}half_dimension:]",
+      s"    elif ${name}emb_type == 'concat_top':",
+      s"      ${name}vec = ${name}res[${name}layer, ${name}word_position, :]",
+      s"    elif ${name}emb_type == 'average_top':",
+      s"      ${name}fwds_vec = ${name}res[${name}layer, ${name}word_position, :${name}half_dimension]",
+      s"      ${name}bcks_vec = ${name}res[${name}layer, ${name}word_position, ${name}half_dimension:]",
+      s"      ${name}vec = np.add(${name}fwd_vec, ${name}bck_vec)/2",
+      s"    elif ${name}emb_type == 'local':",
+      s"      ${name}vec = ${name}res[0, ${name}word_position, :${name}half_dimension]",
+      s"    else:",
+      s"      print('unknown emb_type %s'%emb_type, file=stderr)",
+      s"      exit(-1)",
+      if(config.normalize) s"    ${name}vec = ${name}vec/np.linalg.norm(${name}vec, 2)" else s"",
+      s"    ${name}curr_seq_vecs.append(${name}vec)",
+      s"  ${name}all_vectors.append(${name}curr_seq_vecs)")
+
+    val all_embs = sents.indices.map( i => Python.getListOfNumPyArrays(s"${name}all_vectors[$i]") )
+
+    Python.delVar(s"${name}all_vectors")
+    Python.delVar(s"${name}batch")
+    Python.delVar(s"${name}ress")
+
+    all_embs.toList
+
   }
 
+  override def transduce(xs: List[String]): List[Expression] =
+    cache
+      .getOrElse(xs, embedBatchDirect(xs::Nil).head)
+      .map(x => dropout(compressor(vector(x)), config.dropout) )
 
-  def embed_sents(
-             emb_type     : String,
-             sents        : List[List[String]]
-           ) : List[List[Array[Float]]] = {
-    if(sents.isEmpty){
-      return Nil
-    }
-    val java_sents = sents.map{_.asJava}.asJava
-    val embs = elmo_service.embed_sents(java_sents, emb_type)
-    val scala_embs = embs.asScala.toList.map{ sent_embs =>
-      sent_embs.asScala.toList.map{ emb =>
-        emb.asScala.map{_.toFloat}.toArray
-      }
-    }
-    scala_embs
-  }
+  override def zeros: Expression = Expression.zeros(config.outDim)
 
-  private var _memo_elmo_service : SequenceEmbedderELMo_Service.Client = _
-  private var _tsocket : TSocket = _
-  def elmo_service : SequenceEmbedderELMo_Service.Client = {
-    if(_memo_elmo_service == null){
-      System.err.println("\nStarting ELMo server START")
-      val port = findFreePort(9000, 9100)
-      System.err.println(s"using port $port for ELMo")
+  override def precomputeEmbeddings(sents: Iterable[List[String]]): Unit = {}
 
-      val script = Global.projectDir+"/scripts/embedding/elmo_embed_server.py"
-      val cmd = s"$script $port"
-      Runtime.getRuntime.exec(Array("/bin/sh", "-c", cmd))
-      Thread.sleep(1000) // to give server enough time to start ; just in case
-
-      _tsocket = new TSocket("localhost", port)
-      _tsocket.open()
-      _memo_elmo_service = new SequenceEmbedderELMo_Service.Client(new TBinaryProtocol(_tsocket))
-      _memo_elmo_service.start_elmo()
-      System.err.println("Starting ELMo server DONE")
-    }
-    _memo_elmo_service
-  }
-
-  def endServer() : Unit = {
-    if(_memo_elmo_service != null){
-      _memo_elmo_service.quit()
-      _memo_elmo_service = null
-    }
-    if(_tsocket != null){
-      _tsocket.close()
-      _tsocket = null
-    }
-  }
-
-  override def finalize(): Unit = {
-    endServer()
-  }
+  override def cleanPrecomputedCache(): Unit = {}
 
 }
-
-class SequenceEmbedderELMo(config: SequenceEmbedderELMoConfig)(implicit model: ParameterCollection) extends SequenceEmbedderGeneral[String] {
-
-  config.elmoPointer.content = this
-
-  private val half_dimension = 512
-
-  private val outDim = config.outDim
-  private val embeddingType = config.embeddingType
-
-  private val compressor : Layer = if(config.withoutCompression){
-    assert(outDim == ELMoDim)
-    null
-  }else{
-    SingleLayer.compressor(ELMoDim, outDim)
-  }
-
-  private def compress(x:Expression) :Expression = if(compressor == null) x else compressor(x)
-
-  var cachedEmbeddings : MutMap[List[String], List[Array[Float]]] = MutMap()
-
-  // override def precomputeEmbeddings(sents:Iterable[List[String]]) : Unit = {}
-  override def precomputeEmbeddings(sents:Iterable[List[String]]) : Unit =
-    for((sent, emb) <- sents zip embedSents(sents))
-      cachedEmbeddings(sent) = emb
-
-  private var lastKCache = List[(List[String], List[Array[Float]])]()
-  private val lastKToCache = 3
-
-  override def transduce(xs: List[String]): List[Expression] = {
-    val vectors = if(cachedEmbeddings contains xs) {
-      cachedEmbeddings(xs)
-    }else if(lastKCache.exists(_._1 == xs)){
-      lastKCache.find(_._1 == xs).get._2
-    }else{
-      embedSent(xs)
-    }
-    if(lastKToCache>0){
-      val rest = if(lastKCache.size >= lastKToCache){
-        lastKCache.init
-      }else{
-        lastKCache
-      }
-      lastKCache = (xs, vectors) :: rest
-    }
-    vectors.map{x =>
-      val xExp = vector(x)
-      val xNormalized = if(config.normalize) xExp/(Expression.l2Norm(xExp)+1e-10) else xExp
-      compress(dropout(xNormalized, config.dropout))
-    }
-  }
-
-  override def zeros: Expression = Expression.zeros(outDim)
-
-  private def ELMoDim: Int = embeddingType match {
-    case "concat-top" => 2*half_dimension
-    case _            =>   half_dimension
-  }
-
-  override def cleanPrecomputedCache(): Unit = {
-    cachedEmbeddings = MutMap()
-  }
-
-  private def embedSent(sent:List[String]) : List[Array[Float]] = {
-    embedSents(List(sent)).head
-  }
-
-  private def embedSents(sents:Iterable[List[String]]) : Iterable[List[Array[Float]]] = {
-    val (processed, toProcess) = sents.zipWithIndex.partition{case (sent, _) => cachedEmbeddings.contains(sent)}
-    val toProcessSents = toProcess.map(_._1).toList
-    val allEmbs = SequenceEmbedderELMo.embed_sents(embeddingType, toProcessSents)
-    val toProcessResult = (toProcess zip allEmbs).map{case ((_, i), emb) => (emb, i)}
-    val processedResult = processed.map{case (sent, i) => (cachedEmbeddings(sent), i)}
-    val result = (toProcessResult ++ processedResult).
-      toList.
-      sortBy(_._2).
-      map( _._1.map(EmbedderStandard.fixEmbedding) )
-    if(! (sents zip result).forall(x => x._1.size == x._2.size)){
-      throw new Exception("number of words and the number of precomputed embeddings doesn't match ; need to recompute them?")
-    }
-    result
-  }
-
-}
-

@@ -1,0 +1,1322 @@
+46733 NP NP/NP NP
+24155 S[dcl]\NP (S\NP)/(S\NP) S[dcl]\NP
+15847 S[dcl] NP S[dcl]\NP
+14037 S[dcl]\NP (S[dcl]\NP)/NP NP
+7623 S[dcl]\NP (S[dcl]\NP)/(S[dcl]\NP) S[dcl]\NP
+7601 S[dcl] S[dcl] .
+7419 S[dcl] S/S S[dcl]
+5481 S[dcl] S[dcl] S[dcl][conj]
+5226 (S\NP)/(S\NP) ((S\NP)/(S\NP))/NP NP
+5207 S[dcl][conj] , S[dcl]
+5203 S[dcl] S[dcl]\NP
+5135 NP/NP NP (NP/NP)\NP
+3815 NP/NP (NP/NP)/M M
+3666 S[dcl]\NP (S[dcl]\NP)/S[dcl] S[dcl]
+3302 S[dcl]\NP S[dcl]\NP S[dcl]\NP[conj]
+2779 S[dcl]\NP[conj] , S[dcl]\NP
+2685 NP/NP (NP/NP)/(NP/NP) NP/NP
+2674 NP/NP S[dcl]\NP (NP/NP)\(S[dcl]\NP)
+2618 (S[dcl]\NP)/NP (S[dcl]\NP)/NP (S\NP)\(S\NP)
+2136 (S[dcl]\NP)/(S[dcl]\NP) ((S[dcl]\NP)/(S[dcl]\NP))/NP NP
+2014 S/S S/S ,
+1794 NP NP NP[conj]
+1776 LCP NP LCP\NP
+1662 NP[conj] conj NP
+1498 QP QP/M M
+1314 NP conj NP
+1308 NP/NP S[dcl] (NP/NP)\S[dcl]
+1123 (S\NP)/(S\NP) ((S\NP)/(S\NP))/LCP LCP
+1095 (S[dcl]\NP)/NP (S\NP)/(S\NP) (S[dcl]\NP)/NP
+975 S/(S\NP) NP
+958 S[dcl]/NP S/(S\NP) (S[dcl]\NP)/NP
+890 (S\NP)/(S\NP) ((S\NP)/(S\NP))/((S\NP)/(S\NP)) (S\NP)/(S\NP)
+873 (S[dcl]\NP)/S[dcl] (S[dcl]\NP)/S[dcl] ,
+823 S/S (S/S)/NP NP
+786 NP/NP S[dcl]/NP (NP/NP)\(S[dcl]/NP)
+751 (S\NP)/(S\NP) (S\NP)/(S\NP) ,
+729 S/S (S/S)/S[dcl] S[dcl]
+726 PP PP/NP NP
+719 (S[dcl]\NP)/S[dcl] (S[dcl]\NP)/S[dcl] :
+711 S[dcl]\NP (S[dcl]\NP)/QP QP
+649 S[dcl] S[dcl] RQU
+646 (S[dcl]\NP)/(S[dcl]\NP) ((S[dcl]\NP)/(S[dcl]\NP))/NP
+641 S/S (S/S)/(S/S) S/S
+634 NP NP NP
+534 S[dcl] S[dcl] S\S
+529 S/S NP
+526 S/S (S/S)/LCP LCP
+514 LCP S[dcl] LCP\S[dcl]
+499 NP/NP NP/NP (NP/NP)\(NP/NP)
+479 S[dcl]\NP[conj] conj S[dcl]\NP
+477 S[dcl]\NP S[dcl]\NP (S\NP)\(S\NP)
+471 (S\NP)/(S\NP) ((S\NP)/(S\NP))/S[dcl] S[dcl]
+456 NP/NP QP (NP/NP)\QP
+448 NP/NP PP (NP/NP)\PP
+436 NP NP ,
+426 S/S NP (S/S)\NP
+408 S[dcl]\NP (S[dcl]\NP)/PP PP
+400 S/S S[dcl] (S/S)\S[dcl]
+381 QP QP/QP QP
+370 NP/NP (NP/NP)/QP QP
+335 (S\NP)/(S\NP) ((S\NP)/(S\NP))/(S\NP) S[dcl]\NP
+334 S[dcl]/NP (S[dcl]\NP)/NP
+321 NP NP NP\NP
+315 S[dcl] S[dcl] S[dcl]\S[dcl]
+304 NP S[dcl] NP\S[dcl]
+296 (S\NP)/(S\NP) S[dcl]\NP ((S\NP)/(S\NP))\(S[dcl]\NP)
+292 S/S S/S (S/S)\(S/S)
+291 (S[dcl]\NP)/S[dcl] (S[dcl]\NP)/S[dcl] LQU
+289 (S[dcl]\NP)/NP (S[dcl]\NP)/(S[dcl]\NP) (S[dcl]\NP)/NP
+256 NP/NP LCP (NP/NP)\LCP
+240 NP/NP S[dcl]\NP
+238 S[dcl]\NP (S[dcl]\NP)/((S[dcl]\NP)/NP) (S[dcl]\NP)/NP
+234 (S\NP)/(S\NP) ((S\NP)/(S\NP))/M M
+225 (S\NP)/(S\NP) S[dcl] ((S\NP)/(S\NP))\S[dcl]
+210 (S/S)\NP ((S/S)\NP)/((S/S)\NP) (S/S)\NP
+181 S[dcl]\S[dcl] (S\S)/(S\S) S[dcl]\S[dcl]
+179 NP/NP NP/NP NP/NP[conj]
+178 S[dcl]\NP S[dcl]\NP ,
+175 NP/NP[conj] conj NP/NP
+167 (S\NP)/(S\NP) NP ((S\NP)/(S\NP))\NP
+164 S/S (S/S)\NP
+164 (NP/NP)/(NP/NP) NP ((NP/NP)/(NP/NP))\NP
+155 S[dcl] S[dcl] ,
+155 (S[dcl]\NP)/S[dcl] (S[dcl]\NP)/S[dcl] (S\NP)\(S\NP)
+151 ((S\NP)/(S\NP))/NP ((S\NP)/(S\NP))/NP (((S\NP)/(S\NP))/NP)\(((S\NP)/(S\NP))/NP)
+151 S[dcl]\NP (S[dcl]\NP)/LCP LCP
+146 (S[dcl]\NP)/QP (S[dcl]\NP)/QP (S\NP)\(S\NP)
+145 (NP/NP)/(NP/NP) ((NP/NP)/(NP/NP))/((NP/NP)/(NP/NP)) (NP/NP)/(NP/NP)
+143 PP PP/LCP LCP
+142 (S[dcl]\NP)/(S[dcl]\NP) (S[dcl]\NP)/(S[dcl]\NP) (S\NP)\(S\NP)
+141 S[dcl][conj] conj S[dcl]
+138 NP NP RRB
+137 NP S[dcl]\NP NP\(S[dcl]\NP)
+136 (S[dcl]\NP)/NP ((S[dcl]\NP)/NP)/((S[dcl]\NP)/NP) (S[dcl]\NP)/NP
+133 S[dcl] QP S[dcl]\QP
+132 NP LQU NP
+130 (S/S)\NP ((S/S)\NP)/NP NP
+125 PP PP/S[dcl] S[dcl]
+125 S[dcl]\S[dcl] (S[dcl]\S[dcl])/NP NP
+124 NP/NP NP/NP LRB
+122 (NP/NP)/(NP/NP) ((NP/NP)/(NP/NP))/M M
+121 S[dcl]\NP (S[dcl]\NP)/(S[dcl]/NP) S[dcl]/NP
+119 S\NP (S\NP)/((S[dcl]\NP)/NP) (S[dcl]\NP)/NP
+118 (S\NP)/((S[dcl]\NP)/NP) ((S\NP)/((S[dcl]\NP)/NP))/NP NP
+117 (S[dcl]\NP)/NP ((S[dcl]\NP)/NP)/NP NP
+112 (S\NP)/(S\NP) ((S\NP)/(S\NP))/QP QP
+112 LCP QP LCP\QP
+105 S[dcl] LCP S[dcl]\LCP
+105 (S[dcl]\NP)/NP (S[dcl]\NP)/NP (S[dcl]\NP)/NP[conj]
+104 S/S (S/S)/S S[dcl]
+99 NP/NP NP/NP ,
+98 S[dcl]/NP S/S S[dcl]/NP
+97 (S[dcl]\NP)\((S[dcl]\NP)/(S[dcl]\NP)) S[dcl]\NP
+97 S[dcl]\S[dcl] (S[dcl]\S[dcl])/(S[dcl]\NP) S[dcl]\NP
+96 S/S S/S :
+94 NP S[dcl]/NP NP\(S[dcl]/NP)
+90 (S[dcl]\NP)/S[dcl] ((S[dcl]\NP)/S[dcl])/((S[dcl]\NP)/S[dcl]) (S[dcl]\NP)/S[dcl]
+87 NP/NP NP/NP RQU
+87 NP/NP NP/NP LQU
+84 (S\NP)\(S\NP) ((S\NP)\(S\NP))/S[dcl] S[dcl]
+84 ((S\NP)/(S\NP))/(S\NP) (((S\NP)/(S\NP))/(S\NP))/NP NP
+82 NP/NP NP/NP RRB
+82 NP[conj] , NP
+79 (S[dcl]\NP)/NP[conj] conj (S[dcl]\NP)/NP
+77 S[dcl]\NP (S[dcl]\NP)/M M
+77 NP\S[dcl] (NP\S)/(NP\S) NP\S[dcl]
+74 (S[dcl]\NP)/QP ((S[dcl]\NP)/QP)/NP NP
+74 (S\NP)/(S\NP) ((S\NP)/(S\NP))/(S[dcl]\NP) S[dcl]\NP
+70 S[dcl] S[dcl] RRB
+70 NP/NP conj NP/NP
+68 S/(S/NP) NP
+68 S[dcl]\LCP (S[dcl]\LCP)/NP NP
+67 S[dcl]\LCP (S\LCP)/(S\LCP) S[dcl]\LCP
+67 (S/S)\NP ((S/S)\NP)/(S[dcl]\NP) S[dcl]\NP
+65 S[dcl] S/(S/NP) S[dcl]/NP
+64 S[dcl]\QP (S[dcl]\QP)/NP NP
+64 NP NP RQU
+64 (S[dcl]\NP)/(S[dcl]\NP) (S[dcl]\NP)/(S[dcl]\NP) ,
+62 (S[dcl]\NP)/NP (S[dcl]\NP)/NP LQU
+61 NP NP/M M
+60 NP\NP (NP\NP)/NP NP
+58 (S\NP)/(S\NP) (S\NP)/(S\NP) ((S\NP)/(S\NP))\((S\NP)/(S\NP))
+58 NP/NP LQU NP/NP
+57 S[dcl]\NP conj S[dcl]\NP
+56 (S\NP)/(S\NP) ((S\NP)/(S\NP))\NP
+56 S[dcl]\QP (S\QP)/(S\QP) S[dcl]\QP
+55 S/S (S/S)/M M
+54 NP/NP M
+54 NP/NP S[dcl]/NP
+54 NP/NP (NP/NP)/NP NP
+54 S[dcl] conj S[dcl]
+54 NP\NP (NP\NP)/(S[dcl]\NP) S[dcl]\NP
+54 S[dcl]/NP S[dcl]/NP .
+54 (NP/NP)/(NP/NP) S[dcl]\NP ((NP/NP)/(NP/NP))\(S[dcl]\NP)
+54 S/S QP (S/S)\QP
+52 (S\NP)/(S\NP) QP ((S\NP)/(S\NP))\QP
+52 (S[dcl]\NP)/NP ((S[dcl]\NP)/(S[dcl]\NP))/NP (S[dcl]\NP)\((S[dcl]\NP)/(S[dcl]\NP))
+49 S/S S/S RRB
+49 (S[dcl]\NP)/NP (S[dcl]\NP)/NP LRB
+47 NP NP/QP QP
+46 S[dcl]/NP S[dcl]/NP S[dcl]/NP[conj]
+45 (S\NP)/(S\NP) ((S\NP)/(S\NP))/PP PP
+45 S[dcl]/NP[conj] , S[dcl]
+44 S[dcl][conj] , S[dcl]/NP
+43 S/S S[dcl]
+43 NP/NP S\NP (NP/NP)\(S\NP)
+42 QP/QP NP (QP/QP)\NP
+41 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) (((S\NP)/(S\NP))/((S\NP)/(S\NP)))/M M
+40 (S\NP)/(S\NP) (S\NP)/(S\NP) (S\NP)/(S\NP)[conj]
+40 (S[dcl]\NP)/S[dcl] ((S[dcl]\NP)/S[dcl])/NP NP
+40 S/S LQU S/S
+39 ((S\NP)/(S\NP))\NP (((S\NP)/(S\NP))\NP)/(((S\NP)/(S\NP))\NP) ((S\NP)/(S\NP))\NP
+37 NP/NP S[dcl]
+36 S[dcl] (S[dcl]\NP)/NP
+36 ((S/S)\NP)/((S/S)\NP) (((S/S)\NP)/((S/S)\NP))/NP NP
+36 QP QP QP[conj]
+35 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) (((S\NP)/(S\NP))/((S\NP)/(S\NP)))/NP NP
+35 NP/NP LRB NP/NP
+35 S[dcl][conj] ; S[dcl]
+33 S[dcl]\S[dcl] (S\S)/(S\NP) S[dcl]\NP
+32 (S/S)/(S/S) S[dcl] ((S/S)/(S/S))\S[dcl]
+32 (S[dcl]\NP)/LCP (S[dcl]\NP)/LCP (S\NP)\(S\NP)
+32 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) S[dcl] (((S\NP)/(S\NP))/((S\NP)/(S\NP)))\S[dcl]
+32 (S[dcl]\NP)/NP ((S\NP)/(S\NP))/NP (S[dcl]\NP)\((S[dcl]\NP)/(S[dcl]\NP))
+32 QP/QP (QP/QP)/M M
+31 S[dcl]\S[dcl] S[dcl]\S[dcl] S[dcl]\S[dcl][conj]
+31 ((S[dcl]\NP)/(S[dcl]\NP))/NP ((S[dcl]\NP)/(S[dcl]\NP))/NP (S\NP)\(S\NP)
+31 S[dcl]\NP (S[dcl]\NP)/(S[dcl]\NP) S\NP
+31 (S\NP)/(S\NP) LQU (S\NP)/(S\NP)
+30 NP NP .
+30 (S/S)/(S/S) ((S/S)/(S/S))/M M
+29 (NP/NP)/(NP/NP) S[dcl]\NP
+29 NP/NP (NP/NP)/((S\NP)/(S\NP)) (S\NP)/(S\NP)
+29 NP\NP (NP\NP)/S[dcl] S[dcl]
+29 NP NP LRB
+28 S[dcl] S/(S\NP) S[dcl]\NP
+28 ((S/S)\NP)/NP ((S/S)\NP)/NP (((S/S)\NP)/NP)\(((S/S)\NP)/NP)
+28 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) (((S\NP)/(S\NP))/((S\NP)/(S\NP)))/(((S\NP)/(S\NP))/((S\NP)/(S\NP))) ((S\NP)/(S\NP))/((S\NP)/(S\NP))
+27 S/S (S/S)/QP QP
+27 (S\NP)/(S\NP)[conj] conj (S\NP)/(S\NP)
+27 S[dcl]\S[dcl][conj] , S[dcl]\S[dcl]
+27 (NP/NP)/((S\NP)/(S\NP)) ((NP/NP)/((S\NP)/(S\NP)))/M M
+27 S[dcl] S[dcl]/S[dcl] S[dcl]
+26 ((S\NP)\(S\NP))\NP (((S\NP)\(S\NP))\NP)/(((S\NP)\(S\NP))\NP) ((S\NP)\(S\NP))\NP
+26 QP[conj] conj QP
+26 NP[conj] conj S[dcl]
+24 S[q] S[dcl] S[q]\S[dcl]
+24 S[q] S[q] .
+24 (S[dcl]\NP)/S[dcl] (S\NP)/(S\NP) (S[dcl]\NP)/S[dcl]
+23 S[dcl]\NP S[dcl]\NP RQU
+23 conj conj LRB
+23 M M/M M
+23 NP/NP NP NP
+23 (S[dcl]\NP)/NP (S[dcl]\NP)/S[dcl] S[dcl]/NP
+22 (S\NP)/(S\NP) S[dcl]\NP
+22 (S[dcl]\NP)/NP (S[dcl]\NP)/NP ,
+22 (S/S)\NP ((S/S)\NP)/(S\NP) S[dcl]\NP
+22 S[dcl]\S[dcl] (S[dcl]\S[dcl])/S[dcl] S[dcl]
+22 S[dcl] S[dcl]/(S[dcl]\NP) S[dcl]\NP
+22 S[dcl]\NP S/S S[dcl]\NP
+22 S[dcl]\NP[conj] , (S[dcl]\NP)/NP
+21 NP S[dcl]\NP
+21 (NP/NP)/(NP/NP) S[dcl]/NP ((NP/NP)/(NP/NP))\(S[dcl]/NP)
+21 S[dcl]\NP (S\NP)/(S\NP) S\NP
+21 ((S\NP)/(S\NP))/(S[dcl]\NP) (((S\NP)/(S\NP))/(S[dcl]\NP))/NP NP
+21 (NP/NP)/(NP/NP)[conj] conj (NP/NP)/(NP/NP)
+21 (S/S)\NP (S/S)\NP ((S/S)\NP)\((S/S)\NP)
+21 ((S\NP)/(S\NP))\NP (((S\NP)/(S\NP))\NP)/NP NP
+21 S/S S/S S/S[conj]
+21 (NP/NP)/(NP/NP) (NP/NP)/(NP/NP) (NP/NP)/(NP/NP)[conj]
+20 (S\NP)/(S\NP) (S\NP)/(S\NP) RRB
+20 PP PP .
+20 S[dcl]\S[dcl] (S[dcl]\S[dcl])/PP PP
+20 S[dcl]\QP (S[dcl]\QP)/S[dcl] S[dcl]
+20 ((S\NP)/(S\NP))/NP ((S\NP)/(S\NP))/NP LRB
+20 NP\NP (NP\NP)/(NP\NP) NP\NP
+20 (S/S)\NP (S/S)\NP (S/S)\NP[conj]
+19 S[dcl]\NP (S\NP)/S S[dcl]
+19 (S/S)\NP ((S/S)\NP)/S[dcl] S[dcl]
+19 (S/S)/(S/S) NP ((S/S)/(S/S))\NP
+19 (S/S)/S (S/S)/S ,
+19 S[dcl][conj] conj NP
+19 (S/S)/(S/S) ((S/S)/(S/S))/((S/S)/(S/S)) (S/S)/(S/S)
+19 (S[dcl]\NP)/NP[conj] , S[dcl]\NP
+18 (S\NP)\((S\NP)/NP) NP
+18 ((S\NP)/(S\NP))/NP ((S\NP)/(S\NP))/NP LQU
+18 (S[dcl]\S[dcl])/(S[dcl]\NP) ((S[dcl]\S[dcl])/(S[dcl]\NP))/NP NP
+18 (S[dcl]\NP)/NP ((S[dcl]\NP)/NP)/NP (S\NP)\((S\NP)/NP)
+17 (S\NP)\((S\NP)/QP) QP
+17 QP/((S\NP)/(S\NP)) (QP/((S\NP)/(S\NP)))/M M
+17 (S\S)/(S\S) ((S\S)/(S\S))/NP NP
+17 S[dcl]\NP (S\NP)/NP NP
+17 (S\NP)\(S\NP) NP ((S\NP)\(S\NP))\NP
+17 (S[dcl]\LCP)/NP (S[dcl]\LCP)/NP (S\LCP)\(S\LCP)
+17 QP QP/((S\NP)/(S\NP)) (S\NP)/(S\NP)
+17 ((S\NP)/(S\NP))\NP (((S\NP)/(S\NP))\NP)/(S[dcl]\NP) S[dcl]\NP
+17 S[dcl]\LCP (S[dcl]\LCP)/S[dcl] S[dcl]
+17 S[dcl]\QP (S[dcl]\QP)/(S[dcl]\NP) S[dcl]\NP
+16 (S[dcl]\NP)/NP ((S[dcl]\NP)/QP)/NP (S\NP)\((S\NP)/QP)
+16 ((S/S)\NP)/(S[dcl]\NP) (((S/S)\NP)/(S[dcl]\NP))/NP NP
+16 (S\NP)/(S\NP) (S\NP)/(S\NP) RQU
+16 S/S conj S/S
+16 NP/NP (NP/NP)/LCP LCP
+16 S[dcl]\NP (S\NP)/((S\NP)/(S\NP)) (S\NP)/(S\NP)
+16 (NP\S)/(NP\S) ((NP\S)/(NP\S))/M M
+16 (S/S)\NP[conj] , (S/S)\NP
+16 S[dcl][conj] : S[dcl]
+15 (S/S)/S[dcl] LQU (S/S)/S[dcl]
+15 ((S\NP)/(S\NP))/(S\NP) (((S\NP)/(S\NP))/(S\NP))/(((S\NP)/(S\NP))/(S\NP)) ((S\NP)/(S\NP))/(S\NP)
+15 S[dcl] NP S\NP
+14 S/S S/S LQU
+14 NP/NP (S[dcl]\NP)/NP (NP/NP)\(S[dcl]\NP)
+14 QP/QP S[dcl]\NP (QP/QP)\(S[dcl]\NP)
+14 NP\NP (NP\NP)/((S\NP)/(S\NP)) (S\NP)/(S\NP)
+14 S[dcl]\NP LQU S[dcl]\NP
+13 S[dcl]\NP[conj] ; S[dcl]\NP
+13 ((S\NP)/(S\NP))/(S\NP) (((S\NP)/(S\NP))/(S\NP))/LCP LCP
+13 QP/QP QP/QP QP/QP[conj]
+13 (S[dcl]\NP)/NP ((S[dcl]\NP)/(S\NP))/NP (S[dcl]\NP)\((S[dcl]\NP)/(S[dcl]\NP))
+13 QP/QP[conj] conj QP/QP
+13 ((S[dcl]\NP)/QP)/NP ((S[dcl]\NP)/QP)/NP (S\NP)\(S\NP)
+13 NP NP LQU
+13 NP S[dcl] NP[conj]
+13 ((S[dcl]\NP)/NP)/NP ((S[dcl]\NP)/NP)/NP (S\NP)\(S\NP)
+12 NP M
+12 (NP/NP)/(NP/NP) ((NP/NP)/(NP/NP))/QP QP
+12 (S[dcl]\NP)/PP ((S[dcl]\NP)/PP)/NP NP
+12 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) NP (((S\NP)/(S\NP))/((S\NP)/(S\NP)))\NP
+12 (NP/NP)/(NP/NP) LRB (NP/NP)/(NP/NP)
+12 , , LRB
+12 (S[dcl]\S[dcl])/NP (S[dcl]\S[dcl])/NP (S\S)\(S\S)
+12 S[dcl]\LCP (S[dcl]\LCP)/(S[dcl]\NP) S[dcl]\NP
+12 S/S[conj] conj S/S
+12 QP/QP (QP/QP)/(QP/QP) QP/QP
+12 QP/QP S[dcl] (QP/QP)\S[dcl]
+12 S/S S/S RQU
+11 NP NP\NP
+11 S/(S/S) S[dcl]
+11 (S[dcl]\NP)/(S[dcl]\NP) (S[dcl]\NP)/(S[dcl]\NP) :
+11 (S[dcl]\NP)/S[dcl] (S[dcl]\NP)/(S[dcl]\NP) (S[dcl]\NP)/S[dcl]
+11 S[dcl] S[dcl]/NP NP
+11 (S/S)/S ((S/S)/S)/NP NP
+11 ((NP/NP)/(NP/NP))/((NP/NP)/(NP/NP)) (((NP/NP)/(NP/NP))/((NP/NP)/(NP/NP)))/(((NP/NP)/(NP/NP))/((NP/NP)/(NP/NP))) ((NP/NP)/(NP/NP))/((NP/NP)/(NP/NP))
+11 (NP/NP)/(NP/NP) S[dcl] ((NP/NP)/(NP/NP))\S[dcl]
+11 S[dcl]\NP S[dcl]\NP RRB
+11 LCP LCP LCP[conj]
+10 NP[conj] NP\NP
+10 (S\NP)/((S\NP)\(S\NP)) S[dcl]\NP
+10 S[dcl] S/(S/S) S[dcl]/S[dcl]
+10 (S/S)\NP ((S/S)\NP)/QP QP
+10 QP QP QP\QP
+10 (S\NP)/(S\NP) (S\NP)/((S\NP)\(S\NP)) ((S\NP)/(S\NP))\((S\NP)/((S\NP)\(S\NP)))
+9 S/(S\S) S[dcl]
+9 S/(S\NP) S/(S\NP) ,
+9 (S\NP)\(S\NP) ((S\NP)\(S\NP))/((S\NP)\(S\NP)) (S\NP)\(S\NP)
+9 NP NP/(S\NP) S[dcl]\NP
+9 S/(S/NP) S/(S/NP) ,
+9 PP PP/PP PP
+9 (S/S)/NP LQU (S/S)/NP
+9 NP LRB NP
+9 S[dcl]\NP NP NP
+9 PP PP RQU
+9 (S\NP)\(S\NP) ((S\NP)\(S\NP))/NP NP
+9 NP[conj] LRB NP
+9 S[dcl]/NP S[dcl]/NP S\S
+8 S/(S\LCP) LCP
+8 S\(S/S) S[dcl]
+8 NP/NP NP
+8 (S[dcl]\S[dcl])/(S[dcl]\NP) ((S[dcl]\S[dcl])/(S[dcl]\NP))/NP
+8 (NP/NP)/(NP/NP) S[dcl]/NP
+8 (S\NP)/(S\NP) ((S\NP)/(S\NP))/((S[dcl]\NP)/NP) (S[dcl]\NP)/NP
+8 (NP/NP)/(NP/NP) ((NP/NP)/(NP/NP))/(NP/NP) NP/NP
+8 (S\NP)/(S\NP)[conj] , (S\NP)/(S\NP)
+8 S/S S/S LRB
+8 (S[dcl]\NP)/(S[dcl]\NP) ((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP) S[dcl]\NP
+8 NP RQU NP
+8 ((S\NP)/(S\NP))/(S\NP) (((S\NP)/(S\NP))/(S\NP))/M M
+8 NP/NP NP/NP .
+8 (S/S)/(S/S) S[dcl]\NP ((S/S)/(S/S))\(S[dcl]\NP)
+8 (S\NP)\(S\NP) ((S\NP)\(S\NP))/((S\NP)/(S\NP)) (S\NP)/(S\NP)
+8 (S/S)/S NP ((S/S)/S)\NP
+8 (S\NP)/(S\NP) ((S\NP)/(S\NP))/(S[dcl]/NP) S[dcl]/NP
+8 NP S[dcl]\NP NP
+8 (S/S)/S ((S/S)/S)/((S/S)/S) (S/S)/S
+8 ((S[dcl]\NP)/(S[dcl]\NP))/NP ((S[dcl]\NP)/(S[dcl]\NP))/NP LRB
+8 S[dcl]/NP (S[dcl]/S)/NP S\(S/S)
+8 (S/S)/(S/S) ((S/S)/(S/S))/QP QP
+8 (S[dcl]\NP)/S[dcl] ((S\NP)/S)/((S\NP)/S) (S[dcl]\NP)/S[dcl]
+7 QP M
+7 ((S\NP)/(S\NP))/(S[dcl]\NP) (((S\NP)/(S\NP))/(S[dcl]\NP))/NP
+7 (NP/NP)/(NP/NP) S[dcl]
+7 ((S[dcl]\NP)/(S\NP))/NP ((S\NP)/(S\NP))/(S\NP) (S[dcl]\NP)/NP
+7 (S/S)/LCP LQU (S/S)/LCP
+7 (S\S)/(S\S) ((S\S)/(S\S))/S[dcl] S[dcl]
+7 (S[dcl]\NP)/NP LQU (S[dcl]\NP)/NP
+7 (S[dcl]\NP)/PP (S[dcl]\NP)/PP ,
+7 QP/M (QP/M)/QP QP
+7 S/S[conj] , S/S
+7 S/S LRB S/S
+7 S[dcl]\NP[conj] , S\NP
+7 (S[dcl]\NP)/(S[dcl]\NP) LQU (S[dcl]\NP)/(S[dcl]\NP)
+7 (S[dcl]\NP)/S[dcl] (S[dcl]\NP)/S[dcl] LRB
+7 ((S\NP)/(S\NP))/QP ((S\NP)/(S\NP))/QP (((S\NP)/(S\NP))/QP)\(((S\NP)/(S\NP))/QP)
+7 S[dcl]/NP S/(S\LCP) (S[dcl]\LCP)/NP
+7 (S\NP)/(S\NP) conj (S\NP)/(S\NP)
+7 NP/NP RQU NP/NP
+7 S[dcl] S/NP NP
+7 LCP[conj] conj LCP
+7 ((S/S)\NP)/((S/S)\NP) ((S/S)\NP)/((S/S)\NP) ,
+7 (S[dcl]\NP)/S[dcl] (S[dcl]\NP)/S[dcl] (S[dcl]\NP)/S[dcl][conj]
+7 S[q] S[q] RQU
+7 (S[dcl]\S[dcl])/S[dcl] (S[dcl]\S[dcl])/S[dcl] (S\S)\(S\S)
+7 (S[dcl]\NP)/NP (S[dcl]\NP)/NP :
+7 (S[dcl]\NP)/NP ((S[dcl]\NP)/NP)/(S[dcl]\NP) S[dcl]\NP
+7 S/(S/S) S/(S/S) ,
+6 S[dcl] NP
+6 (S\NP)\((S\NP)/PP) PP
+6 (S/S)/(S/S) S[dcl]
+6 (S\LCP)/(S\LCP) ((S\LCP)/(S\LCP))/NP NP
+6 (S[dcl]\NP)/NP ((S[dcl]\NP)/PP)/NP (S\NP)\((S\NP)/PP)
+6 ((S\NP)\(S\NP))\NP (((S\NP)\(S\NP))\NP)/(S[dcl]\NP) S[dcl]\NP
+6 S[dcl]\S[dcl] (S[dcl]\S[dcl])/QP QP
+6 ((S\NP)/(S\NP))/NP LQU ((S\NP)/(S\NP))/NP
+6 S/S (S/S)/(S[dcl]\NP) S[dcl]\NP
+6 ((S[dcl]\NP)/(S[dcl]\NP))/NP LQU ((S[dcl]\NP)/(S[dcl]\NP))/NP
+6 S/S S[dcl]\NP (S/S)\(S[dcl]\NP)
+6 QP/QP LCP (QP/QP)\LCP
+6 S[dcl][conj] S[dcl] S[dcl][conj]
+6 PP PP PP[conj]
+6 (NP/NP)/NP ((NP/NP)/NP)/NP NP
+6 (S/S)/S[conj] conj (S/S)/S
+6 S[dcl]/S[dcl] S/(S\NP) (S[dcl]\NP)/S[dcl]
+6 NP/(S\NP) NP (NP/(S\NP))\NP
+6 (S/S)/S (S/S)/S (S/S)/S[conj]
+6 S/S (S/S)/(S\NP) S[dcl]\NP
+6 (QP/M)/QP (QP/M)/QP ,
+6 (S[dcl]\NP)/S[dcl] ((S[dcl]\NP)/S[dcl])/(S[dcl]\NP) S[dcl]\NP
+6 (S\NP)\(S\NP) ((S\NP)\(S\NP))/S S[dcl]
+6 S[dcl]\LCP S[dcl]\LCP S[dcl]\LCP[conj]
+6 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) S[dcl]\NP (((S\NP)/(S\NP))/((S\NP)/(S\NP)))\(S[dcl]\NP)
+6 (NP/NP)/M LQU (NP/NP)/M
+6 (NP/NP)/(NP/NP) ((NP/NP)/(NP/NP))/NP NP
+6 (((S\NP)/(S\NP))\NP)/(((S\NP)/(S\NP))\NP) ((((S\NP)/(S\NP))\NP)/(((S\NP)/(S\NP))\NP))/NP NP
+6 (S/S)/(S/S) LCP ((S/S)/(S/S))\LCP
+6 (S\NP)/(S\NP) S[dcl]/NP ((S\NP)/(S\NP))\(S[dcl]/NP)
+5 S[dcl]/S[dcl] (S[dcl]\NP)/S[dcl]
+5 S[dcl] S\NP
+5 (S[dcl]\NP)\((S[dcl]\NP)/(S[dcl]\NP)) (S[dcl]\NP)/NP
+5 (S/S)/S NP
+5 NP LRB
+5 QP S[dcl]\NP
+5 (((S\NP)/(S\NP))/((S\NP)/(S\NP)))/(((S\NP)/(S\NP))/((S\NP)/(S\NP))) ((((S\NP)/(S\NP))/((S\NP)/(S\NP)))/(((S\NP)/(S\NP))/((S\NP)/(S\NP))))/M M
+5 LCP LCP LCP\LCP
+5 RQU RQU LQU
+5 NP/NP (NP/NP)/conj conj
+5 QP/QP NP/NP (QP/QP)\(NP/NP)
+5 S/(S\NP) S/(S\NP) RRB
+5 ((S\NP)\(S\NP))\NP (((S\NP)\(S\NP))\NP)/NP NP
+5 S\NP S\NP S\NP[conj]
+5 S[dcl]\LCP[conj] , S[dcl]\LCP
+5 NP NP/(S[dcl]\NP) S[dcl]\NP
+5 (NP\NP)/(NP\NP) ((NP\NP)/(NP\NP))/NP NP
+5 ((S\NP)/(S\NP))/(S\NP) (((S\NP)/(S\NP))/(S\NP))/S[dcl] S[dcl]
+5 ((S\NP)\(S\NP))\NP (((S\NP)\(S\NP))\NP)/(S\NP) S[dcl]\NP
+5 (NP/NP)/(NP/NP) LQU (NP/NP)/(NP/NP)
+5 S[dcl]\NP S[dcl] (S[dcl]\NP)\S[dcl]
+5 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) (((S\NP)/(S\NP))/((S\NP)/(S\NP)))/LCP LCP
+5 (S\QP)/(S\QP) ((S\QP)/(S\QP))/NP NP
+5 S[dcl][conj] RQU S[dcl]
+5 S[dcl]/NP S/(S\S) (S[dcl]\S)/NP
+5 RQU RQU ,
+5 (NP/NP)/(NP/NP) QP ((NP/NP)/(NP/NP))\QP
+5 ((S[dcl]\NP)/(S\NP))/NP ((S\NP)/(S\NP))/(S[dcl]\NP) (S[dcl]\NP)/NP
+5 QP[conj] , QP
+5 (S[dcl]\NP)/(S[dcl]\NP) ((S[dcl]\NP)/(S[dcl]\NP))/((S[dcl]\NP)/(S[dcl]\NP)) (S[dcl]\NP)/(S[dcl]\NP)
+5 (S[dcl]\LCP)/S[dcl] (S[dcl]\LCP)/S[dcl] ,
+5 NP S[dcl] NP
+5 (S/S)/S S[dcl] ((S/S)/S)\S[dcl]
+5 (S\S)/(S\S) (S\S)/(S\S) ,
+5 (S[dcl]\S)/NP (S\S)/(S\S) (S[dcl]\S[dcl])/NP
+5 ((S[dcl]\NP)/(S[dcl]\NP))/NP ((S[dcl]\NP)/(S[dcl]\NP))/NP LQU
+5 NP S[dcl] NP\S
+5 (NP/NP)/(NP/NP) (NP/NP)/(NP/NP) LRB
+5 S[dcl]\NP NP (S[dcl]\NP)\NP
+5 (S[dcl]\NP)/(S[dcl]\NP) ((S[dcl]\NP)/(S[dcl]\NP))/PP PP
+5 ((S[dcl]\NP)/(S[dcl]\NP))/NP (((S[dcl]\NP)/(S[dcl]\NP))/NP)/(((S[dcl]\NP)/(S[dcl]\NP))/NP) ((S[dcl]\NP)/(S[dcl]\NP))/NP
+5 PP/NP PP/NP LQU
+4 (S\NP)/(S\NP) M
+4 S[dcl]/(S[dcl]\NP) (S[dcl]/(S[dcl]\NP))/NP
+4 S/S QP
+4 NP QP
+4 ((S\NP)/QP)\(((S\NP)/QP)/NP) NP
+4 (S\NP)\(S\NP) ((S\NP)\(S\NP))\NP
+4 ((S/S)\NP)/(S[dcl]\NP) (((S/S)\NP)/(S[dcl]\NP))/NP
+4 S/(S\QP) QP
+4 NP NP S[dcl]
+4 (S[dcl]\NP)/NP[conj] , (S[dcl]\NP)/NP
+4 PP[conj] , PP
+4 (S[dcl]\NP)/(S[dcl]\NP) (S[dcl]\NP)/(S[dcl]\NP) LQU
+4 (S/S)\NP ((S/S)\NP)/PP PP
+4 (((S\NP)/(S\NP))/(S\NP))/NP (((S\NP)/(S\NP))/(S\NP))/NP ((((S\NP)/(S\NP))/(S\NP))/NP)\((((S\NP)/(S\NP))/(S\NP))/NP)
+4 (S[dcl]\NP)/(S[dcl]\NP) (S[dcl]\NP)/(S[dcl]\NP) RQU
+4 ((S\NP)/(S\NP))/NP (((S\NP)/(S\NP))/NP)/(((S\NP)/(S\NP))/NP) ((S\NP)/(S\NP))/NP
+4 ((S\NP)/(S\NP))/NP (((S\NP)/(S\NP))/NP)/NP NP
+4 (S/S)\NP ((S/S)\NP)/((S[dcl]\NP)/NP) (S[dcl]\NP)/NP
+4 ((S[dcl]\NP)/QP)/NP (((S[dcl]\NP)/QP)/NP)/NP ((S\NP)/QP)\(((S\NP)/QP)/NP)
+4 (NP/NP)/(NP/NP) NP/NP ((NP/NP)/(NP/NP))\(NP/NP)
+4 conj conj LQU
+4 (NP/NP)\S[dcl] ((NP/NP)\S)/((NP/NP)\S) (NP/NP)\S[dcl]
+4 ((S\NP)/(S\NP))/(S\NP) ((S\NP)/(S\NP))/(S\NP) ,
+4 (S\NP)/S (S\NP)/S ,
+4 S[dcl][conj] S/S S[dcl]
+4 (S/S)/(S/S) LQU (S/S)/(S/S)
+4 ((S\NP)/(S\NP))/(S\NP) S[dcl]\NP (((S\NP)/(S\NP))/(S\NP))\(S[dcl]\NP)
+4 ((S\NP)\(S\NP))\NP[conj] , ((S\NP)\(S\NP))\NP
+4 ((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP) (((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) S[dcl]\NP
+4 PP PP/QP QP
+4 (((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) (((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) ((S\NP)/(S\NP))\((S\NP)/(S\NP))
+4 (NP/NP)\NP ((NP/NP)\NP)/((NP/NP)\NP) (NP/NP)\NP
+4 (S[dcl]\NP)/(S[dcl]\NP) ((S[dcl]\NP)/(S[dcl]\NP))/LCP LCP
+4 ((S/S)\NP)/(S\NP) (((S/S)\NP)/(S\NP))/NP NP
+4 ((S/S)\NP)/(S[dcl]\NP) ((S/S)\NP)/(S[dcl]\NP) (((S/S)\NP)/(S\NP))\(((S/S)\NP)/(S\NP))
+4 (NP\NP)/NP (NP\NP)/NP ((NP\NP)/NP)\((NP\NP)/NP)
+4 (((S\NP)/(S\NP))\NP)/NP (((S\NP)/(S\NP))\NP)/NP ((((S\NP)/(S\NP))\NP)/NP)\((((S\NP)/(S\NP))\NP)/NP)
+4 S[dcl]/QP S[dcl]/QP .
+4 ((S/S)\NP)/((S/S)\NP) LQU ((S/S)\NP)/((S/S)\NP)
+4 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) (((S\NP)/(S\NP))/((S\NP)/(S\NP)))/S[dcl] S[dcl]
+4 S\NP[conj] , (S[dcl]\NP)/NP
+4 NP[conj] S[dcl] NP[conj]
+4 , , LQU
+4 NP[conj] : NP
+4 (NP/NP)/M ((NP/NP)/M)/QP QP
+4 ((S\NP)/(S\NP))/LCP ((S\NP)/(S\NP))/LCP (((S\NP)/(S\NP))/LCP)\(((S\NP)/(S\NP))/LCP)
+4 (S[dcl]\NP)/S[dcl] ((S[dcl]\NP)/S[dcl])/S[dcl] S[dcl]
+4 S\S (S\S)/(S\S) S\S
+4 S[dcl]\NP S[dcl]\NP .
+4 (S[dcl]/S)/NP (S/S)/S[dcl] S[dcl]/NP
+4 ((S/S)/S)\NP (((S/S)/S)\NP)/(((S/S)/S)\NP) ((S/S)/S)\NP
+4 ((S\NP)\(S\NP))\NP ((S\NP)\(S\NP))\NP ((S\NP)\(S\NP))\NP[conj]
+4 (S/S)\NP[conj] conj (S/S)\NP
+4 ((S\NP)/(S\NP))\NP ((S\NP)/(S\NP))\NP (((S\NP)/(S\NP))\NP)\(((S\NP)/(S\NP))\NP)
+4 S[dcl]\QP (S[dcl]\QP)/QP QP
+4 NP[conj] LQU NP
+4 (S\NP)/(S\NP) (S\NP)/(S\NP) ;
+4 S[dcl]\NP (S\NP)/QP QP
+4 S\NP (S\NP)/(((S\NP)/(S\NP))/NP) (S[dcl]\NP)/NP
+4 ((NP/NP)/M)/QP ((NP/NP)/M)/QP ,
+4 (NP\S)/(NP\S) NP ((NP\S)/(NP\S))\NP
+4 (S[dcl]\NP)/(S[dcl]\NP) (S[dcl]\NP)/(S[dcl]\NP) RRB
+4 S[dcl]/QP S/(S\QP) (S[dcl]\QP)/QP
+4 S[dcl]\NP QP (S[dcl]\NP)\QP
+4 NP\S[dcl] (NP\S[dcl])/(NP\S[dcl]) NP\S[dcl]
+4 (S/S)/NP RQU (S/S)/NP
+4 S\S NP (S\S)\NP
+4 (NP/NP)/(NP/NP) PP ((NP/NP)/(NP/NP))\PP
+4 (S/S)/S ((S/S)/S)/S[dcl] S[dcl]
+4 (NP\S)/(NP\S) S[dcl]\NP ((NP\S)/(NP\S))\(S[dcl]\NP)
+4 ((S[dcl]\NP)/(S[dcl]\NP))/NP (((S[dcl]\NP)/(S[dcl]\NP))/NP)/NP NP
+4 NP/NP S[dcl]/NP (NP/NP)\S[dcl]
+4 ((S/S)\NP)/((S/S)\NP) (((S/S)\NP)/((S/S)\NP))/M M
+4 S[dcl]\LCP (S\LCP)/(S\NP) S[dcl]\NP
+4 (NP/NP)/(NP/NP) (NP/NP)/(NP/NP) ,
+4 (NP/NP)\NP ((NP/NP)\NP)/NP NP
+4 (S\NP)/(((S\NP)/(S\NP))/NP) ((S\NP)/(((S\NP)/(S\NP))/NP))/NP NP
+4 (NP/NP)/(NP/NP) (NP/NP)/(NP/NP) LQU
+3 S/S S[dcl]\NP
+3 NP NP/NP
+3 S[dcl]\NP S[dcl]
+3 NP/NP (NP/NP)\NP
+3 (S[dcl]\NP)\((S[dcl]\NP)/QP) QP
+3 (S\NP)/(S\NP) QP
+3 NP S[dcl]/NP
+3 S[dcl] PP
+3 (S/S)/((S/S)\NP) NP
+3 LCP M
+3 (S[dcl]\NP)/PP ((S[dcl]\NP)/PP)/NP
+3 ((S[dcl]\NP)/QP)\(((S[dcl]\NP)/QP)/NP) NP
+3 QP\QP (QP\QP)/NP NP
+3 ((S\NP)\(S\NP))\NP (((S\NP)\(S\NP))\NP)/S[dcl] S[dcl]
+3 (((S\NP)\(S\NP))\NP)/(((S\NP)\(S\NP))\NP) ((((S\NP)\(S\NP))\NP)/(((S\NP)\(S\NP))\NP))/NP NP
+3 ((S\NP)/(S\NP))/S[dcl] ((S\NP)/(S\NP))/S[dcl] (((S\NP)/(S\NP))/S)\(((S\NP)/(S\NP))/S)
+3 QP\QP (QP\QP)/(S[dcl]\NP) S[dcl]\NP
+3 (S[dcl]\QP)/(S[dcl]\NP) ((S[dcl]\QP)/(S[dcl]\NP))/NP NP
+3 ((S/S)\NP)/((S/S)\NP) (((S/S)\NP)/((S/S)\NP))/(S\NP) S[dcl]\NP
+3 (S[dcl]\NP)/NP ((S[dcl]\NP)/NP)/(NP/NP) NP/NP
+3 (S[dcl]\NP)/S[dcl][conj] conj (S[dcl]\NP)/S[dcl]
+3 S[dcl]/S[dcl] S/S S[dcl]/S[dcl]
+3 (((S\NP)/(S\NP))/(S\NP))/(((S\NP)/(S\NP))/(S\NP)) ((((S\NP)/(S\NP))/(S\NP))/(((S\NP)/(S\NP))/(S\NP)))/M M
+3 (S[dcl]\LCP)/(S[dcl]\NP) ((S[dcl]\LCP)/(S[dcl]\NP))/NP NP
+3 S[dcl]\QP[conj] , S[dcl]\QP
+3 NP/NP (S[dcl]\NP)/NP (NP/NP)\((S[dcl]\NP)/NP)
+3 ((S\NP)/(S\NP))/M LQU ((S\NP)/(S\NP))/M
+3 LCP LCP/LCP LCP
+3 (S[dcl]\NP)/QP (S[dcl]\NP)/(S[dcl]\NP) (S[dcl]\NP)/QP
+3 ((S\NP)/(S\NP))/PP (((S\NP)/(S\NP))/PP)/NP NP
+3 (S[dcl]/S)/NP (S[dcl]/S)/NP ,
+3 NP[conj] RRB NP
+3 S[dcl]/QP S/(S\NP) (S[dcl]\NP)/QP
+3 PP PP RRB
+3 NP NP/S S[dcl]
+3 (S[dcl]\NP)/QP (S\NP)/(S\NP) (S[dcl]\NP)/QP
+3 ((S\NP)/(S\NP))/LCP ((S\NP)/(S\NP))/LCP LRB
+3 NP[conj] NP NP[conj]
+3 (NP/NP)/(NP/NP) conj (NP/NP)/(NP/NP)
+3 , , ,
+3 (S[dcl]\NP)/PP (S[dcl]\NP)/PP (S\NP)\(S\NP)
+3 (S[dcl]\NP)/NP ((S[dcl]\NP)/NP)/QP QP
+3 ((S[dcl]\NP)/NP)/(S[dcl]\NP) (((S[dcl]\NP)/NP)/(S[dcl]\NP))/conj conj
+3 S[dcl]/NP S/(S\S) (S[dcl]\S[dcl])/NP
+3 QP QP/NP NP
+3 ((S/S)\NP)/((S/S)\NP) (((S/S)\NP)/((S/S)\NP))/(((S/S)\NP)/((S/S)\NP)) ((S/S)\NP)/((S/S)\NP)
+3 (NP\NP)/((S\NP)/(S\NP)) ((NP\NP)/((S\NP)/(S\NP)))/NP NP
+3 S[dcl]\NP (S\NP)/(S\NP) (S[dcl]\NP)/NP
+3 S[dcl]\NP S\NP S[dcl]\NP[conj]
+3 PP/NP PP/NP LRB
+3 S/(S\NP) (S/(S\NP))/NP NP
+3 ((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP) ((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP) ,
+3 ((S[dcl]\NP)/QP)/NP (((S[dcl]\NP)/QP)/NP)/NP NP
+3 (S[dcl]\QP)/QP (S[dcl]\QP)/(S[dcl]\NP) (S[dcl]\NP)/QP
+3 ((S/S)\NP)/((S/S)\NP) (((S/S)\NP)/((S/S)\NP))/S[dcl] S[dcl]
+3 (S/S)/(S\NP) ((S/S)/(S\NP))/NP NP
+3 ((S\NP)/(S\NP))/S[dcl] ((S\NP)/(S\NP))/S[dcl] LQU
+3 QP NP QP
+3 S\S (S\S)/S S[dcl]
+3 NP/NP NP/NP :
+3 (S/S)/NP (S/S)/NP LRB
+3 ((S/S)\NP)/S[dcl] ((S/S)\NP)/S[dcl] (((S/S)\NP)/S)\(((S/S)\NP)/S)
+3 NP , NP
+3 S/S LCP (S/S)\LCP
+3 (S\NP)/(S\NP)[conj] conj (S[dcl]\NP)/NP
+3 ((S/S)\NP)/NP LQU ((S/S)\NP)/NP
+3 (NP\NP)/(S[dcl]\NP) ((NP\NP)/(S\NP))/((NP\NP)/(S\NP)) (NP\NP)/(S[dcl]\NP)
+3 (S[dcl]\NP)/S[dcl] (S[dcl]\NP)/S[dcl] ;
+3 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) (((S\NP)/(S\NP))/((S\NP)/(S\NP)))/QP QP
+3 (S[dcl]/S)/NP (S[dcl]/S)/NP (S/S)\(S/S)
+3 S[dcl]\NP[conj] RQU S[dcl]\NP
+3 S/(S\NP) (S/(S\NP))/(S/(S\NP)) S/(S\NP)
+3 (S[dcl]\NP)/QP (S[dcl]\NP)/S[dcl] S[dcl]/QP
+3 (((S\NP)\(S\NP))\NP)/(S[dcl]\NP) ((((S\NP)\(S\NP))\NP)/(S[dcl]\NP))/NP NP
+3 S[dcl]\QP S[dcl]\QP S[dcl]\QP[conj]
+3 (S[dcl]\NP)\(((S[dcl]\NP)/QP)/NP) ((S[dcl]\NP)/QP)\(((S[dcl]\NP)/QP)/NP) (S[dcl]\NP)\((S[dcl]\NP)/QP)
+3 S/S S/(S/NP) S[dcl]/NP
+3 ((S\NP)\(S\NP))\NP (((S\NP)\(S\NP))\NP)/QP QP
+3 S[dcl]/(S[dcl]\NP) (S[dcl]/(S[dcl]\NP))/NP NP
+3 ((S/S)/(S/S))/((S/S)/(S/S)) (((S/S)/(S/S))/((S/S)/(S/S)))/M M
+3 (QP/QP)/(QP/QP) ((QP/QP)/(QP/QP))/((QP/QP)/(QP/QP)) (QP/QP)/(QP/QP)
+3 S[dcl]\QP (S[dcl]\QP)/PP PP
+3 (S\NP)/(S\NP) ((S\NP)/(S\NP))/S S[dcl]
+3 S/NP (S/NP)/(S/NP) S/NP
+3 (S\NP)/S S[dcl] ((S\NP)/S)\S[dcl]
+3 ((S\NP)/(S\NP))/QP (((S\NP)/(S\NP))/QP)/NP NP
+3 S[dcl]/NP S[dcl]/NP RQU
+3 (((S\NP)/(S\NP))\NP)/NP (((S\NP)/(S\NP))\NP)/(((S\NP)/(S\NP))\NP) (((S\NP)/(S\NP))\NP)/NP
+3 (S[dcl]\NP)/S[dcl] (S[dcl]\NP)/S[dcl] ((S\NP)/S)\((S\NP)/S)
+3 S/(S\NP) (S/(S\NP))/LCP LCP
+3 (S[dcl]\NP)/S[dcl] LQU (S[dcl]\NP)/S[dcl]
+3 (S[dcl]/S)/NP (S/S)/((S/S)\NP) ((S[dcl]/S)\NP)/NP
+3 LCP LCP ,
+3 S[dcl][conj] NP S\NP
+3 S/S RQU S/S
+3 S[dcl]\NP PP (S[dcl]\NP)\PP
+3 (S[dcl]\NP)/NP (S[dcl]\NP)/NP ((S\NP)/NP)\((S\NP)/NP)
+3 NP S[dcl]\NP NP\S[dcl]
+3 (S[dcl]\NP)/NP[conj] conj S[dcl]\NP
+3 (S\NP)/((S[dcl]\NP)/NP) ((S\NP)/((S[dcl]\NP)/NP))/S[dcl] S[dcl]
+3 S/S (S/S)/((S\NP)/(S\NP)) (S\NP)/(S\NP)
+3 (NP\S)/(NP\S) ((NP\S)/(NP\S))/QP QP
+2 S/S NP/NP
+2 (S\NP)/S ((S\NP)/S)\NP
+2 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) S[dcl]
+2 ((NP/NP)/(NP/NP))/((NP/NP)/(NP/NP)) S[dcl]\NP
+2 M NP
+2 (S\NP)/(S\NP) NP
+2 NP/(NP\NP) NP
+2 S[dcl] S/S
+2 S\(S/NP) NP
+2 NP/NP LRB
+2 NP\NP S[dcl]\NP
+2 NP\NP PP
+2 S/S LRB
+2 (NP/NP)/(NP/NP) NP
+2 NP S[dcl]
+2 (S/S)/(S[dcl]\NP) ((S/S)/(S[dcl]\NP))/NP
+2 S[dcl]\NP QP
+2 S[dcl]/QP (S[dcl]\NP)/QP
+2 (NP\NP)/S[dcl] ((NP\NP)/S[dcl])\NP
+2 NP\(NP/NP) NP
+2 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) S[dcl]\NP
+2 NP LCP
+2 S/(S/QP) QP
+2 (S\QP)/(S\NP) ((S\QP)/(S\NP))\NP
+2 S/(S\NP) (S/(S\NP))\NP
+2 QP/QP S[dcl]/NP (QP/QP)\(S[dcl]/NP)
+2 S[dcl] S[dcl] ;
+2 S[dcl]\NP ((S[dcl]\NP)/QP)/NP QP
+2 (S/S)\NP ((S/S)\NP)/LCP LCP
+2 ((S/S)\NP)/NP ((S/S)\NP)/NP :
+2 S[dcl]/QP S/S S[dcl]/QP
+2 (S[dcl]\NP)\NP ((S[dcl]\NP)\NP)/(S[dcl]\NP) S[dcl]\NP
+2 ((S\NP)/S)/((S\NP)/S) (((S\NP)/S)/((S\NP)/S))/NP NP
+2 NP/NP NP/NP NP/NP
+2 NP/NP[conj] , NP/NP
+2 ((S/S)\NP)/NP ((S/S)\NP)/NP LRB
+2 NP/NP (NP/NP)/S[dcl] S[dcl]
+2 S[dcl]\S[dcl][conj] conj S[dcl]\S[dcl]
+2 S[dcl]/QP S[dcl]/QP S[dcl]/QP[conj]
+2 (S/S)/(S/S) ((S/S)/(S/S))/S[dcl] S[dcl]
+2 S/(S\NP) S/(S\NP) (S\NP)/(S\NP)
+2 (S[dcl]\QP)/NP ((S[dcl]\QP)/NP)/((S[dcl]\QP)/NP) (S[dcl]\QP)/NP
+2 S/NP S/(S\NP) (S\NP)/NP
+2 (((S\NP)/(S\NP))/((S\NP)/(S\NP)))/NP (((S\NP)/(S\NP))/((S\NP)/(S\NP)))/NP ((((S\NP)/(S\NP))/((S\NP)/(S\NP)))/NP)\((((S\NP)/(S\NP))/((S\NP)/(S\NP)))/NP)
+2 (S/S)\LCP ((S/S)\LCP)/((S/S)\LCP) (S/S)\LCP
+2 (S\NP)/S ((S\NP)/S)/LCP LCP
+2 ((S\NP)\(S\NP))/S[dcl] ((S\NP)\(S\NP))/S[dcl] ,
+2 (S[dcl]\NP)/S[dcl][conj] conj S[dcl]\NP
+2 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) S[dcl]/NP (((S\NP)/(S\NP))/((S\NP)/(S\NP)))\(S[dcl]/NP)
+2 (S[dcl]\S[dcl])/NP (S[dcl]\S[dcl])/NP LRB
+2 ((NP/NP)/(NP/NP))/((NP/NP)/(NP/NP)) (((NP/NP)/(NP/NP))/((NP/NP)/(NP/NP)))/M M
+2 (S[dcl]\S[dcl])/(S[dcl]\NP) (S[dcl]\S[dcl])/(S[dcl]\NP) ,
+2 S/(S\NP) (S/(S\NP))/(S\NP) S[dcl]\NP
+2 (NP/NP)\NP NP ((NP/NP)\NP)\NP
+2 (S\NP)/((S[dcl]\NP)/NP) (S\NP)/((S[dcl]\NP)/NP) RRB
+2 NP/(S[dcl]\NP) (NP/(S\NP))/(NP/(S\NP)) NP/(S[dcl]\NP)
+2 (S[dcl]\NP)\NP ((S\NP)\NP)/((S\NP)\NP) (S[dcl]\NP)\NP
+2 (S/S)/S[dcl] (S/S)/S[dcl] LQU
+2 (NP/NP)/NP LQU (NP/NP)/NP
+2 NP NP/NP NP\(NP/NP)
+2 (S[dcl]\S[dcl])/QP (S[dcl]\S[dcl])/QP (S\S)\(S\S)
+2 NP\(S[dcl]\NP) conj NP\(S[dcl]\NP)
+2 (S\NP)/S ((S\NP)/S)/((S\NP)/S) (S\NP)/S
+2 (S\NP)\(S\NP) (S\NP)\(S\NP) (S\NP)\(S\NP)[conj]
+2 NP\NP NP\NP NP\NP[conj]
+2 ((NP/NP)/(NP/NP))/((NP/NP)/(NP/NP)) NP (((NP/NP)/(NP/NP))/((NP/NP)/(NP/NP)))\NP
+2 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) ((S\NP)/(S\NP))/((S\NP)/(S\NP)) ,
+2 (S[dcl]\S[dcl])/(S[dcl]\NP) ((S[dcl]\S[dcl])/(S[dcl]\NP))/(S[dcl]\NP) S[dcl]\NP
+2 ((S[dcl]\NP)/(S[dcl]\NP))/NP ((S[dcl]\NP)/(S[dcl]\NP))/NP ,
+2 ((S/S)/S)/NP LQU ((S/S)/S)/NP
+2 ((S\NP)/(S\NP))\((S\NP)/(S\NP)) (((S\NP)/(S\NP))\((S\NP)/(S\NP)))/(S[dcl]\NP) S[dcl]\NP
+2 (((S\NP)/(S\NP))\NP)/(S[dcl]\NP) ((((S\NP)/(S\NP))\NP)/(S[dcl]\NP))/NP NP
+2 (S\NP)/((S\NP)/(S\NP)) ((S\NP)/((S\NP)/(S\NP)))/NP NP
+2 S/S S/S .
+2 (S[dcl]\NP)\S[dcl] ((S\NP)\S)/((S\NP)\S) (S[dcl]\NP)\S[dcl]
+2 S[dcl]\NP ((S[dcl]\NP)/NP)/NP NP
+2 QP/QP (QP/QP)/((S\NP)/(S\NP)) (S\NP)/(S\NP)
+2 (S[dcl]\QP)/QP (S\QP)/(S\QP) (S[dcl]\QP)/QP
+2 ((NP/NP)/(NP/NP))\NP (((NP/NP)/(NP/NP))\NP)/NP NP
+2 ((S\NP)/(S\NP))/(S\NP) (((S\NP)/(S\NP))/(S\NP))/((S[dcl]\NP)/NP) (S[dcl]\NP)/NP
+2 ((S/S)\NP)/QP ((S/S)\NP)/QP (((S/S)\NP)/QP)\(((S/S)\NP)/QP)
+2 (S[dcl]\NP)\PP ((S\NP)\PP)/((S\NP)\PP) (S[dcl]\NP)\PP
+2 PP/S[dcl] PP/S[dcl] LQU
+2 NP LCP NP\LCP
+2 S[dcl] S/(S/S) S[dcl]
+2 QP/QP (QP/QP)/QP QP
+2 ((S[dcl]\NP)/S[dcl])/S[dcl] ((S[dcl]\NP)/S[dcl])/S[dcl] :
+2 : : LRB
+2 (((S/S)\NP)/((S/S)\NP))/(S\NP) ((((S/S)\NP)/((S/S)\NP))/(S\NP))/NP NP
+2 S[dcl]/S[dcl] S[dcl]/S[dcl] ,
+2 (((S/S)\NP)/((S/S)\NP))\NP ((((S/S)\NP)/((S/S)\NP))\NP)/((((S/S)\NP)/((S/S)\NP))\NP) (((S/S)\NP)/((S/S)\NP))\NP
+2 (S[dcl]\NP)\(((S[dcl]\NP)/QP)/NP) (S[dcl]\NP)\(((S[dcl]\NP)/QP)/NP) (S[dcl]\NP)\(((S[dcl]\NP)/QP)/NP)[conj]
+2 ((S[dcl]\NP)/S[dcl])/NP ((S[dcl]\NP)/S[dcl])/NP (S\NP)\(S\NP)
+2 (S[dcl]\NP)/PP ((S[dcl]\NP)/PP)/((S[dcl]\NP)/PP) (S[dcl]\NP)/PP
+2 NP[conj] S[dcl] NP\S[dcl]
+2 ((S/S)\NP)/((S/S)\NP) S[dcl] (((S/S)\NP)/((S/S)\NP))\S[dcl]
+2 PP[conj] conj PP
+2 S[dcl] S/(S/QP) S[dcl]/QP
+2 (((S\NP)/(S\NP))\NP)/(((S\NP)/(S\NP))\NP) ((((S\NP)/(S\NP))\NP)/(((S\NP)/(S\NP))\NP))/LCP LCP
+2 (S\LCP)/NP ((S\LCP)/NP)/((S\LCP)/NP) (S\LCP)/NP
+2 RRB RRB ,
+2 S[dcl]\NP (S[dcl]\NP)/S[dcl] S\(S/NP)
+2 ; ; LQU
+2 (S/S)/(S/S) PP ((S/S)/(S/S))\PP
+2 LCP PP LCP\PP
+2 S\S (S\S)/S[dcl] S[dcl]
+2 (S[dcl]\NP)/(S[dcl]\NP) ((S[dcl]\NP)/(S[dcl]\NP))/conj conj
+2 ((S\NP)/NP)\((S\NP)/NP) (((S\NP)/NP)\((S\NP)/NP))/(((S\NP)/NP)\((S\NP)/NP)) ((S\NP)/NP)\((S\NP)/NP)
+2 NP\S[dcl][conj] conj NP\S[dcl]
+2 ((S\NP)/(S\NP))/(S\NP) S[dcl] (((S\NP)/(S\NP))/(S\NP))\S[dcl]
+2 S[dcl]\QP (S[dcl]\QP)/M M
+2 S\S (S\S)/(S[dcl]\NP) S[dcl]\NP
+2 (S[dcl]\NP)/PP ((S[dcl]\NP)/PP)/(S[dcl]\NP) S[dcl]\NP
+2 (S/S)\NP LQU (S/S)\NP
+2 ((S\NP)/(S\NP))/(S\NP) NP (((S\NP)/(S\NP))/(S\NP))\NP
+2 (NP\NP)/S[dcl] (NP\NP)/S[dcl] ,
+2 S/(S\NP) NP (S/(S\NP))\NP
+2 (S/S)/S ((S/S)/S)/LCP LCP
+2 S/NP NP (S/NP)\NP
+2 (S/S)/(S/S) ((S/S)/(S/S))/NP NP
+2 (S/S)\NP ((S/S)\NP)/M M
+2 LCP[conj] , LCP
+2 (S\NP)\(S\NP)[conj] , (S\NP)\(S\NP)
+2 (S[dcl]\NP)\(((S[dcl]\NP)/QP)/NP)[conj] , (S[dcl]\NP)\(((S[dcl]\NP)/QP)/NP)
+2 ((S/S)\NP)/((S/S)\NP) ((S/S)\NP)/((S/S)\NP) (((S/S)\NP)/((S/S)\NP))\(((S/S)\NP)/((S/S)\NP))
+2 (S\NP)/(S\NP)[conj] : (S\NP)/(S\NP)
+2 (S\LCP)/(S\LCP) ((S\LCP)/(S\LCP))/M M
+2 NP\S[dcl] NP\S[dcl] NP\S[dcl][conj]
+2 (NP/NP)/(NP/NP) LCP ((NP/NP)/(NP/NP))\LCP
+2 (NP/(S\NP))/(NP/(S\NP)) ((NP/(S\NP))/(NP/(S\NP)))/((NP/(S\NP))/(NP/(S\NP))) (NP/(S\NP))/(NP/(S\NP))
+2 QP[conj] : QP
+2 ((S\NP)/((S[dcl]\NP)/NP))/NP ((S\NP)/((S[dcl]\NP)/NP))/NP LRB
+2 S[dcl] S/(S/S) S/S
+2 (S/S)/NP (S/S)/NP ((S/S)/NP)\((S/S)/NP)
+2 S[dcl]/NP S[dcl]/NP ,
+2 (S/S)\S[dcl] ((S/S)\S[dcl])/NP NP
+2 (((S\NP)/(S\NP))/((S\NP)/(S\NP)))/(((S\NP)/(S\NP))/((S\NP)/(S\NP))) NP ((((S\NP)/(S\NP))/((S\NP)/(S\NP)))/(((S\NP)/(S\NP))/((S\NP)/(S\NP))))\NP
+2 S[dcl]\NP (S[dcl]\NP)/((S\NP)/(S\NP)) (S\NP)/(S\NP)
+2 S[dcl]\S[dcl] S[dcl]\S[dcl] (S\S)\(S\S)
+2 S[dcl]\NP S[dcl]\NP LQU
+2 NP/NP (NP/NP)/S S[dcl]
+2 S[dcl] S/(S\NP) (S[dcl]\NP)\NP
+2 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) (((S\NP)/(S\NP))/((S\NP)/(S\NP)))/((S\NP)/(S\NP)) (S\NP)/(S\NP)
+2 (S[dcl]\NP)/QP ((S[dcl]\NP)/QP)/((S[dcl]\NP)/QP) (S[dcl]\NP)/QP
+2 QP\QP (QP\QP)/((S\NP)/(S\NP)) (S\NP)/(S\NP)
+2 S[dcl]/QP[conj] , S[dcl]
+2 ((S\NP)/(S\NP))/((S[dcl]\NP)/NP) (((S\NP)/(S\NP))/((S[dcl]\NP)/NP))/NP NP
+2 ((S/S)\NP)/((S/S)\NP) S[dcl]\NP (((S/S)\NP)/((S/S)\NP))\(S[dcl]\NP)
+2 (S\QP)/(S\QP) ((S\QP)/(S\QP))/(S\NP) S[dcl]\NP
+2 ((S\NP)/(S\NP))/(S[dcl]\NP) ((S\NP)/(S\NP))/(S[dcl]\NP) (((S\NP)/(S\NP))/(S\NP))\(((S\NP)/(S\NP))/(S\NP))
+2 (S/(S\NP))\NP ((S/(S\NP))\NP)/NP NP
+2 (S/S)/S[dcl] RQU (S/S)/S[dcl]
+2 S/S[conj] : S/S
+2 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) LCP (((S\NP)/(S\NP))/((S\NP)/(S\NP)))\LCP
+2 S/NP S[dcl] (S/NP)\S[dcl]
+2 NP QP NP\QP
+2 NP/(S[dcl]\NP) NP/(S[dcl]\NP) RRB
+2 (((((((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/S[dcl] (((((((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/S[dcl] ((((((((S\NP)/(S\NP))/(S\NP))/(S\NP))/(S\NP))/(S\NP))/(S\NP))/(S\NP))\((((((((S\NP)/(S\NP))/(S\NP))/(S\NP))/(S\NP))/(S\NP))/(S\NP))/(S\NP))
+2 ((S[dcl]/S)\NP)/NP ((S/S)\NP)/(S[dcl]\NP) (S[dcl]\NP)/NP
+2 S/(S/S) (S/(S/S))/S[dcl] S[dcl]
+2 S[dcl]/NP S[dcl]/NP S\(S[dcl]/NP)
+2 (S[dcl]\QP)/NP (S[dcl]\QP)/NP (S\QP)\(S\QP)
+2 (S/S)/S (S/S)/S RQU
+2 ((S/S)\NP)/((S/S)\NP) (((S/S)\NP)/((S/S)\NP))/LCP LCP
+2 (S\NP)/(S\NP) NP NP
+2 S[dcl]\QP (S\QP)/(S\NP) S[dcl]\NP
+2 (NP/NP)/QP ((NP/NP)/QP)/M M
+2 S/S PP (S/S)\PP
+2 NP/NP S/NP (NP/NP)\(S/NP)
+2 S/S (S/S)/PP PP
+2 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) PP (((S\NP)/(S\NP))/((S\NP)/(S\NP)))\PP
+1 ((S[dcl]\NP)/(S[dcl]\NP))\(((S[dcl]\NP)/(S[dcl]\NP))/((S\NP)/(S\NP))) (S\NP)/(S\NP)
+1 S\S (S\S)\NP
+1 S[dcl]\NP (S[dcl]\NP)\NP
+1 NP\NP S/S
+1 ((S\NP)/NP)\(((S\NP)/NP)/NP) NP
+1 ((S\NP)/(S\NP))\(((S\NP)/(S\NP))/conj) conj
+1 S[dcl]\NP ,
+1 (S\NP)/(S\NP) PP
+1 (S\LCP)/(S\LCP) ((S\LCP)/(S\LCP))\NP
+1 ((NP/NP)\S[dcl])/((NP/NP)\S[dcl]) S[dcl]
+1 S/(S/S) S[dcl]/NP
+1 (S/S)/(S/S) S[dcl]/NP
+1 LCP S[dcl]
+1 NP LQU
+1 NP/NP ((NP/NP)\NP)/NP
+1 (NP\S[dcl])/(S[dcl]\NP) ((NP\S[dcl])/(S[dcl]\NP))/NP
+1 ((S/S)\NP)/((S/S)\NP) (((S/S)\NP)/((S/S)\NP))\NP
+1 S[dcl] NP[dcl]/NP
+1 LCP/LCP (LCP/LCP)\NP
+1 (NP\NP)/(NP\NP) ((NP\NP)/(NP\NP))\NP
+1 (S\NP)/(S\NP) (((S\NP)/(S\NP))\NP)/NP
+1 QP/QP M
+1 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) NP
+1 (S\NP)\(S\NP) PP
+1 QP/QP S[dcl]/NP
+1 NP/NP PP
+1 (((S\NP)\(S\NP))\NP)/(S[dcl]\NP) ((((S\NP)\(S\NP))\NP)/(S[dcl]\NP))/NP
+1 NP/NP S\NP
+1 NP/NP LCP
+1 QP/QP S[dcl]
+1 (NP/NP)/(NP/NP) M
+1 (NP\NP)/(S[dcl]\NP) ((NP\NP)/(S[dcl]\NP))/NP
+1 NP/S NP
+1 ((S[dcl]\NP)/(S[dcl]\NP))\(((S[dcl]\NP)/(S[dcl]\NP))/NP) NP
+1 (S\S)/(S\S) ((S\S)/(S\S))\NP
+1 (NP\NP)/NP ((NP\NP)/NP)\NP
+1 S[frg] NP/NP
+1 (S/NP)/((S/NP)\(S/NP)) S[dcl]/NP
+1 S[dcl] (S[dcl]\NP)/(S\NP)
+1 ((S[dcl]\NP)/NP)/((S[dcl]\NP)/NP) NP/NP
+1 ((S[dcl]\NP)\NP)/(S[dcl]\NP) (((S[dcl]\NP)\NP)/(S[dcl]\NP))/NP
+1 ((S/S)\NP)/((S/S)\NP) S[dcl]\NP
+1 S/S PP
+1 (NP/NP)/(NP/NP) ((NP/NP)/(NP/NP))\NP
+1 S/S ((S/S)\NP)/NP
+1 (NP/NP)\((NP/NP)/(NP/NP)) NP/NP
+1 QP QP\NP
+1 S[dcl] LCP
+1 ((S[dcl]\NP)/(S[dcl]\NP))/NP ((S[dcl]\NP)/(S[dcl]\NP))/NP :
+1 S[dcl] S/S S[dcl]\NP
+1 (((S\NP)/(S\NP))/NP)/NP ((((S\NP)/(S\NP))/NP)/NP)/NP NP
+1 S[dcl][conj] NP S[dcl]\NP
+1 ((S\NP)/S)/((S\NP)/S) (((S\NP)/S)/((S\NP)/S))/LCP LCP
+1 (S[dcl]\NP)/(S[dcl]/NP) (S[dcl]\NP)/(S[dcl]/NP) LQU
+1 ((S\NP)/(S\NP))/S[dcl] ((S\NP)/(S\NP))/S[dcl] ,
+1 S[frg] S[frg] .
+1 NP/NP , NP/NP
+1 (S\LCP)/(S\LCP) ((S\LCP)/(S\LCP))/LCP LCP
+1 PP[dcl]/NP PP/S[dcl] S[dcl]/NP
+1 ((S/S)/(S/S))/((S/S)/(S/S)) S[dcl]/NP (((S/S)/(S/S))/((S/S)/(S/S)))\(S[dcl]/NP)
+1 (((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) (((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) ,
+1 (S\S)/(S\S) ((S\S)/(S\S))/(S\NP) S[dcl]\NP
+1 (S\NP)/(S\NP) PP ((S\NP)/(S\NP))\PP
+1 (S/S)/S LQU (S/S)/S
+1 S/NP (S/NP)/S S[dcl]
+1 S[dcl] S/(S\NP) (S[dcl]\NP)\S[dcl]
+1 (S\S)/(S\S) ((S\S)/(S\S))/M M
+1 (S[dcl]\NP)\NP ((S[dcl]\NP)\NP)/NP NP
+1 (S/S)/S[dcl] (S/S)/S[dcl] ,
+1 ((((((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) (((((((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/S[dcl] S[dcl]
+1 S[dcl]\S[dcl] (S\S)/S S[dcl]
+1 (NP\NP)/NP (NP\NP)/NP LRB
+1 NP[conj] RQU NP
+1 (NP\NP)/(NP\NP) S[dcl]\NP ((NP\NP)/(NP\NP))\(S[dcl]\NP)
+1 (S[dcl]\NP)\(((S[dcl]\NP)/(S[dcl]\NP))/((S\NP)/(S\NP))) ((S[dcl]\NP)/(S[dcl]\NP))\(((S[dcl]\NP)/(S[dcl]\NP))/((S\NP)/(S\NP))) (S[dcl]\NP)\((S[dcl]\NP)/(S[dcl]\NP))
+1 PP/PP (PP/PP)/S[dcl] S[dcl]
+1 (((S[dcl]\NP)/(S\NP))/(S\NP))/NP (((S\NP)/(S\NP))/(S\NP))/S[dcl] S[dcl]/NP
+1 ((((S\NP)/(S\NP))/((S\NP)/(S\NP)))/(((S\NP)/(S\NP))/((S\NP)/(S\NP))))/((((S\NP)/(S\NP))/((S\NP)/(S\NP)))/(((S\NP)/(S\NP))/((S\NP)/(S\NP)))) (((((S\NP)/(S\NP))/((S\NP)/(S\NP)))/(((S\NP)/(S\NP))/((S\NP)/(S\NP))))/((((S\NP)/(S\NP))/((S\NP)/(S\NP)))/(((S\NP)/(S\NP))/((S\NP)/(S\NP)))))/M M
+1 ((S/S)\NP)/NP (((S/S)\NP)/NP)/NP NP
+1 S[dcl][conj] conj PP
+1 (S[dcl]\NP)/(S\NP) (S\NP)/(S\NP) (S[dcl]\NP)/(S\NP)
+1 ((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP) (((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/conj conj
+1 NP PP NP\PP
+1 ((S\LCP)/NP)/((S\LCP)/NP) NP (((S\LCP)/NP)/((S\LCP)/NP))\NP
+1 ((S\NP)/(S\NP))\NP (((S\NP)/(S\NP))\NP)/QP QP
+1 (S/S)\LCP ((S/S)\LCP)/S[dcl] S[dcl]
+1 ((S\QP)/(S\QP))/(S\NP) (((S\QP)/(S\QP))/(S\NP))/NP NP
+1 ((S\NP)\S)/((S\NP)\S) (((S\NP)\S)/((S\NP)\S))/S[dcl] S[dcl]
+1 S[dcl]\NP ((S[dcl]\NP)/QP)/NP (S[dcl]\NP)\(((S[dcl]\NP)/QP)/NP)
+1 (((S\NP)/(S\NP))/(S\NP))/((S[dcl]\NP)/NP) ((((S\NP)/(S\NP))/(S\NP))/((S[dcl]\NP)/NP))/NP NP
+1 (S[dcl]\QP)/S[dcl] (S[dcl]\QP)/S[dcl] ,
+1 (NP/NP)\S[dcl] ((NP/NP)\S[dcl])/((NP/NP)\S[dcl]) (NP/NP)\S[dcl]
+1 (S[dcl]\NP)\(((S[dcl]\NP)/(S[dcl]\NP))/NP)[conj] , (S[dcl]\NP)\(((S[dcl]\NP)/(S[dcl]\NP))/((S\NP)/(S\NP)))
+1 (NP/NP)/M ((NP/NP)/M)/M M
+1 (S[dcl]/S[dcl])/S[dcl] ((S[dcl]/S[dcl])/S[dcl])/S[dcl] S[dcl]
+1 (((S\NP)/(S\NP))/(S[dcl]\NP))/NP (((S\NP)/(S\NP))/(S[dcl]\NP))/NP ((((S\NP)/(S\NP))/(S\NP))/NP)\((((S\NP)/(S\NP))/(S\NP))/NP)
+1 (S/S)\LCP ((S/S)\LCP)/NP NP
+1 (S/NP)/(S/NP) (S/NP)/((S/NP)\(S/NP)) ((S/NP)/(S/NP))\((S/NP)/((S/NP)\(S/NP)))
+1 (S/S)/(S/S) S[dcl]/NP ((S/S)/(S/S))\S[dcl]
+1 ((S\NP)\(S\NP))\NP (((S\NP)\(S\NP))\NP)/(S[dcl]\NP) S\NP
+1 (S\NP)/((S\NP)/(S\NP)) ((S\NP)/((S\NP)/(S\NP)))/M M
+1 ((NP/NP)\NP)/((NP/NP)\NP) (((NP/NP)\NP)/((NP/NP)\NP))/NP NP
+1 (S[dcl]\NP)/NP (S[dcl]\NP)/((S[dcl]\NP)/NP) (S[dcl]\NP)/NP
+1 (S[dcl]\NP)/S[dcl][conj] , (S[dcl]\NP)/S[dcl]
+1 S[dcl]\NP[conj] NP (S[dcl]\NP)\NP
+1 (S/S)/NP (S/S)/NP LQU
+1 (((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/NP (((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/NP LQU
+1 S/S NP/NP (S/S)\(NP/NP)
+1 (((S/S)\NP)/((S/S)\NP))/NP ((((S/S)\NP)/((S/S)\NP))/NP)/QP QP
+1 (((S\NP)/(S\NP))/(S\NP))/(((S\NP)/(S\NP))/(S\NP)) S[dcl]\NP ((((S\NP)/(S\NP))/(S\NP))/(((S\NP)/(S\NP))/(S\NP)))\(S[dcl]\NP)
+1 (((S\NP)\(S\NP))\NP)/S[dcl] ((((S\NP)\(S\NP))\NP)/S[dcl])/((((S\NP)\(S\NP))\NP)/S[dcl]) (((S\NP)\(S\NP))\NP)/S[dcl]
+1 (NP\NP)/NP ((NP\NP)/NP)/M M
+1 QP/QP PP (QP/QP)\PP
+1 (S[dcl]\NP)/LCP (S[dcl]\NP)/PP PP/LCP
+1 (((S\NP)/(S\NP))/(S\NP))/(((S\NP)/(S\NP))/(S\NP)) S[dcl] ((((S\NP)/(S\NP))/(S\NP))/(((S\NP)/(S\NP))/(S\NP)))\S[dcl]
+1 NP/(S\NP) (NP/(S\NP))/M M
+1 (NP/NP)/M (NP/NP)/M (NP/NP)/M[conj]
+1 (S[dcl]\NP)/LCP (S[dcl]\NP)/LCP (S[dcl]\NP)/LCP[conj]
+1 LCP\LCP (LCP\LCP)/(S[dcl]\NP) S[dcl]\NP
+1 (((S\NP)/(S\NP))\NP)/(((S\NP)/(S\NP))\NP) ((((S\NP)/(S\NP))\NP)/(((S\NP)/(S\NP))\NP))/M M
+1 S/S S[dcl] S/S
+1 QP LQU QP
+1 NP/NP[conj] conj NP
+1 (S[dcl]\LCP)/QP (S[dcl]\LCP)/S[dcl] S[dcl]/QP
+1 (NP/NP)/(NP/NP) (NP/NP)/(NP/NP) RQU
+1 S[dcl]\S[dcl] (S\S)/NP NP
+1 ((S\NP)/S)\((S\NP)/S) NP (((S\NP)/S)\((S\NP)/S))\NP
+1 ((NP/NP)\NP)/NP ((NP/NP)\NP)/((NP/NP)\NP) ((NP/NP)\NP)/NP
+1 ((S\NP)/(S\NP))/S[dcl] LQU ((S\NP)/(S\NP))/S[dcl]
+1 S[dcl] S/S S[frg]
+1 PP/PP (PP/PP)/NP NP
+1 (S[dcl]\NP)/QP ((S[dcl]\NP)/QP)/NP (S\NP)\((S\NP)/QP)
+1 (QP/QP)/(QP/QP) S[dcl] ((QP/QP)/(QP/QP))\S[dcl]
+1 (S/S)/S QP ((S/S)/S)\QP
+1 S[dcl]\QP S[dcl] (S[dcl]\QP)\S[dcl]
+1 (S[dcl]\NP)\QP ((S[dcl]\NP)\QP)/NP NP
+1 (S\NP)/((S\NP)\(S\NP)) ((S\NP)/((S\NP)\(S\NP)))/NP NP
+1 (S/S)\(S/S) ((S/S)\(S/S))/S[dcl] S[dcl]
+1 (S/S)\NP S[dcl]\NP ((S/S)\NP)\(S[dcl]\NP)
+1 (((S/S)\NP)/((S/S)\NP))/(((S/S)\NP)/((S/S)\NP)) S[dcl] ((((S/S)\NP)/((S/S)\NP))/(((S/S)\NP)/((S/S)\NP)))\S[dcl]
+1 (((S/S)\NP)/((S/S)\NP))/QP ((((S/S)\NP)/((S/S)\NP))/QP)/NP NP
+1 (S\QP)/(S\QP) ((S\QP)/(S\QP))/(S[dcl]\NP) S[dcl]\NP
+1 (NP\NP)/NP S[dcl] ((NP\NP)/NP)\S[dcl]
+1 (NP\NP)/NP (NP\NP)/NP RQU
+1 (S\NP)/((S[dcl]\NP)/NP) ((S\NP)/((S[dcl]\NP)/NP))/(NP[dcl]/NP) NP[dcl]/NP
+1 ((NP/NP)\NP)\NP NP (((NP/NP)\NP)\NP)\NP
+1 ((S[dcl]\NP)/NP)/NP (((S[dcl]\NP)/NP)/NP)/NP ((S\NP)/NP)\(((S\NP)/NP)/NP)
+1 (S/S)\(S/S) ((S/S)\(S/S))/NP NP
+1 (S\NP)/(S\NP)[conj] (S\NP)/(S\NP) (S\NP)/(S\NP)[conj]
+1 ((S\NP)/S)\NP (((S\NP)/S)\NP)/(S\NP) S[dcl]\NP
+1 ((S[dcl]\NP)/S[dcl])/(S[dcl]\NP) ((S[dcl]\NP)/S[dcl])/(S[dcl]\NP) (S\NP)\(S\NP)
+1 (NP/NP)\(S[dcl]\NP) (NP/NP)\S[dcl] LQU
+1 (S\S)\NP ((S\S)\NP)/((S\S)\NP) (S\S)\NP
+1 NP[dcl]/NP S[dcl]/NP NP\(NP/NP)
+1 S[dcl]/S[dcl] S/(S\S) (S[dcl]\S)/S[dcl]
+1 (NP\(S\NP))/(NP\(S\NP)) (NP\(S\NP))/(NP\(S\NP)) RRB
+1 S[dcl]\NP ((S[dcl]\NP)/(S[dcl]\NP))/NP (S[dcl]\NP)\(((S[dcl]\NP)/(S[dcl]\NP))/NP)
+1 ((S/S)\NP)/S[dcl] ((S/S)\NP)/S[dcl] :
+1 (NP\NP)/(S[dcl]\NP) (NP\NP)/(S[dcl]\NP) ,
+1 S[dcl][conj] , S/(S\NP)
+1 S[dcl] LQU S[dcl]
+1 (S\S)\NP ((S\S)\NP)/S[dcl] S[dcl]
+1 (S[dcl]\NP)/NP (S\NP)/((S[dcl]\NP)/NP) (S[dcl]\NP)/NP
+1 QP[conj] conj NP
+1 (S\NP)/NP NP/NP ((S\NP)/NP)\(NP/NP)
+1 (((((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) (((((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) ,
+1 (S\S)\NP (S\S)\NP (S\S)\NP[conj]
+1 (NP/NP)/(NP/NP) ((NP/NP)/(NP/NP))/((S\NP)/(S\NP)) (S\NP)/(S\NP)
+1 NP\(S[dcl]\NP) (NP\(S\NP))/(NP\(S\NP)) NP\(S[dcl]\NP)
+1 ((S[dcl]\NP)/S[dcl])/(S[dcl]\NP) (((S[dcl]\NP)/S[dcl])/(S[dcl]\NP))/conj conj
+1 (S\S)/(S\S) ((S\S)/(S\S))/((S\S)/(S\S)) (S\S)/(S\S)
+1 NP/S[dcl] NP/S[dcl] LQU
+1 QP QP ,
+1 S[dcl]\S[dcl] S[dcl]\S[dcl] ,
+1 S[dcl]/S[dcl] S[dcl]/S[dcl] RQU
+1 (S[dcl]\NP)\S[dcl] (S[dcl]\NP)/S[dcl] S[dcl]\S[dcl]
+1 S[dcl]\NP[conj] conj (S[dcl]\NP)/NP
+1 (S/S)/NP S[dcl] ((S/S)/NP)\S[dcl]
+1 (S[dcl]\NP)\QP ((S[dcl]\NP)\QP)/S[dcl] S[dcl]
+1 M NP M\NP
+1 (S\QP)/(S\QP) NP ((S\QP)/(S\QP))\NP
+1 (S\NP)/S (S\NP)/S ((S\NP)/S)\((S\NP)/S)
+1 S[dcl]\S[dcl][conj] , S[dcl]\S
+1 (S\QP)/(S\QP) S[dcl]\NP ((S\QP)/(S\QP))\(S[dcl]\NP)
+1 ((S\NP)/S)/((S\NP)/S) ((S\NP)/S)/((S\NP)/S) ,
+1 ((S/S)\S[dcl])/NP ((S/S)\S[dcl])/NP (((S/S)\S)/NP)\(((S/S)\S)/NP)
+1 ((S[dcl]\NP)/S[dcl])/S[dcl] ((S[dcl]\NP)/S[dcl])/S[dcl] LQU
+1 S[dcl]/S[dcl] S[dcl]/S[dcl] :
+1 QP QP/LCP LCP
+1 (S\NP)\(S\NP) conj (S\NP)\(S\NP)
+1 S[dcl]\NP S[dcl]\NP (S[dcl]\NP)\(S[dcl]\NP)
+1 (S[dcl]/S[dcl])/S[dcl] (S[dcl]/S[dcl])/S[dcl] ,
+1 ((S\S)/(S\S))\NP (((S\S)/(S\S))\NP)/QP QP
+1 ((S\NP)/(S\NP))/NP (((S\NP)/(S\NP))/conj)/NP ((S\NP)/(S\NP))\(((S\NP)/(S\NP))/conj)
+1 QP\(NP/NP) QP (QP\(NP/NP))\QP
+1 (S/S)/LCP (S/S)/LCP LRB
+1 (S[dcl]\NP)/(S[dcl]\NP) ((S[dcl]\NP)/(S[dcl]\NP))/S[dcl] S[dcl]
+1 S[frg] S/NP NP
+1 (S/S)/S S/S ((S/S)/S)\(S/S)
+1 ((S/S)\NP)/S[dcl] ((S/S)\NP)/S[dcl] ,
+1 S[dcl]\NP NP S[dcl]\NP
+1 ((S\NP)/S)\((S\NP)/S) (((S\NP)/S)\((S\NP)/S))/(S\NP) S[dcl]\NP
+1 ((S/S)/(S/S))/((S\NP)/(S\NP)) (((S/S)/(S/S))/((S\NP)/(S\NP)))/M M
+1 (S/S)/S ((S/S)/S)/QP QP
+1 NP NP/LCP LCP
+1 (S/S)/S (S/S)/S LRB
+1 S[dcl]\NP (S[dcl]\NP)/NP S[dcl]\NP[conj]
+1 (S\NP)/(S\NP) NP/NP ((S\NP)/(S\NP))\(NP/NP)
+1 LCP[conj] conj NP
+1 S\NP (S\NP)/(S\NP) (S[dcl]\NP)/NP
+1 ((S[dcl]\NP)/QP)/NP ((S[dcl]\NP)/QP)/NP ((S[dcl]\NP)/QP)/NP[conj]
+1 (NP\NP)/(S[dcl]\NP) ((NP\NP)/(S[dcl]\NP))/QP QP
+1 NP/NP[conj] LRB NP/NP
+1 (S[dcl]\QP)/(S[dcl]\NP) (S[dcl]\QP)/(S[dcl]\NP) (S\QP)\(S\QP)
+1 PP/NP LQU PP/NP
+1 (S\S)/(S\S) ((S\S)/(S\S))/PP PP
+1 (S[dcl]\LCP)/NP (S\LCP)/(S\LCP) (S[dcl]\LCP)/NP
+1 ((NP\NP)/S[dcl])\NP (((NP\NP)/S[dcl])\NP)/S[dcl] S[dcl]
+1 NP NP/S[dcl] S[dcl]
+1 (S\QP)/(S\QP) (S\QP)/(S\QP) ,
+1 (S/S)/S conj (S/S)/S
+1 S[dcl]/QP S[dcl]/QP S\S
+1 ((S/S)/M)/QP ((S/S)/M)/QP ,
+1 S[dcl]\S[dcl][conj] ; S[dcl]\S[dcl]
+1 QP conj QP
+1 (((S\NP)\(S\NP))\NP)/(S\NP) ((((S\NP)\(S\NP))\NP)/(S\NP))/NP NP
+1 NP\NP (NP\NP)/(S\NP) S[dcl]\NP
+1 NP/NP[conj] conj S[dcl]
+1 NP\NP NP\NP (NP\NP)\(NP\NP)
+1 ((S/S)\NP)/PP (((S/S)\NP)/PP)/NP NP
+1 ((S\NP)/NP)\((S\NP)/NP) ((S\NP)/NP)\((S\NP)/NP) (((S\NP)/NP)\((S\NP)/NP))\(((S\NP)/NP)\((S\NP)/NP))
+1 ((S\NP)/(S\NP))/NP[conj] conj ((S\NP)/(S\NP))/NP
+1 LCP\NP S[dcl]\NP (LCP\NP)\(S[dcl]\NP)
+1 (NP\NP)/S[dcl] (NP\NP)/S[dcl] LQU
+1 S[dcl]\NP S[dcl]\NP LRB
+1 S/(S\NP) (S/(S\NP))/S[dcl] S[dcl]
+1 (NP\NP)/(NP\NP) ((NP\NP)/(NP\NP))/((NP\NP)/(NP\NP)) (NP\NP)/(NP\NP)
+1 S[dcl]/NP S[dcl]/NP S[q]\S[dcl]
+1 ((S[dcl]/S)\NP)/NP ((S/S)\NP)/S[dcl] S[dcl]/NP
+1 LCP\(NP/NP) NP (LCP\(NP/NP))\NP
+1 NP\NP[conj] , NP\NP
+1 (((S\NP)/(S\NP))\NP)/(((S\NP)/(S\NP))\NP) ((((S\NP)/(S\NP))\NP)/(((S\NP)/(S\NP))\NP))/((((S\NP)/(S\NP))\NP)/(((S\NP)/(S\NP))\NP)) (((S\NP)/(S\NP))\NP)/(((S\NP)/(S\NP))\NP)
+1 (S\S)/(S\NP) ((S\S)/(S\NP))/LCP LCP
+1 S[dcl]/NP[conj] conj S[dcl]
+1 (((S\NP)/(S\NP))\NP)/(((S\NP)/(S\NP))\NP) S[dcl] ((((S\NP)/(S\NP))\NP)/(((S\NP)/(S\NP))\NP))\S[dcl]
+1 (QP/QP)/(QP/QP) NP ((QP/QP)/(QP/QP))\NP
+1 (QP/QP)/(QP/QP)[conj] conj (QP/QP)/(QP/QP)
+1 ((NP/NP)\NP)/((NP/NP)\NP) (((NP/NP)\NP)/((NP/NP)\NP))/(((NP/NP)\NP)/((NP/NP)\NP)) ((NP/NP)\NP)/((NP/NP)\NP)
+1 (S[dcl]\S)/S[dcl] (S\S)/(S\S) (S[dcl]\S[dcl])/S[dcl]
+1 NP\(S[dcl]\NP) NP (NP\(S\NP))\NP
+1 (S\QP)/(S\QP) ((S\QP)/(S\QP))/((S\QP)/(S\QP)) (S\QP)/(S\QP)
+1 ((S[dcl]\NP)/S[dcl])/(S[dcl]\NP) (((S[dcl]\NP)/S[dcl])/(S[dcl]\NP))/NP NP
+1 S[dcl]\NP (S[dcl]\NP)/S[dcl] S[dcl]/NP
+1 ((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP) (((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/NP NP
+1 (S[dcl]\NP)/S[dcl][conj] , S[dcl]\NP
+1 S[dcl]\NP (S[dcl]\NP)/(S[dcl]\NP) (S[dcl]\NP)/S[dcl]
+1 S[dcl]\NP (S[dcl]\NP)/QP NP
+1 S[dcl]/NP S[dcl]/(S[dcl]\NP) (S[dcl]\NP)/NP
+1 (NP/NP)/M RQU (NP/NP)/M
+1 (((S\NP)\(S\NP))\NP)/(((S\NP)\(S\NP))\NP) ((((S\NP)\(S\NP))\NP)/(((S\NP)\(S\NP))\NP))/((((S\NP)\(S\NP))\NP)/(((S\NP)\(S\NP))\NP)) (((S\NP)\(S\NP))\NP)/(((S\NP)\(S\NP))\NP)
+1 S\S (S\S)/LCP LCP
+1 (S[dcl]\NP)\(((S[dcl]\NP)/(S[dcl]\NP))/NP) ((S[dcl]\NP)/(S[dcl]\NP))\(((S[dcl]\NP)/(S[dcl]\NP))/NP) (S[dcl]\NP)\((S[dcl]\NP)/(S[dcl]\NP))
+1 ((S\NP)/(S\NP))/NP (((S\NP)/(S\NP))/NP)/QP QP
+1 ((S\LCP)/(S\LCP))\NP ((S\LCP)/(S\LCP))\NP (((S\LCP)/(S\LCP))\NP)\(((S\LCP)/(S\LCP))\NP)
+1 S[dcl]\NP[conj] , (S[dcl]\NP)/S[dcl]
+1 ((S\NP)/(S\NP))/(S\NP) QP (((S\NP)/(S\NP))/(S\NP))\QP
+1 ((((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) ((((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) ,
+1 ((S/S)/((S\NP)/(S\NP)))/M LQU ((S/S)/((S\NP)/(S\NP)))/M
+1 (S[dcl]\NP)\NP ((S[dcl]\NP)\NP)/S[dcl] S[dcl]
+1 (((S\NP)\(S\NP))\NP)/(S\NP) ((((S\NP)\(S\NP))\NP)/(S\NP))/M M
+1 S\NP (S\NP)/((S[dcl]\NP)/NP) S[dcl]\NP
+1 NP/NP S[dcl]\NP (NP/NP)\S[dcl]
+1 (NP/NP)/(NP/NP) S\NP ((NP/NP)/(NP/NP))\(S\NP)
+1 (((((((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/S[dcl] (((((((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/S[dcl] ,
+1 (S[dcl]\S)/NP[conj] , (S[dcl]\S[dcl])/NP
+1 ((((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) (((((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) S[dcl]\NP
+1 PP/NP PP/NP :
+1 S\NP[conj] conj (S[dcl]\NP)/NP
+1 (((S\NP)/(S\NP))\NP)/NP ((((S\NP)/(S\NP))\NP)/NP)/((((S\NP)/(S\NP))\NP)/NP) (((S\NP)/(S\NP))\NP)/NP
+1 (S/S)/NP ((S/S)/NP)/(S[dcl]\NP) S[dcl]\NP
+1 (S\LCP)/(S\LCP) ((S\LCP)/(S\LCP))/((S\LCP)/(S\LCP)) (S\LCP)/(S\LCP)
+1 (NP/NP)\(NP/NP) ((NP/NP)\(NP/NP))/NP NP
+1 S[dcl]\LCP (S[dcl]\LCP)/QP QP
+1 ((S\NP)/(S\NP))\((S\NP)/(S\NP)) ((S\NP)/(S\NP))\((S\NP)/(S\NP)) (((S\NP)/(S\NP))\((S\NP)/(S\NP)))\(((S\NP)/(S\NP))\((S\NP)/(S\NP)))
+1 ((S[dcl]\NP)/NP)/NP ((S[dcl]\NP)/NP)/NP LQU
+1 NP/NP RRB NP/NP
+1 NP S[dcl]\NP NP\(S\NP)
+1 S[dcl]\(S[dcl]\NP) (S[dcl]\(S[dcl]\NP))/S[dcl] S[dcl]
+1 S[dcl]/NP[conj] , S[dcl]/NP
+1 ((S/S)/S)/S[dcl] RQU ((S/S)/S)/S[dcl]
+1 S[dcl]/S[dcl] (S[dcl]/S[dcl])/S[dcl] S[dcl]
+1 (QP/QP)/(QP/QP) S[dcl]\NP ((QP/QP)/(QP/QP))\(S[dcl]\NP)
+1 NP[conj] . NP
+1 ((((S\NP)/(S\NP))/NP)/NP)/NP (((((S\NP)/(S\NP))/NP)/NP)/NP)/(((((S\NP)/(S\NP))/NP)/NP)/NP) ((((S\NP)/(S\NP))/NP)/NP)/NP
+1 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) (((S\NP)/(S\NP))/((S\NP)/(S\NP)))/(NP/NP) NP/NP
+1 (S\NP)/(S\NP) RQU (S\NP)/(S\NP)
+1 S[dcl][conj] S[dcl] S\S
+1 (S\S)\NP ((S\S)\NP)/NP NP
+1 ((S/S)\NP)/S[dcl] ((S/S)\NP)/S[dcl] LQU
+1 NP/NP (S[dcl]\NP)/NP (NP/NP)\(S[dcl]/NP)
+1 ((S/S)\NP)/((S/S)\NP) QP (((S/S)\NP)/((S/S)\NP))\QP
+1 S[dcl] S[dcl]/NP .
+1 (((S\NP)\(S\NP))\NP)/S[dcl] (((S\NP)\(S\NP))\NP)/S[dcl] ,
+1 (((S\NP)/(S\NP))/(S\NP))/NP (((S\NP)/(S\NP))/(S\NP))/NP LQU
+1 NP/NP S[dcl] NP/NP[conj]
+1 (S[dcl]\NP)/NP (S[dcl]\NP)/NP NP/NP
+1 (((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) ((((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) S[dcl]\NP
+1 ((S/S)\NP)/((S/S)\NP) (((S/S)\NP)/((S/S)\NP))/QP QP
+1 (S\NP)/(S\NP) (S\NP)/(S\NP) :
+1 (S\NP)/(S\NP) (S\NP)/(S\NP) LRB
+1 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) ((S\NP)/(S\NP))/((S\NP)/(S\NP)) RRB
+1 ((NP\NP)/S[dcl])\NP (((NP\NP)/S[dcl])\NP)/NP NP
+1 ((S\NP)/(S\NP))/NP ((S\NP)/(S\NP))/NP ((S\NP)/(S\NP))/NP[conj]
+1 ((S\NP)/(S\NP))/(S\NP) ((S\NP)/(S\NP))/(S\NP) (((S\NP)/(S\NP))/(S\NP))\(((S\NP)/(S\NP))/(S\NP))
+1 (((S\NP)\(S\NP))\NP)/(((S\NP)\(S\NP))\NP) ((((S\NP)\(S\NP))\NP)/(((S\NP)\(S\NP))\NP))/S[dcl] S[dcl]
+1 (S[dcl]\NP)/NP (S[dcl]\NP)/PP PP[dcl]/NP
+1 (((S\NP)\(S\NP))\NP)/QP ((((S\NP)\(S\NP))\NP)/QP)/NP NP
+1 ((S[dcl]\NP)/NP)/(NP/NP) (((S[dcl]\NP)/NP)/(NP/NP))/(NP/NP) NP/NP
+1 ((S\S)/(S\S))\NP (((S\S)/(S\S))\NP)/(((S\S)/(S\S))\NP) ((S\S)/(S\S))\NP
+1 (((S\NP)/(S\NP))/((S\NP)/(S\NP)))/(((S\NP)/(S\NP))/((S\NP)/(S\NP))) ((((S\NP)/(S\NP))/((S\NP)/(S\NP)))/(((S\NP)/(S\NP))/((S\NP)/(S\NP))))/((((S\NP)/(S\NP))/((S\NP)/(S\NP)))/(((S\NP)/(S\NP))/((S\NP)/(S\NP)))) (((S\NP)/(S\NP))/((S\NP)/(S\NP)))/(((S\NP)/(S\NP))/((S\NP)/(S\NP)))
+1 NP\S[dcl] (NP\S[dcl])/(S[dcl]\NP) S[dcl]\NP
+1 LCP NP/NP LCP\(NP/NP)
+1 ((((S\NP)\(S\NP))\NP)/(((S\NP)\(S\NP))\NP))/((((S\NP)\(S\NP))\NP)/(((S\NP)\(S\NP))\NP)) (((((S\NP)\(S\NP))\NP)/(((S\NP)\(S\NP))\NP))/((((S\NP)\(S\NP))\NP)/(((S\NP)\(S\NP))\NP)))/NP NP
+1 (S[dcl]\QP)/QP (S[dcl]\QP)/QP LQU
+1 (NP\NP)/NP (NP\NP)/(NP\NP) (NP\NP)/NP
+1 (NP/NP)\QP NP ((NP/NP)\QP)\NP
+1 QP/M QP/M QP/M[conj]
+1 S[dcl]\((S\NP)/(S\NP)) (S[dcl]\((S\NP)/(S\NP)))/(S[dcl]\NP) S[dcl]\NP
+1 PP PP ,
+1 S[dcl]/QP S/(S\LCP) (S[dcl]\LCP)/QP
+1 S/S S[dcl]\NP (S/S)\S[dcl]
+1 ((S\NP)\(S\NP))/((S\NP)\(S\NP)) (((S\NP)\(S\NP))/((S\NP)\(S\NP)))/S[dcl] S[dcl]
+1 ((S[dcl]\NP)/QP)/NP[conj] conj ((S[dcl]\NP)/QP)/NP
+1 ((NP/NP)/(NP/NP))/((S\NP)/(S\NP)) (((NP/NP)/(NP/NP))/((S\NP)/(S\NP)))/M M
+1 ((S/S)\NP)/(S[dcl]\NP) LQU ((S/S)\NP)/(S[dcl]\NP)
+1 ((S\NP)/(S\NP))/(S\NP) (((S\NP)/(S\NP))/(S\NP))/((S\NP)/(S\NP)) (S\NP)/(S\NP)
+1 QP/QP QP/QP ,
+1 QP[conj] QP/QP QP
+1 (S[dcl]\NP)\NP (S[dcl]\NP)/NP NP\NP
+1 ((S\NP)/(S\NP))/((S\NP)/(S\NP)) NP/NP (((S\NP)/(S\NP))/((S\NP)/(S\NP)))\(NP/NP)
+1 S[dcl]\LCP[conj] conj S[dcl]\LCP
+1 (S/S)/S[dcl] ((S/S)/S[dcl])/S[dcl] S[dcl]
+1 S[dcl] (S\NP)/(S\NP) S[dcl]\((S\NP)/(S\NP))
+1 ((S\NP)/(S\NP))/LCP ((S\NP)/(S\NP))/LCP LQU
+1 (S[dcl]\NP)/(S\NP) (S[dcl]\NP)/S[dcl] S/(S\NP)
+1 S/NP S/NP ,
+1 (S/S)\S[dcl] ((S/S)\S[dcl])/(S[dcl]\NP) S[dcl]\NP
+1 S[dcl][conj] , S[dcl]/S[dcl]
+1 (S\NP)/S ((S\NP)/S)/S[dcl] S[dcl]
+1 ((S\NP)/(S\NP))/M (((S\NP)/(S\NP))/M)/QP QP
+1 (S\QP)/(S\QP) ((S\QP)/(S\QP))/QP QP
+1 ((S\NP)/(S\NP))/LCP LQU ((S\NP)/(S\NP))/LCP
+1 (S\NP)/((S\NP)/(S\NP))[conj] conj (S\NP)/((S\NP)/(S\NP))
+1 S[dcl] S[dcl]\NP S[dcl]\NP
+1 (S\S)/(S\S) ((S\S)/(S\S))/(S[dcl]\NP) S[dcl]\NP
+1 (((S\NP)\(S\NP))\NP)/(((S\NP)\(S\NP))\NP) ((((S\NP)\(S\NP))\NP)/(((S\NP)\(S\NP))\NP))/QP QP
+1 ((S\NP)\NP)/((S\NP)\NP) (((S\NP)\NP)/((S\NP)\NP))/NP NP
+1 S[dcl]\NP (S[dcl]\NP)/NP ((S[dcl]\NP)/NP)/((S[dcl]\NP)/NP)
+1 (NP\NP)/NP ((NP\NP)/NP)/((NP\NP)/NP) (NP\NP)/NP
+1 (S\NP)/NP (S\NP)/NP ((S\NP)/NP)\((S\NP)/NP)
+1 NP/(S\NP) NP/(S\NP) :
+1 (NP\NP)/NP (NP\NP)/NP LQU
+1 QP/QP QP/QP RRB
+1 (S\S)/(S\S) ((S\S)/(S\S))/((S\NP)/(S\NP)) (S\NP)/(S\NP)
+1 (S[dcl]\NP)/M ((S[dcl]\NP)/M)/QP QP
+1 (S[dcl]\S[dcl])/(S[dcl]\NP) ((S[dcl]\S[dcl])/(S[dcl]\NP))/LCP LCP
+1 (S/S)\QP ((S/S)\QP)/NP NP
+1 S/(S\NP) S/(S\NP) RQU
+1 NP/S S[dcl] (NP/S)\S[dcl]
+1 (NP/(S\NP))/(NP/(S\NP)) ((NP/(S\NP))/(NP/(S\NP)))/M M
+1 S\NP (S\NP)/((S[dcl]\NP)/NP) (S[dcl]\NP)\((S[dcl]\NP)/(S[dcl]\NP))
+1 ((((((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) ((((((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) ,
+1 (S\NP)/NP (S\NP)/NP NP/NP
+1 NP\NP[conj] conj NP\NP
+1 (NP\NP)/(NP\NP) NP ((NP\NP)/(NP\NP))\NP
+1 (NP/NP)\(NP/NP) ((NP/NP)\(NP/NP))/(NP/NP) NP/NP
+1 S[dcl]/S[dcl] (S[dcl]/S[dcl])/(S[dcl]/S[dcl]) S[dcl]/S[dcl]
+1 NP S[dcl]/NP NP\S[dcl]
+1 NP/NP ((NP/NP)\S[dcl])/((NP/NP)\S[dcl]) (NP/NP)\S[dcl]
+1 (NP\S)/(NP\S) ((NP\S)/(NP\S))/(NP/NP) NP/NP
+1 ((S/S)\NP)/NP ((S/S)\NP)/((S/S)\NP) ((S/S)\NP)/NP
+1 S[dcl]/S[dcl] LQU S[dcl]/S[dcl]
+1 (S\NP)/(S\NP) LCP ((S\NP)/(S\NP))\LCP
+1 NP/S (NP/S)/LCP LCP
+1 QP/QP QP (QP/QP)\QP
+1 (S[dcl]\NP)/NP ((S\NP)/(S\NP))/NP (S[dcl]\NP)/NP
+1 (S[dcl]\S[dcl])/S[dcl] (S[dcl]\S[dcl])/S[dcl] ,
+1 (S\S)/(S\S) PP ((S\S)/(S\S))\PP
+1 (S\LCP)/(S\LCP) S[dcl]\NP ((S\LCP)/(S\LCP))\(S[dcl]\NP)
+1 ((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) ((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) ,
+1 ((S[dcl]\NP)/QP)/NP (((S[dcl]\NP)/QP)/NP)/(((S[dcl]\NP)/QP)/NP) ((S[dcl]\NP)/QP)/NP
+1 S[dcl]\NP[conj] : S[dcl]\NP
+1 ((NP\NP)/(NP\NP))\NP (((NP\NP)/(NP\NP))\NP)/NP NP
+1 (((((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) ((((((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) S[dcl]\NP
+1 (((S\NP)/(S\NP))/(S\NP))/M LQU (((S\NP)/(S\NP))/(S\NP))/M
+1 (S\NP)/((S\NP)/(S\NP)) ((S\NP)/((S\NP)/(S\NP)))/((S\NP)/((S\NP)/(S\NP))) (S\NP)/((S\NP)/(S\NP))
+1 S/NP (S/NP)/NP NP
+1 (S\S)\NP[conj] , (S\S)\NP
+1 (NP/NP)/(NP/NP) (NP/NP)/(NP/NP) RRB
+1 S/S S[dcl]/NP (S/S)\S[dcl]
+1 S[dcl] S[dcl] S[dcl]/NP[conj]
+1 QP/M RQU QP/M
+1 (NP/NP)\(NP/NP) ((NP/NP)\(NP/NP))/LCP LCP
+1 ((S\NP)\NP)/((S\NP)\NP) (((S\NP)\NP)/((S\NP)\NP))/LCP LCP
+1 NP[dcl]/NP NP/(NP\NP) (NP[dcl]\NP)/NP
+1 ((S\NP)/(S\NP))/NP RQU ((S\NP)/(S\NP))/NP
+1 (((S/S)/S)\NP)/(((S/S)/S)\NP) ((((S/S)/S)\NP)/(((S/S)/S)\NP))/NP NP
+1 (S[dcl]\S)/NP (S\S)/(S\NP) (S[dcl]\NP)/NP
+1 ((QP/QP)/(QP/QP))/((QP/QP)/(QP/QP)) (((QP/QP)/(QP/QP))/((QP/QP)/(QP/QP)))/M M
+1 NP/NP ((NP/NP)/(NP/NP))\NP (NP/NP)\((NP/NP)/(NP/NP))
+1 S[dcl]\S (S[dcl]\S)/NP NP
+1 S[dcl]\NP (S\NP)/(S\NP) ((S\NP)/(S\NP))/((S\NP)/(S\NP))
+1 ((S/S)\NP)/((S/S)\NP) (((S/S)\NP)/((S/S)\NP))/(S[dcl]/NP) S[dcl]/NP
+1 NP/S NP/S ,
+1 (S/S)/S ((S/S)/S)/M M
+1 ((S[dcl]\NP)/S[dcl])/S[dcl] ((S[dcl]\NP)/S[dcl])/S[dcl] ,
+1 QP/M[conj] conj QP/M
+1 (S[dcl]\NP)\(((S[dcl]\NP)/(S[dcl]\NP))/NP) (S[dcl]\NP)\(((S[dcl]\NP)/(S[dcl]\NP))/NP) (S[dcl]\NP)\(((S[dcl]\NP)/(S[dcl]\NP))/NP)[conj]
+1 S[dcl]/S[dcl] S[dcl]/S[dcl] .
+1 ((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) (((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) S[dcl]\NP
+1 NP\NP (NP\NP)/M M
+1 (QP/QP)/(QP/QP) (QP/QP)/(QP/QP) (QP/QP)/(QP/QP)[conj]
+1 S[dcl]\LCP (S\LCP)/NP NP
+1 S[dcl][conj] RRB S[dcl]
+1 S[dcl][conj] S[dcl] S[dcl]\S[dcl]
+1 (S[dcl]\NP)\PP ((S[dcl]\NP)\PP)/S[dcl] S[dcl]
+1 (S[dcl]\NP)/(S[dcl]\NP) (S[dcl]\NP)/(S[dcl]\NP) (S[dcl]\NP)/(S[dcl]\NP)[conj]
+1 (S/S)/(S[dcl]\NP) ((S/S)/(S[dcl]\NP))/NP NP
+1 (NP/NP)\QP M ((NP/NP)\QP)\M
+1 (S/S)/(S/S) (S/S)/(S/S) ,
+1 (S[dcl]\NP)\NP (S[dcl]\NP)/S[dcl] S[dcl]\NP
+1 NP QP NP
+1 (S[dcl]\NP)/(S[dcl]\NP) ((S[dcl]\NP)/(S[dcl]\NP))/((S\NP)/(S\NP)) (S\NP)/(S\NP)
+1 (S\NP)/((S\NP)/(S\NP)) (S\NP)/((S\NP)/(S\NP)) (S\NP)/((S\NP)/(S\NP))[conj]
+1 S[dcl]/NP S[dcl]/NP S[dcl]\S[dcl]
+1 (NP/NP)/M[conj] conj (NP/NP)/M
+1 ((S\NP)/(S\NP))/(S\NP) (((S\NP)/(S\NP))/(S\NP))/(S\NP) S[dcl]\NP
+1 (((NP/NP)/(NP/NP))/((NP/NP)/(NP/NP)))/(((NP/NP)/(NP/NP))/((NP/NP)/(NP/NP))) ((((NP/NP)/(NP/NP))/((NP/NP)/(NP/NP)))/(((NP/NP)/(NP/NP))/((NP/NP)/(NP/NP))))/M M
+1 ((S[dcl]\NP)/(S\NP))/NP (((S[dcl]\NP)/(S\NP))/(S\NP))/NP (S[dcl]\NP)\((S[dcl]\NP)/(S[dcl]\NP))
+1 (S/S)/M ((S/S)/M)/QP QP
+1 QP/QP (QP/QP)/(NP/NP) NP/NP
+1 (((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) ((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) S[dcl]\NP
+1 (((S[dcl]\NP)/NP)/NP)/NP (((S[dcl]\NP)/NP)/NP)/NP ((S\NP)/NP)\((S\NP)/NP)
+1 (S[dcl]\NP)/S[dcl] ((S\NP)/(S\NP))/S[dcl] (S[dcl]\NP)\((S[dcl]\NP)/(S[dcl]\NP))
+1 (S\S)\NP ((S\S)\NP)/QP QP
+1 (S/S)/(S[dcl]\NP) (S/S)/(S[dcl]\NP) ((S/S)/(S\NP))\((S/S)/(S\NP))
+1 (((S/S)\NP)/((S/S)\NP))/NP (((S/S)\NP)/((S/S)\NP))/NP LQU
+1 (((S\NP)\(S\NP))\NP)/QP (((S\NP)\(S\NP))\NP)/QP ((((S\NP)\(S\NP))\NP)/QP)\((((S\NP)\(S\NP))\NP)/QP)
+1 (S/(S\NP))/NP (S/(S\NP))/NP ((S/(S\NP))/NP)\((S/(S\NP))/NP)
+1 (((S\NP)/(S\NP))/M)/QP (((S\NP)/(S\NP))/M)/QP ,
+1 (NP[dcl]\NP)/NP (NP\NP)/(S[dcl]\NP) (S[dcl]\NP)/NP
+1 S[dcl]\NP (S\NP)/(S\NP) S[dcl]\NP[conj]
+1 (S/S)\QP (S/S)\QP ((S/S)\QP)\((S/S)\QP)
+1 (S[dcl]\S)/NP (S[dcl]\S)/NP (S[dcl]\S)/NP[conj]
+1 S[dcl] S[dcl]/LCP LCP
+1 ((S\NP)/S)\NP (((S\NP)/S)\NP)/(S[dcl]\NP) S[dcl]\NP
+1 LCP[conj] S[dcl] LCP\S[dcl]
+1 (S\NP)\(S\NP) ((S\NP)\(S\NP))/(S[dcl]\NP) S[dcl]\NP
+1 : : LQU
+1 ((S\NP)/(S\NP))/NP ((S\NP)/(S\NP))/NP ,
+1 (S\S)/(S\S) ((S\S)/(S\S))/QP QP
+1 NP[conj] S[dcl] NP\S
+1 NP (S[dcl]\NP)/NP NP\(S[dcl]/NP)
+1 S[dcl]\NP (S\NP)/(S\NP) (S[dcl]\NP)/S[dcl]
+1 S/NP S/S S/NP
+1 PP/LCP PP/LCP LRB
+1 NP/NP NP/(NP\NP) (NP\NP)/NP
+1 NP/(S\NP) (NP/(S\NP))/(NP/(S\NP)) NP/(S\NP)
+1 (S[dcl]\NP)/S[dcl] (S[dcl]\NP)/S[dcl] RQU
+1 (S\NP)/NP ((S\NP)/NP)/M M
+1 (S\NP)\(S\NP) (S\NP)\(S\NP) RQU
+1 (NP/NP)/S LQU (NP/NP)/S
+1 (S/S)/QP LRB (S/S)/QP
+1 (S/S)/(S/S) ((S/S)/(S/S))/((S\NP)/(S\NP)) (S\NP)/(S\NP)
+1 ((S/S)\NP)\((S/S)\NP) ((S/S)\NP)\((S/S)\NP) (((S/S)\NP)\((S/S)\NP))\(((S/S)\NP)\((S/S)\NP))
+1 (S/S)\S[dcl] ((S/S)\S)/((S/S)\S) (S/S)\S[dcl]
+1 QP NP/NP QP\(NP/NP)
+1 (S\QP)/(S\QP) ((S\QP)/(S\QP))/M M
+1 (S[dcl]\LCP)/S[dcl] (S[dcl]\LCP)/S[dcl] LQU
+1 ((S\NP)/(S\NP))/S (((S\NP)/(S\NP))/S)/NP NP
+1 (S[dcl]\LCP)/S[dcl] (S[dcl]\LCP)/S[dcl] :
+1 S[dcl] S[dcl] :
+1 (S[dcl]\NP)/LCP[conj] conj (S[dcl]\NP)/LCP
+1 ((S/S)/S)/((S/S)/S) S[dcl] (((S/S)/S)/((S/S)/S))\S[dcl]
+1 S[dcl]\NP NP\NP S[dcl]\NP
+1 ((S/S)/(S/S))/M LQU ((S/S)/(S/S))/M
+1 S[dcl] . S[dcl]
+1 (((S\NP)/(S\NP))/((S\NP)/(S\NP)))/NP (((S\NP)/(S\NP))/((S\NP)/(S\NP)))/NP LRB
+1 (S[dcl]\NP)/LCP (S[dcl]\NP)/LCP :
+1 ((S\LCP)/(S\LCP))/NP ((S\LCP)/(S\LCP))/NP (((S\LCP)/(S\LCP))/NP)\(((S\LCP)/(S\LCP))/NP)
+1 NP[conj] NP/NP NP
+1 NP/NP S[dcl] NP/NP
+1 (S\S)\NP ((S\S)\NP)/(S\NP) S[dcl]\NP
+1 ((NP\NP)/NP)\NP (((NP\NP)/NP)\NP)/NP NP
+1 QP[conj] . QP
+1 ((NP/NP)/(NP/NP))/((NP/NP)/(NP/NP)) LQU ((NP/NP)/(NP/NP))/((NP/NP)/(NP/NP))
+1 NP (NP/NP)\NP NP\(NP/NP)
+1 (S/S)/(S/S) S[dcl]/NP ((S/S)/(S/S))\(S[dcl]/NP)
+1 ((S\NP)/(S\NP))\((S\NP)/(S\NP)) (((S\NP)/(S\NP))\((S\NP)/(S\NP)))/QP QP
+1 (((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/conj ((((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/conj)/(S[dcl]\NP) S[dcl]\NP
+1 S[dcl]/S[dcl] S[dcl]/S[dcl] S\S
+1 (S[dcl]/S)/NP (S/S)/S S[dcl]/NP
+1 QP NP NP
+1 (S[dcl]\NP)/PP ((S[dcl]\NP)/PP)/PP PP
+1 (NP\S)/(NP\S) ((NP\S)/(NP\S))/((NP\S)/(NP\S)) (NP\S)/(NP\S)
+1 S[dcl] S[dcl]\NP S[dcl]\(S[dcl]\NP)
+1 (S/S)/((S\NP)/(S\NP)) ((S/S)/((S\NP)/(S\NP)))/M M
+1 (NP\NP)/(NP\NP) ((NP\NP)/(NP\NP))/(S\NP) S[dcl]\NP
+1 ((NP/NP)/NP)/NP (((NP/NP)/NP)/NP)/NP NP
+1 S[dcl]\LCP (S[dcl]\LCP)/LCP LCP
+1 (S[dcl]\NP)/(S[dcl]\NP) (S[dcl]\NP)/(S[dcl]\NP) LRB
+1 (((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) (((S[dcl]\NP)/(S[dcl]\NP))/(S[dcl]\NP))/(S[dcl]\NP) ,
+1 NP[conj] NP NP\NP
+1 (NP/NP)/(NP/NP) NP NP
+1 ((S[dcl]\NP)/M)/QP ((S[dcl]\NP)/M)/QP ,
+1 (S[dcl]\NP)/(S[dcl]\NP)[conj] conj (S[dcl]\NP)/(S[dcl]\NP)
+1 NP NP :
+1 (S[dcl]\NP)/S[dcl] ((S\NP)/S)/(S\NP) S[dcl]\NP
+1 LCP/LCP S[dcl] (LCP/LCP)\S[dcl]
+1 (S/S)/(S\NP) (S/S)/(S\NP) ,
+1 ((S\NP)/(S\NP))/(S\NP) ((S\NP)/(S\NP))/(S\NP) RQU
+1 ((S\NP)/S)\((S\NP)/S) (((S\NP)/S)\((S\NP)/S))/(S[dcl]\NP) S[dcl]\NP
+1 S\NP (S\NP)/((S\NP)\(S\NP)) S[dcl]\NP
+1 S[dcl]/S[dcl] (S[dcl]/S[dcl])/NP NP

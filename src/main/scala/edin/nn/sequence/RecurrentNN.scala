@@ -1,6 +1,6 @@
 package edin.nn.sequence
 
-import edin.nn.{StateClosed, State}
+import edin.nn.StateClosed
 import edu.cmu.dynet.{Expression, ParameterCollection}
 
 trait RecurrentNN extends SequenceEncoder {
@@ -9,20 +9,24 @@ trait RecurrentNN extends SequenceEncoder {
 
   def initState(start_lowest_rnn_hidden:Expression) : RecurrentState
 
-  def transduce(vectors:List[Expression]) : List[Expression] = {
+  def transduce(vectors:List[Expression]) : List[Expression] =
     this.initState().transduce(vectors)
-  }
 
   // keeps the order but only computes representation backward
-  def transduceBackward(vectors:List[Expression]) : List[Expression] = {
+  def transduceBackward(vectors:List[Expression]) : List[Expression] =
     transduce(vectors.reverse).reverse
-  }
 
 }
 
 object RecurrentNN{
 
-  def singleFactory(rnnType:String, inDim:Int, outDim:Int, dropProb:Float, withLayerNorm:Boolean, withWeightNorm:Boolean)(implicit model:ParameterCollection) : RecurrentNN = {
+  def singleFactory(
+                     rnnType        : String   ,
+                     inDim          : Int      ,
+                     outDim         : Int      ,
+                     dropProb       : Float    ,
+                     withLayerNorm  : Boolean  ,
+                     withWeightNorm : Boolean  )(implicit model:ParameterCollection) : RecurrentNN =
     rnnType.toLowerCase match {
       case "lstm" => SingleLSTMConfig(
         inDim          = inDim        ,
@@ -38,7 +42,6 @@ object RecurrentNN{
         withLayerNorm  = withLayerNorm
       ).construct
     }
-  }
 
 }
 

@@ -34,6 +34,7 @@ pip3 install numpy
 pip3 install cython
 
 pip3 install allennlp
+pip3 install tensorflow
 pip3 install thrift
 
 echo DOWNLOADING ELMo EMBEDDINGS

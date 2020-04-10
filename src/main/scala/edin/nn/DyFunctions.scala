@@ -5,11 +5,9 @@ import edin.algorithms.BestKElements._
 
 import scala.language.implicitConversions
 
-
 object DyFunctions{
 
-  // @inline def argmaxWithScores(es:Seq[Float], k:Int):List[(Int, Float)] = edin.algorithms.BestKElements.extractBestK(es.zipWithIndex.map{_.swap}, k)
-  @inline def argmaxWithScores(es:Seq[Float], k:Int):List[(Int, Float)] = es.zipWithIndex.map{_.swap}.bestKBy(k)(_._2)
+  @inline def argmaxWithScores(es:Seq[Float], k:Int):List[(Int, Float)] = es.zipWithIndex.map(_.swap).bestKBy(k)(_._2)
   @inline def argmaxWithScores(es:Expression, k:Int):List[(Int, Float)] = argmaxWithScores(es.toSeq, k)
   @inline def argmax(es:Seq[Float], k:Int):List[Int] = argmaxWithScores(es, k).map(_._1)
   @inline def argmax(es:Expression, k:Int):List[Int] = argmax(es.toSeq, k)
@@ -50,11 +48,16 @@ object DyFunctions{
     DynetSetup.safeReference(exp)
     exp
   }
+  @inline def oneHot(hot:Int, size:Int) : Expression = {
+    val a = Array.ofDim[Float](size)
+    a(hot) = 1
+    vector(a)
+  }
   @inline def concat              (es:Expression*       ) : Expression        = Expression concatenate es
   @inline def concatWithNull      (es:Expression*       ) : Expression        = Expression.concatenate(es.filter(_!=null))
   @inline def concatSeq           (es:Seq[Expression]   ) : Expression        = Expression.concatenate(es)
   @inline def concatSeqWithNull   (es:Seq[Expression]   ) : Expression        = Expression.concatenate(es.filter(_!=null))
-  @inline def logSumExp           (es:Seq[Expression]   ) : Expression        = Expression.logSumExp(es)
+  @inline def logSumExp           (es:Seq[Expression]   ) : Expression        = if(es.size == 1) es.head else Expression.logSumExp(es)
   @inline def max                 (es:Seq[Expression]   ) : Expression        = Expression.max(es)
   @inline def esum                (es:Seq[Expression]   ) : Expression        = Expression.sum(es)
   @inline def averageLogSoftmaxes (es:Seq[Expression]   ) : Expression        = logSumExp(es) - log(es.size)
@@ -69,6 +72,13 @@ object DyFunctions{
       Expression.dropout(x, d)
     else
       x
+  }
+
+  implicit class RichExpSeq(xs:Seq[Expression]){
+    def esum : Expression = DyFunctions.esum(xs)
+    def eavg : Expression = Expression.average(xs)
+    def esumOrElse(x : => Expression) : Expression = if(xs.isEmpty) x else DyFunctions.esum(xs)
+    def eavgOrElse(x : => Expression) : Expression = if(xs.isEmpty) x else Expression.average(xs)
   }
 
   @inline def expandVertically(e:Expression, i:Int) : Expression = {

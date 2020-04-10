@@ -5,46 +5,32 @@ import java.io.File
 import edin.ccg.representation.category.Category
 import edin.ccg.representation.combinators._
 import edin.ccg.representation.tree._
-
-import scala.io.Source
+import edin.algorithms.AutomaticResourceClosing._
 
 object DerivationsLoader {
 
-  def fromFile(trees_file:String) : Iterator[TreeNode] = {
+  def fromFile(trees_file:String) : Iterator[TreeNode] =
     fromFile(new File(trees_file))
-  }
 
-  private def assignSpans(root:TreeNode) : Unit = {
+  def assignSpans(root:TreeNode) : Unit = {
     root.leafs.zipWithIndex.foreach{case (n, i) => n.position = i}
     root.span
   }
 
-  def fromFile(trees_file:File) : Iterator[TreeNode] = {
-    var loaded = 0
-    Source.fromFile(trees_file).getLines().flatMap{ line =>
-      var resultingTree:Option[TreeNode] = None
-      if( line.startsWith("(") ){
-        try{
-          val tree = this.fromString(line)
-          assignSpans(tree)
-          resultingTree = Some(tree)
-          loaded += 1
-          if(loaded % 1000 == 0){
-            System.err.println(loaded)
-          }
-        }catch{
-          case e:Exception => System.err.println(s"failed to load this tree #$loaded so i'll skip it: $line\n$e")
-        }
-      }
-      resultingTree
+  def fromFile(trees_file:File) : Iterator[TreeNode] =
+    for{
+      line <- linesFromFile(trees_file)
+      if line startsWith "("
+      tree = fromString(line)
+      _    = assignSpans(tree)
     }
-  }
+      yield tree
 
   def fromString(s:String) : TreeNode = {
     val tokens = tokenize(s)
     val (node, consumedTokensCount, _) = processTokens(tokens, 0, 0)
-    assert(consumedTokensCount == tokens.length)
-    node.leafs.zipWithIndex.foreach{case (n, i) => n.position=i}
+    require(consumedTokensCount == tokens.length)
+    assignSpans(node)
     node
   }
 
@@ -102,6 +88,7 @@ object DerivationsLoader {
         assert(tokens(next_token) == ">"); next_token += 1
         assert(tokens(next_token) == ")"); next_token += 1
         val node = TerminalNode(word, category) // (next_word)
+        node.posTag = original_pos // remove?
         next_word += 1
         (node, next_token, next_word)
       case _ =>
@@ -110,38 +97,27 @@ object DerivationsLoader {
   }
 
 
-  private def tokenize(s:String) : Array[String] = {
-    s.
+  private def tokenize(s:String) : Array[String] = s.
       replaceAllLiterally("<"," < ").
       replaceAllLiterally(">"," > ").
-      trim().split(" +")
-  }
+      trim().
+      split(" +")
 
   private def recognizeCCGcombinatorUnary(childCat:Category, parentCat:Category) : CombinatorUnary =
     CombinatorUnary.allPredefined
                    .find(c => c.canApply(childCat) && c(childCat) == parentCat)
                    .getOrElse(TypeChangeUnary(childCat, parentCat))
 
-  private def recognizeCCGcombinatorBinary(x:TreeNode, y:TreeNode, headLeft:Boolean, category:Category) : CombinatorBinary = {
+  private def recognizeCCGcombinatorBinary(left:TreeNode, right:TreeNode, headLeft:Boolean, category:Category) : CombinatorBinary =
     if(category.toString == "GLUE"){
-      return Glue()
+      Glue()
+    }else{
+      val l = left.category
+      val r = right.category
+      CombinatorBinary.allPredefined
+        .find(c => c.canApply(l, r) && c(l, r) == category)
+        .getOrElse(TypeChangeBinary(l, r, category))
     }
-    val combinators = CombinatorBinary.allPredefined
-    val xCat = x.category
-    val yCat = y.category
-    if(CombinatorBinary.puncLeft.canApply(xCat, yCat) && CombinatorBinary.puncLeft(xCat, yCat) == category){
-      return CombinatorBinary.puncLeft
-    }
-    for(combinator <- combinators){
-      if(combinator.canApply(xCat, yCat)){
-        if(combinator(xCat, yCat) == category){
-          return combinator
-        }
-      }
-    }
-    val combinator = TypeChangeBinary(xCat, yCat, category)
-    return combinator
-  }
 
 
 }

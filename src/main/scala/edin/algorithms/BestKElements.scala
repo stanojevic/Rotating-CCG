@@ -5,8 +5,6 @@ import scala.collection.mutable.{PriorityQueue => MutPriorityQueue}
 object BestKElements {
 
   // TODO implement usage of quickSelect if the number of required best elements is big K
-  // TODO - useful link 1 https://en.wikipedia.org/wiki/Median_of_medians
-  // TODO - useful link 2 https://en.wikipedia.org/wiki/Selection_algorithm
 
   implicit class IterableBestKBy[T](xs:Iterable[T]){
 

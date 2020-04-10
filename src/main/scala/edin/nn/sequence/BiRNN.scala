@@ -18,7 +18,7 @@ sealed case class BiRNNConfig(
 
 object BiRNNConfig{
 
-  def fromYaml(conf:YamlConfig) : BiRNNConfig = {
+  def fromYaml(conf:YamlConfig) : BiRNNConfig =
     BiRNNConfig(
       rnnType           = conf("rnn-type").str,
       inDim             = conf("in-dim"  ).int,
@@ -28,7 +28,6 @@ object BiRNNConfig{
       withWeightNorm    = conf.getOrElse("with-weight-norm", false),
       dropProb          = conf.getOrElse("dropout", 0f)
     )
-  }
 
 }
 
@@ -43,7 +42,7 @@ class BiRNN(c:BiRNNConfig)(implicit model: ParameterCollection) extends Sequence
 
     assert(c.outDim % 2 == 0)
 
-    for(i <- 0 until c.layers){
+    for(_ <- 0 until c.layers){
       rnnPairs ::= (
         RecurrentNN.singleFactory(c.rnnType, inDim, c.outDim/2, c.dropProb, c.withLayerNorm, c.withWeightNorm), // forward
         RecurrentNN.singleFactory(c.rnnType, inDim, c.outDim/2, c.dropProb, c.withLayerNorm, c.withWeightNorm)  // backward
