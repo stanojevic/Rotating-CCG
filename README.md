@@ -1,7 +1,7 @@
 Rotating CCG Parser
 =========
 
-This is the implementation of the incremental CCG parsing model described in "CCG Parsing with a Fully Incremental Neural Model" by Stanojević and Steedman ACL 2020.
+This is the implementation of the incremental CCG parsing model described in "Max-Margin Incremental CCG Parsing" by Stanojević and Steedman ACL 2020.
 
 If you have any problems using it shout at:
 
