@@ -72,8 +72,8 @@ References
 -------------
 
     @inproceedings{ACL2020:CCG,
-      title="{CCG Parsing with a Fully Incremental Neural Model}",
-        booktitle = "Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+      title="{Max-Margin Incremental CCG Parsing}",
+        booktitle = "Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
         author    = "Milo\v{s} Stanojevi\'{c} and Mark Steedman",
         year = "2020",
         address = "Seattle, Washington",
