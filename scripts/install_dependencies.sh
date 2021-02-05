@@ -5,7 +5,6 @@
 # - cmake
 # - JDK 8 (Scala requires JDK >=8 but DyNet at the moment has problem with JDK >=9) you MUST set JAVA_HOME variable
 # - git
-# - mercurial
 # - python3 and python3-dev with numpy
 
 # OPTIONAL
@@ -86,7 +85,13 @@ export PATH=${SWIG_DIR}/bin:$PATH
 ##########################    installing DyNet    #########################
 
 git clone https://github.com/clab/dynet.git           || { echo 'DyNet install failed' ; exit 1; }
-hg clone https://bitbucket.org/eigen/eigen -r b2e267d || { echo 'DyNet install failed' ; exit 1; }
+# getting eigen
+mkdir eigen
+cd eigen
+wget https://github.com/clab/dynet/releases/download/2.1/eigen-b2e267dc99d4.zip || { echo 'Eigen download failed' ; exit 1; }
+unzip eigen-b2e267dc99d4.zip
+cd ..
+
 cd dynet
 git checkout ${DYNET_COMMIT}
 rm -rf contrib/swig/src/test
