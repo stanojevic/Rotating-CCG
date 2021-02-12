@@ -10,7 +10,7 @@
 # OPTIONAL
 # - Intel MKL      -- speeds up computation on Intel  CPU (you would need to modify relevant variables bellow)
 # - CUDA and cuDNN -- speeds up computation on NVidia GPU (you would need to modify relevant variables bellow)
-# - pip3 install allennlp thrift  -- if you want to use ELMo embeddings
+# - pip3 install 'scikit-learn==0.22.2' 'allennlp==0.4.2' 'thrift==0.11.0'  -- if you want to use ELMo embeddings
 # - pip2 install jnius            -- if you want to use supertagger from python2
 
 START_DIR=$PWD
