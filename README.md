@@ -23,7 +23,7 @@ Basic requirements:
 
 If you want to use the pretrained model that uses ELMo you will also need to make sure you have:
 - python3
-- pip3 install 'scikit-learn==0.22.2' 'allennlp==0.4.2' 'thrift==0.11.0'
+- pip3 install 'scikit-learn==0.22.1' 'allennlp==0.4.2' 'thrift==0.11.0'
 
 If that is all in place, you can run the following command to install the rest of the dependencies:
 
