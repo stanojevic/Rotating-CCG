@@ -30,13 +30,13 @@ source ${HOME}/.bashrc
 
 python3 -m ensurepip
 
-pip3 install numpy
-pip3 install cython
+# pip3 install numpy
+# pip3 install cython
 
-pip3 install allennlp
-pip3 install thrift
+# pip3 install allennlp
+# pip3 install thrift
 
-echo DOWNLOADING ELMo EMBEDDINGS
-echo IF IT WORKS IT WILL PRINT SOME NUMBERS ON THE SCREEN IN A MINUTE
-python3 -c "from allennlp.modules.elmo import Elmo ; options_file = 'https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_options.json' ; weight_file = 'https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5' ; elmo = Elmo(options_file, weight_file, 2, dropout=0);sentences = [['First', 'sentence', '.'], ['Another', '.']] ; character_ids = batch_to_ids(sentences) ; embeddings = elmo(character_ids) ; print(embeddings)"
-echo DONE
+# echo DOWNLOADING ELMo EMBEDDINGS
+# echo IF IT WORKS IT WILL PRINT SOME NUMBERS ON THE SCREEN IN A MINUTE
+# python3 -c "from allennlp.modules.elmo import Elmo ; options_file = 'https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_options.json' ; weight_file = 'https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5' ; elmo = Elmo(options_file, weight_file, 2, dropout=0);sentences = [['First', 'sentence', '.'], ['Another', '.']] ; character_ids = batch_to_ids(sentences) ; embeddings = elmo(character_ids) ; print(embeddings)"
+# echo DONE
