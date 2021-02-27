@@ -12,6 +12,10 @@ University of Edinburgh
 Installation
 ---------------
 
+Installing the parser is unfortunatelly not super easy. This is because the parser depends on older versions
+of some libraries and updating all of them would require significant work. But don't worry. If you follow
+the following steps everything should work.
+
 Before you can use this parser you need to make sure that some prerequisites are installed on your machine.
 
 Basic requirements:
@@ -19,11 +23,23 @@ Basic requirements:
 - cmake
 - JDK 8 (Scala requires JDK >=8 but DyNet at the moment has problem with JDK >=9) you MUST set JAVA_HOME variable
 - git client
-- mercurial client
+- sudo apt install libpcre3 libpcre3-dev libpq-dev
 
-If you want to use the pretrained model that uses ELMo you will also need to make sure you have:
-- python3
-- pip3 install 'scikit-learn==0.22.1' 'allennlp==0.4.2' 'thrift==0.11.0'
+Make sure you set up JAVA_HOME to point to JDK version 8 and also that the right java is on the path. On my computer I do:
+
+      export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/
+      export PATH=$JAVA_HOME/bin:$PATH
+
+You need to install Python 3.6. It must be this version. After that you should probably set up a virtual environment.
+
+Then you need to install PyTorch 0.3.1. It must be this version. You can install it with:
+
+      wget https://download.pytorch.org/whl/cpu/torch-0.3.1-cp36-cp36m-linux_x86_64.whl
+      pip3 install torch-0.3.1-cp36-cp36m-linux_x86_64.whl
+
+And then install other libraries:
+
+     pip3 install 'scikit-learn==0.22.1' 'allennlp==0.4.2' 'thrift==0.11.0'
 
 If that is all in place, you can run the following command to install the rest of the dependencies:
 
