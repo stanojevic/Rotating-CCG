@@ -39,5 +39,5 @@ pip3 install thrift
 
 echo DOWNLOADING ELMo EMBEDDINGS
 echo IF IT WORKS IT WILL PRINT SOME NUMBERS ON THE SCREEN IN A MINUTE
-python3 -c "from allennlp.modules.elmo import Elmo, batch_to_ids ; options_file = 'https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_options.json' ; weight_file = 'https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5' ; elmo = Elmo(options_file, weight_file, 2, dropout=0);sentences = [['First', 'sentence', '.'], ['Another', '.']] ; character_ids = batch_to_ids(sentences) ; embeddings = elmo(character_ids) ; print(embeddings)"
+python3 -c "from allennlp.modules.elmo import Elmo ; options_file = 'https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_options.json' ; weight_file = 'https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5' ; elmo = Elmo(options_file, weight_file, 2, dropout=0);sentences = [['First', 'sentence', '.'], ['Another', '.']] ; character_ids = batch_to_ids(sentences) ; embeddings = elmo(character_ids) ; print(embeddings)"
 echo DONE
