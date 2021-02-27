@@ -30,7 +30,8 @@ Make sure you set up JAVA_HOME to point to JDK version 8 and also that the right
       export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/
       export PATH=$JAVA_HOME/bin:$PATH
 
-You need to install Python 3.6. It must be this version. After that you should probably set up a virtual environment.
+You need to install Python 3.6. It must be this version. Check out `./scripts/programming_languages/install_python3.sh`
+After that you should probably set up a virtual environment.
 
 Then you need to install PyTorch 0.3.1. It must be this version. You can install it with:
 
