@@ -40,7 +40,7 @@ Then you need to install PyTorch 0.3.1. It must be this version. You can install
 
 And then install other libraries:
 
-     pip3 install 'scikit-learn==0.22.1' 'allennlp==0.4.2' 'thrift==0.11.0'
+     pip3 install 'scikit-learn==0.22.1' 'overrides==3.1.0' 'allennlp==0.4.2' 'thrift==0.11.0'
 
 
 If that is all in place, you can run the following command to install the rest of the dependencies:
